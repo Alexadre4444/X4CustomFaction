@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<content
+        id="{id}"
+        name="{name}"
+        author="{author}"
+        version="{version}"
+        date="{date}"
+        save="false"
+        sync="false"
+        enabled="true"
+        description="Custom faction version {version}"
+/>

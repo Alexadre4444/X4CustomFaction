@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mdscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="SetupBluprints"
+          xsi:noNamespaceSchemaLocation="md.xsd">
+    <cues>
+        <cue name="GiveCfBluePrints">
+            <conditions>
+                <event_cue_signalled cue="md.Setup.Start"/>
+            </conditions>
+            <actions>
+                <!-- do not add blueprints in the Station Design Simulator or any Timelines gamestart (also avoiding the unlock notification popup which is just unnecessarily distracting there) -->
+                <do_if value="player.module != 'x4ep1_gamestart_workshop' and player.module != 'x4ep1_gamestart_hub' and player.allmodules.\{player.module}.exists and not player.allmodules.\{player.module}.isscenario">
+                    {#each turrets}
+                    {! Dot not generate for alias turrets !}
+                    {#if it.aliasMacroName == null}
+                    <add_blueprints wares="[ware.{it.name}]"/>
+                    {/if}
+                    {/each}
+                </do_if>
+            </actions>
+        </cue>
+    </cues>
+</mdscript>

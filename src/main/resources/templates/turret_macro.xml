@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<macros>
+    <macro name="{turret.macroName}" class="turret" {#if turret.aliasMacroName != null} alias="{turret.aliasMacroName}"{/if} >
+        <component ref="{turret.skinComponent}"/> <!-- This is the reference to the egosoft turret model -->
+        <properties>
+            <identification name="\{{turret.labelSection},{turret.langEntryName.id}\}"
+                            basename="\{{turret.labelSection},{turret.langEntryBaseName.id}\}"
+                            shortname="\{{turret.labelSection},{turret.langEntryShortName.id}\}" makerrace="custom_faction"
+                            description="\{{turret.descriptionSection},{turret.index}\}" mk="1"/>
+            <bullet class="{turret.bulletMacroName}"/>
+            <rotationspeed max="{turret.properties.property('rotationSpeed').getFinalValueString}"/>
+            <rotationacceleration max="{turret.properties.property('rotationAcceleration').getFinalValueString}"/> <!-- seems to be speed * 2 all the time -->
+            <reload rate="1" time="1"/> <!-- Not used in X4 -->
+            <hull threshold="0.2" {#if turret.aliasMacroName == null}
+                max="{turret.properties.property('hull').getFinalValueString}"{/if}/>
+            {#if turret.size == 'l'}
+            <effects>
+                <sefx_damage_low ref="surfacemodule_damage_l_low" />
+                <sefx_damage_medium ref="surfacemodule_damage_l_medium" />
+                <sefx_damage_high ref="surfacemodule_damage_l_high" />
+            </effects>
+            {/if}
+        </properties>
+    </macro>
+</macros>

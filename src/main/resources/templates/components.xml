@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Last exported: 13.02.2019 14:43:03-->
+<diff>
+    <add sel="/index">
+        {#each components}
+        <entry name="{it}" value="{modFolder}{componentPath}{it}"/>
+        {/each}
+    </add>
+</diff>

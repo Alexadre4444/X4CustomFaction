@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<macros>
+    <macro name="{turret.bulletMacroName}" class="bullet">
+        <component ref="{turret.bulletEgoSkinProps.componentName}"/>
+        <properties>
+            {#if turret.chassisType == ChassisType:RAFFLE}
+            <ammunition value="{turret.properties.property('amount').getFinalValueString}"
+                        reload="{turret.properties.property('reloadTime').getFinalValueString}"/>
+            {/if}
+            {#if turret.chassisType == ChassisType:STANDARD || turret.chassisType == ChassisType:RAFFLE}
+            <bullet speed="{turret.properties.property('speed').getFinalValueString}"
+                    lifetime="{turret.properties.property('lifeTime').getFinalValueString}"
+                    {#if turret.chassisType == ChassisType:RAFFLE}
+                    amount="1"
+                    {#else}
+                    amount="{turret.properties.property('amount').getFinalValueString}"
+                    {/if}
+                    barrelamount="{turret.properties.property('barrelAmount').getFinalValueString}"
+                    icon="weapon_laser_mk1"
+                    angle="{turret.properties.property('accuracy').getFinalValueString}"
+                    maxhits="{turret.properties.property('maxHits').getFinalValueString}"
+                    ricochet="{turret.properties.property('ricochet').getFinalValueString}"
+                    timeDiff="{turret.properties.property('timeDiff').getFinalValueString}"
+                    scale="0"
+                    attach="0"/>
+            {#else}
+            <bullet speed="2.997925e+08"
+                    lifetime="{turret.properties.property('lifeTime').getFinalValueString}"
+                    range="{turret.properties.property('range').getFinalValueString}"
+                    amount="1"
+                    barrelamount="1"
+                    icon="weapon_beam_mk1"
+                    maxhits="1"
+                    ricochet="0"
+                    scale="1"
+                    attach="1" />
+            {/if}
+            {#if turret.chassisType == ChassisType:RAFFLE}
+            <reload rate="{turret.properties.property('fireRate').getFinalValueString}"/>
+            {#else}
+            <reload time="{turret.properties.property('reloadTime').getFinalValueString}"/>
+            {/if}
+            <damage value="{turret.properties.property('damageHull').getFinalValueString}"
+                    shield="{turret.properties.property('damageBonusShield').getFinalValueString}" repair="0"/>
+            <effects>
+                <impact ref="{turret.bulletEgoSkinProps.impact.ref}"
+                        inside="{turret.bulletEgoSkinProps.impact.inside}"/>
+                <bigobjectimpact ref="{turret.bulletEgoSkinProps.bigObjectImpact.ref}"
+                                 inside="{turret.bulletEgoSkinProps.bigObjectImpact.inside}"/>
+                <launch ref="{turret.bulletEgoSkinProps.launch.ref}"/>
+            </effects>
+            {#if turret.bulletEgoSkinProps.soundName != null}
+            <sounds>
+                <firing ref="{turret.bulletEgoSkinProps.soundName}" />
+            </sounds>
+            {/if}
+            <weapon system="{turret.turretRange.egoName}"/>
+        </properties>
+    </macro>
+</macros>

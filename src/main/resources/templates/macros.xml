@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<diff>
+    <add sel="/index">
+        {#each turrets}
+        <entry name="{it.macroName}"
+               value="{modFolder}{macroPath}{it.macroName}"/>
+
+        {! Dot not generate for alias turrets !}
+        {#if it.aliasMacroName == null}
+        <entry name="{it.bulletMacroName}"
+               value="{modFolder}{macroBulletPath}{it.bulletMacroName}"/>
+        {/if}
+        {/each}
+    </add>
+</diff>

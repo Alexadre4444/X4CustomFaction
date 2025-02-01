@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Last exported: 13.02.2019 14:43:03-->
+<diff>
+    <add sel="/wares">
+        {#each turrets}
+        <ware id="{it.name}" name="\{{it.labelSection},{it.langEntryName.id}\}"
+              description="\{{it.descriptionSection},{it.index}\}"
+              group="turrets" transport="equipment" volume="1" tags="equipment turret">
+            <price min="0" average="0" max="0"/>
+            <production time="{it.properties.property('costTime').getFinalValueString}" amount="1" method="default"
+                        name="\{20206,101}">
+                <primary>
+                    <ware ware="advancedelectronics"
+                          amount="{it.properties.property('costAdvancedElectronics').getFinalValueString}"/>
+                    <ware ware="energycells" amount="{it.properties.property('costEnergyCells').getFinalValueString}"/>
+                    <ware ware="turretcomponents"
+                          amount="{it.properties.property('costTurretComps').getFinalValueString}"/>
+                </primary>
+            </production>
+            <component ref="{it.macroName}"/>
+            <restriction licence="militaryequipment"/>
+            <use threshold="0.10"/>
+            <owner faction="player"/>
+        </ware>
+        {/each}
+    </add>
+</diff>

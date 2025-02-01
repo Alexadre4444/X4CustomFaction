@@ -1,0 +1,11 @@
+package io.tbbc.cf.turret.custom;
+
+import io.tbbc.cf.common.customizer.CustomizerComponent;
+
+import java.util.List;
+
+public interface ITurretCustomizerRepository {
+    List<CustomizerComponent> getAll();
+
+    CustomizerComponent getByName(String name);
+}

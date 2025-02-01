@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+      "allowImportingTsExtensions":true,
+      "target": "esnext",
+      "module": "esnext",
+      "moduleResolution": "node",
+      "importHelpers": true,
+      "isolatedModules": true,
+      "noEmit": true,
+      "paths": {
+          "@/*": [
+              "./src/*"
+          ]
+      }
+    }
+  }

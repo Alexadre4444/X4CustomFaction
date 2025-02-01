@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<diff>
+    <add sel="/races">
+        <race id="custom_faction" name="\{{factionLabelSection},0}" description="\{{factionLabelSection},0}"
+              shortname="\{{factionLabelSection},1}"
+              spacename="\{{factionLabelSection},0}" homespacename="\{{factionLabelSection},0}" tags="nocockpitview">
+            <icon active="race_xenon" inactive="race_xenon"/>
+            <trail brightness="1" contrast="1" saturation="0.8" hue="0"/>
+        </race>
+    </add>
+</diff>
