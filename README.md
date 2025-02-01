@@ -1,8 +1,85 @@
-# code-with-quarkus
+# X4 Foundation - Custom Faction - 0.0.1
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+## Presentation
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+This project is an external tool that allows the creation of equipment for a custom faction
+accessible only to the player.
+
+Currently, this project is limited to creating turrets using non-DLC assets.
+
+Adding a turret is done as follows:
+
+- Creation of the turret
+- Customization of the turret (choosing the type, projectile, and component customizations to modify
+  the statistics)
+- Generation of the mod containing the created turrets
+
+Then, simply install the mod like any other mod.
+
+For some picture, go to the [screenshots](#screenshots) section.
+
+## Motivations
+
+After many runs on X4, during the late game, my empire is either composed of ships and equipment from a single faction (
+role play) or a mix of my favorite ships and equipment.
+
+I have always found it unfortunate that there is no customization for ships and equipment to have a "player" faction.
+
+My dream: A ship and equipment editor directly in X4.
+The reality: External tools to create mods with the custom equipment.
+
+## Usage
+
+__The tool requires Java 21 or above to run.__
+
+* Download the latest version in [release page](https://github.com/Alexadre4444/X4CustomFaction/releases)
+* Unzip the file, launch a powershell or a terminal in the folder and run the following command:
+
+```shell
+java -jar X4CustomFaction-0.0.1.jar
+```
+
+* Access the tool at [http://localhost:8080](http://localhost:8080)
+
+The tool is composed of 2 page at the moment:
+
+* Home page: Summary and access to mod settings and new version generation
+* Turret page: Creation and customization of turrets
+
+Once a turret is created, go back to the home page and click on the "Generate new version" button.
+
+If you create new turrets or modify existing ones, you must generate a new version of the mod.
+Install the new version and delete the old one. The save will then take the changes into account.
+
+> **_NOTE:_** The faction trigram can be changed in the mod settings next to the "Generate new version" button.
+
+## Issues and suggestions
+
+If you have any issues or suggestions, please open an issue in
+the [issue page](https://github.com/Alexadre4444/X4CustomFaction/issues).
+
+## Roadmap
+
+Currently, this tool is a proof of concept. Depending on my availability, desires, and feedback, the project is expected
+to evolve.
+Currently, it is certain that future versions will not be backward compatible.
+
+The "short-term" planned features are as follows:
+
+* Addition of turrets and projectiles from DLCs
+* Improvement of existing "customizers"
+* Addition of area damage and other special effects (notably Boron)
+* Addition of a system requiring turrets to be unlocked in-game (probably through research)
+
+The "medium-term" planned features are as follows:
+
+* Addition of weapons
+* Addition of shields
+* Addition of engines
+
+## Development
+
+This project uses Quarkus, the Supersonic Subatomic Java Framework with the Quinoa extension.
 
 ## Running the instance in dev mode
 
@@ -16,52 +93,14 @@ You can run your instance in dev mode that enables live coding using:
 
 ## Packaging and running the instance
 
-The instance can be packaged using:
+Execute the following command:
 
 ```shell script
-./mvnw package
-```
-
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
-
-The instance is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
-
-```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
+./mvnw package -D quarkus.package.jar.type=uber-jar
 ```
 
 The instance, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
 
-## Creating a native executable
+## Screenshots
 
-You can create a native executable using:
-
-```shell script
-./mvnw package -Dnative
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
-
-```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./target/code-with-quarkus-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
-
-## Related Guides
-
-- Quinoa ([guide](https://quarkiverse.github.io/quarkiverse-docs/quarkus-quinoa/dev/index.html)): Develop, build, and serve your npm-compatible web applications such as React, Angular, Vue, Lit, Svelte, Astro, SolidJS, and others alongside Quarkus.
-
-## Provided Code
-
-### Quinoa
-
-This is a tiny webpack app to get started with Quinoa. It generates a quinoa.html page and a script.
-
-[Related guide section...](https://quarkiverse.github.io/quarkiverse-docs/quarkus-quinoa/dev/index.html)
-
+TODO
