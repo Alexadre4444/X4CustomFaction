@@ -235,7 +235,7 @@ public class TurretService implements ITurretService {
     private LangEntry getTurretShortNameEntry(Turret turret, int index) {
         int entryIndex = index * 3 + 2;
         String mkVersion = "Mk1";
-        String name = "(%s Turret)%s Turret %s".formatted(turret.getLabel(), turret.getLabel(), mkVersion);
+        String name = "(%s %s )%s %s".formatted(turret.getLabel(), mkVersion, turret.getLabel(), mkVersion);
         return new LangEntry(entryIndex, name);
     }
 
