@@ -16,7 +16,9 @@ Adding a turret is done as follows:
 
 Then, simply install the mod like any other mod.
 
-For some picture, go to the [screenshots](#screenshots) section.
+For some picture, go to the [preview folder](https://github.com/Alexadre4444/X4CustomFaction/tree/main/preview) section.
+
+> **_NOTE:_**  This tools is tested only with the 7.50 beta version of X4.
 
 ## Motivations
 
@@ -100,7 +102,3 @@ Execute the following command:
 ```
 
 The instance, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
-
-## Screenshots
-
-TODO
