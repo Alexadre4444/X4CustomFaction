@@ -31,19 +31,27 @@ public enum BulletEgoSkinProps {
             new BulletEffect("impact_xen_l_laser_01_mk1", "impact_xen_l_laser_01_mk1_inside"),
             new BulletEffect("impact_xen_l_laser_01_mk1_bigobject", "impact_xen_l_laser_01_mk1_bigobject_inside"),
             new BulletEffect("muzzle_turret_xen_l_laser_01_mk1", null)),
+    ORANGE_L_PULSE("bullet_spl_l_laser_01_mk1", null,
+            new BulletEffect("impact_gen_l_laser_01_mk1", "impact_gen_l_laser_01_mk1_inside"),
+            new BulletEffect("impact_gen_l_laser_01_mk1_bigobject", "impact_gen_l_laser_01_mk1_bigobject_inside"),
+            new BulletEffect("muzzle_turret_gen_l_laser_01_mk1", null)),
 
     // Plasma - L
     BLUE_L_PLASMA("bullet_arg_l_plasma_01_mk1", null,
             new BulletEffect("impact_gen_m_plasma_01_mk1", "impact_gen_m_plasma_01_mk1_inside"),
-            new BulletEffect("impact_gen_m_mining_01_mk1_bigobject", "impact_gen_m_plasma_01_mk1_bigobject_inside"),
+            new BulletEffect("impact_gen_m_plasma_01_mk1_bigobject", "impact_gen_m_plasma_01_mk1_bigobject_inside"),
             new BulletEffect("muzzle_turret_gen_m_plasma_01_mk1", null)),
     YELLOW_L_PLASMA("bullet_tel_l_plasma_01_mk1", null,
             new BulletEffect("impact_gen_m_plasma_01_mk1", "impact_gen_m_plasma_01_mk1_inside"),
-            new BulletEffect("impact_gen_m_mining_01_mk1_bigobject", "impact_gen_m_plasma_01_mk1_bigobject_inside"),
+            new BulletEffect("impact_gen_m_plasma_01_mk1_bigobject", "impact_gen_m_plasma_01_mk1_bigobject_inside"),
             new BulletEffect("muzzle_turret_gen_m_plasma_01_mk1", null)),
     VIOLET_L_PLASMA("bullet_par_l_plasma_01_mk1", null,
             new BulletEffect("impact_gen_m_plasma_01_mk1", "impact_gen_m_plasma_01_mk1_inside"),
-            new BulletEffect("impact_gen_m_mining_01_mk1_bigobject", "impact_gen_m_plasma_01_mk1_bigobject_inside"),
+            new BulletEffect("impact_gen_m_plasma_01_mk1_bigobject", "impact_gen_m_plasma_01_mk1_bigobject_inside"),
+            new BulletEffect("muzzle_turret_gen_m_plasma_01_mk1", null)),
+    ORANGE_L_PLASMA("bullet_spl_l_plasma_01_mk1", null,
+            new BulletEffect("impact_gen_m_plasma_01_mk1", "impact_gen_m_plasma_01_mk1_inside"),
+            new BulletEffect("impact_gen_m_plasma_01_mk1_bigobject", "impact_gen_m_plasma_01_mk1_bigobject_inside"),
             new BulletEffect("muzzle_turret_gen_m_plasma_01_mk1", null)),
 
     // Plasma - M
@@ -95,7 +103,11 @@ public enum BulletEgoSkinProps {
     KHA_L_BEAM("bullet_kha_l_beam_01_mk1", "wpn_beam_khaak",
             new BulletEffect("impact_kha_l_beam_01_mk1", "impact_kha_l_beam_01_mk1_inside"),
             new BulletEffect("impact_kha_l_beam_01_mk1_bigobject", "impact_kha_l_beam_01_mk1_bigobject_inside"),
-            new BulletEffect("muzzle_kha_l_beam_01_mk1", null));
+            new BulletEffect("muzzle_kha_l_beam_01_mk1", null)),
+    SPL_L_BEAM("bullet_spl_l_beam_01_mk1", null,
+            new BulletEffect("impact_gen_m_beam_01_mk1", "impact_gen_m_beam_01_mk1_inside"),
+            new BulletEffect("impact_gen_m_beam_01_mk1_bigobject", "impact_gen_m_beam_01_mk1_bigobject_inside"),
+            new BulletEffect("muzzle_turret_gen_m_beam_01_mk1", null));
 
     private final String componentName;
     private final String soundName;
