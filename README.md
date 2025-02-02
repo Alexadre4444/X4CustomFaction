@@ -1,4 +1,4 @@
-# X4 Foundation - Custom Faction - 0.0.1
+# X4 Foundation - Custom Faction - 0.1.0
 
 ## Presentation
 
@@ -38,7 +38,7 @@ __The tool requires Java 21 or above to run.__
 * Unzip the file, launch a powershell or a terminal in the folder and run the following command:
 
 ```shell
-java -jar X4CustomFaction-0.0.1.jar
+java -jar X4CustomFaction-0.1.0.jar
 ```
 
 * Access the tool at [http://localhost:8080](http://localhost:8080)
