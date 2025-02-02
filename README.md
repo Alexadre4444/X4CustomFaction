@@ -16,7 +16,7 @@ Adding a turret is done as follows:
 
 Then, simply install the mod like any other mod.
 
-For some picture, go to the [preview folder](https://github.com/Alexadre4444/X4CustomFaction/tree/main/preview) section.
+For some picture, go to the [preview folder](https://github.com/Alexadre4444/X4CustomFaction/tree/main/preview).
 
 > **_NOTE:_**  This tools is tested only with the 7.50 beta version of X4.
 
