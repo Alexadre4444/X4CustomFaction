@@ -35,6 +35,8 @@ const formBullet = ref<Bullet>();
 const formBulletSkin = ref<BulletSkin>();
 const formCustomizers = ref<Map<CustomizerComponent, Ref<Customizer>>>();
 
+const formAccessibility = ref<string>('BASIC');
+
 const customizerComponents = ref<CustomizerComponent[]>();
 
 const computedProperties = ref<ModifiedValue[]>([]);
@@ -232,6 +234,9 @@ await refreshChassis()
 <template>
     <div class="mb-4">
         <Menubar :model="menu" breakpoint="500px">
+            <template #end>
+                <Accessibility v-model="formAccessibility"/>
+            </template>
         </Menubar>
     </div>
     <div class="card grid grid-cols-12 gap-2">
@@ -297,8 +302,17 @@ await refreshChassis()
                 <CustomizersComponents v-model="formCustomizers" @change="computeProperties"/> 
             </div>
         </div>
-        <CategoryProperties v-for="categoryPropertiesEntry in computedPropertiesByCategoryMap" 
+        <CategoryProperties v-if="formAccessibility == 'ADVANCED'" v-for="categoryPropertiesEntry in computedPropertiesByCategoryMap" 
         :category="categoryPropertiesEntry[0]" :modifiedValues="categoryPropertiesEntry[1]"
         :key="categoryPropertiesEntry[0].name"/>
+        <div v-if="formAccessibility == 'BASIC'" class="col-span-6 xl:col-span-6">
+            <div class="font-semibold text-xl">Basic properties</div>
+            <div v-for="categoryPropertiesEntry in computedPropertiesByCategoryMap">
+                <div class="font-semibold text-xl">{{ categoryPropertiesEntry[0].label }}</div>
+                <div v-for="modifiedValue in categoryPropertiesEntry[1]" :key="modifiedValue.definition.name">
+                <ModifiedValueDisplay v-if="modifiedValue.definition.accessibility == 'BASIC'" :modifiedValue="modifiedValue" />
+                </div>
+            </div>
+        </div>
     </div>
 </template>

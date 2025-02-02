@@ -70,6 +70,8 @@ the [issue page](https://github.com/Alexadre4444/X4CustomFaction/issues).
 
 ### 0.1.1
 
+* Add a basic views for the turret properties
+
 ## Roadmap
 
 Currently, this tool is a proof of concept. Depending on my availability, desires, and feedback, the project is expected

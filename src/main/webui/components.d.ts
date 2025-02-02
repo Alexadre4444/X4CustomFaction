@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Accessibility: typeof import('./src/components/common/Accessibility.vue')['default']
     Button: typeof import('primevue/button')['default']
     Card: typeof import('primevue/card')['default']
     CategoryProperties: typeof import('./src/components/common/CategoryProperties.vue')['default']
@@ -28,6 +29,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Select: typeof import('primevue/select')['default']
+    SelectButton: typeof import('primevue/selectbutton')['default']
     SizeTag: typeof import('./src/components/common/SizeTag.vue')['default']
     StateTag: typeof import('./src/components/common/StateTag.vue')['default']
     Tag: typeof import('primevue/tag')['default']
