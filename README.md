@@ -34,12 +34,14 @@ The reality: External tools to create mods with the custom equipment.
 
 __The tool requires Java 21 or above to run.__
 
-* Download the latest version in [release page](https://github.com/Alexadre4444/X4CustomFaction/releases)
+* Download the latest .jar version in [release page](https://github.com/Alexadre4444/X4CustomFaction/releases)
 * Launch a powershell or a terminal in the folder and run the following command:
 
 ```shell
 java -jar X4CustomFaction-0.1.0.jar
 ```
+
+> **_NOTE:_** Tool data are stored in the folder where the .jar is located.
 
 * Access the tool at [http://localhost:8080](http://localhost:8080)
 
