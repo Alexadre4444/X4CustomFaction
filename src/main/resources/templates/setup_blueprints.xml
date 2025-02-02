@@ -18,5 +18,110 @@
                 </do_if>
             </actions>
         </cue>
+        <!-- This library is used to unlock a research item and give the player the blueprints for the research ware -->
+        <!-- Copy from "story_research_abandoned_ships.xml" -->
+        <library name="Research_Unlock">
+            <params>
+                <param name="ResearchItem"/>
+                <param name="ResearchWare"/>
+                <param name="Blueprints"/>
+            </params>
+            <cues>
+                <cue name="Check_Research_Unlocked" onfail="cancel">
+                    <conditions>
+                        <cue_is_complete cue="md.X4Ep1_Mentor_Subscriptions.UnlockResearch"/>
+                    </conditions>
+                </cue>
+
+                <cue name="Research_Unlocked">
+                    <conditions>
+                        <check_any>
+                            <event_cue_completed cue="md.X4Ep1_Mentor_Subscriptions.UnlockResearch"/>
+                            <event_cue_completed cue="Check_Research_Unlocked"/>
+                        </check_any>
+                    </conditions>
+                    <!--Delay to allow any further initialisation of the HQ and mentors-->
+                    <delay exact="1s"/>
+                    <actions>
+                        <!-- If already unlocked -->
+                        <set_value name="$AlreadyResearched" exact="$ResearchWare.research.unlocked"/>
+                        <debug_text text="'Researched ware...'"/>
+                        <do_if value="$AlreadyResearched">
+                            <add_blueprints wares="$Blueprints"/>
+                        </do_if>
+                        <!-- Default -->
+                        <set_value name="$CharacterCutsceneTable" exact="table[]"/>
+                        <do_if value="md.X4Ep1_Mentor_Subscriptions.Start.$BoronMet?"
+                               comment="only if we already met with Boso">
+                            <do_if value="not $Boso?">
+                                <set_value name="$Boso" exact="@md.$PersistentCharacters.$BosoTa"/>
+                                <do_if value="$Boso">
+                                    <set_value name="$CharacterCutsceneTable.{$Boso}"
+                                               exact="table[$key = 'ShowCharacterBoron']"/>
+                                </do_if>
+                            </do_if>
+                        </do_if>
+                    </actions>
+                    <cues>
+                        <cue name="Research_Unlocked_Wait">
+                            <conditions>
+                                <event_cue_completed cue="Research_Unlocked"/>
+                            </conditions>
+                            <cues>
+                                <cue name="Unhide_Research" checkinterval="1min">
+                                    <actions>
+                                        <add_encyclopedia_entry type="researchables" item="$ResearchItem"/>
+                                        <set_value name="$LastResearchDescriptionTime" exact="player.age"/>
+                                    </actions>
+                                </cue>
+
+                                <cue name="Research_Entry_Selected" instantiate="true">
+                                    <conditions>
+                                        <event_object_signalled object="player.entity"
+                                                                param="'research_selected_no_speak'"/>
+                                        <check_value value="player.age gt $LastResearchDescriptionTime + 30s"/>
+                                        <check_any>
+                                            <check_value value="event.param2 == $ResearchWare"/>
+                                        </check_any>
+                                    </conditions>
+                                    <actions>
+                                        <set_value name="$LastResearchDescriptionTime" exact="player.age"/>
+                                        <speak actor="$Boso" line="30201162" priority="85" recipient="player.entity"
+                                               comment="{10201,30201162}"/>
+                                    </actions>
+                                </cue>
+
+                                <cue name="Research_Finished" instantiate="true">
+                                    <conditions>
+                                        <event_player_research_unlocked ware="$ResearchWare"/>
+                                    </conditions>
+                                    <actions>
+                                        <set_value name="this.$Dialog_Lines" exact="[[30201174]]"
+                                                   comment="{10201,30201174}"/>
+                                        <add_blueprints wares="$Blueprints"/>
+                                    </actions>
+                                    <cues>
+                                        <cue name="Research_Finished_LastMentorSpeak" checkinterval="10s">
+                                            <conditions>
+                                                <check_value value="player.age ge (md.$LastMentorSpeak + 10min)"/>
+                                            </conditions>
+                                            <cues>
+                                                <cue name="Research_Finished_Speak_Ref_v2"
+                                                     ref="md.LIB_Dialog.Speak_Actor">
+                                                    <param name="Actor" value="$Boso"/>
+                                                    <param name="CutsceneKey" value="$CharacterCutsceneTable.{$Boso}"/>
+                                                    <param name="DelayInitial" value="2s"/>
+                                                    <param name="Lines" value="parent.parent.$Dialog_Lines"/>
+                                                </cue>
+                                            </cues>
+                                        </cue>
+                                    </cues>
+                                </cue>
+                            </cues>
+                        </cue>
+                    </cues>
+                </cue>
+            </cues>
+        </library>
     </cues>
 </mdscript>
