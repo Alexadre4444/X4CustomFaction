@@ -107,7 +107,7 @@ public class TurretChassisInstances {
                 TURRET.name(), 1.0, null, "bullet/s", 0);
         public static final PropertyDefinition BARREL_AMOUNT = new PropertyDefinition(PropertyNames.BARREL_AMOUNT, "Barrel Amount",
                 "The amount of barrels the turret has.", false,
-                TURRET.name(), 1.0, null, null, 0);
+                TURRET.name(), 1.0, null, "bullet/shot", 0);
         public static final PropertyDefinition HULL =
                 new PropertyDefinition(PropertyNames.HULL, "Hull",
                         "The amount of health the turret has.", false,
