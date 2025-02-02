@@ -1,11 +1,14 @@
 package io.tbbc.cf.bullet;
 
+import io.tbbc.cf.bullet.skin.BulletSkin;
 import io.tbbc.cf.common.Size;
 import io.tbbc.cf.common.modifier.Modifier;
 import io.tbbc.cf.common.modifier.Modifiers;
 import io.tbbc.cf.turret.chassis.ChassisType;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static io.tbbc.cf.bullet.skin.BulletSkinInstances.*;
 import static io.tbbc.cf.common.property.CategoryInstances.COST;
@@ -43,7 +46,7 @@ public class BulletInstances {
                     new Modifier(DAMAGE_HULL, -20),
                     new Modifier(DAMAGE_SHIELD, -20),
                     new Modifier(COST.name(), -10))),
-            List.of(M_GATLING_CW, M_GATLING_XEN));
+            Stream.of(M_GATLING_CW, M_GATLING_XEN).sorted(Comparator.comparing(BulletSkin::label)).toList());
     public static final Bullet M_SHOTGUN = new Bullet("m_cw_shotgun", "Shotgun",
             Size.MEDIUM, List.of(ChassisType.STANDARD, ChassisType.RAFFLE),
             new Modifiers(List.of(
@@ -58,13 +61,13 @@ public class BulletInstances {
     public static final Bullet M_BEAM = new Bullet("m_cw_beam", "Beam",
             Size.MEDIUM, List.of(ChassisType.BEAM),
             new Modifiers(List.of()),
-            List.of(M_BEAM_CW, M_BEAM_CW_MINING, M_BEAM_KHA));
+            Stream.of(M_BEAM_CW, M_BEAM_CW_MINING, M_BEAM_KHA).sorted(Comparator.comparing(BulletSkin::label)).toList());
 
     // Large
     public static final Bullet L_PULSE = new Bullet("l_pulse", "Pulse laser",
             Size.LARGE, List.of(ChassisType.STANDARD, ChassisType.RAFFLE),
             new Modifiers(List.of()),
-            List.of(L_PULSE_BLUE, L_PULSE_YELLOW, L_PULSE_VIOLET, L_PULSE_RED));
+            Stream.of(L_PULSE_BLUE, L_PULSE_YELLOW, L_PULSE_VIOLET, L_PULSE_RED).sorted(Comparator.comparing(BulletSkin::label)).toList());
     public static final Bullet L_PLASMA = new Bullet("l_plasma", "Plasma",
             Size.LARGE, List.of(ChassisType.STANDARD, ChassisType.RAFFLE),
             new Modifiers(List.of(
@@ -75,11 +78,11 @@ public class BulletInstances {
                     new Modifier(DAMAGE_HULL, 30),
                     new Modifier(DAMAGE_SHIELD, 30),
                     new Modifier(COST.name(), 20))),
-            List.of(L_PLASMA_BLUE, L_PLASMA_YELLOW, L_PLASMA_VIOLET));
+            Stream.of(L_PLASMA_BLUE, L_PLASMA_YELLOW, L_PLASMA_VIOLET).sorted(Comparator.comparing(BulletSkin::label)).toList());
     public static final Bullet L_BEAM = new Bullet("l_beam", "Beam",
             Size.LARGE, List.of(ChassisType.BEAM),
             new Modifiers(List.of()),
-            List.of(L_BEAM_BLUE, L_BEAM_YELLOW, L_BEAM_VIOLET, L_BEAM_VIOLET_KHA));
+            Stream.of(L_BEAM_BLUE, L_BEAM_YELLOW, L_BEAM_VIOLET, L_BEAM_VIOLET_KHA).sorted(Comparator.comparing(BulletSkin::label)).toList());
 
     private BulletInstances() {
     }

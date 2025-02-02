@@ -3,16 +3,18 @@ package io.tbbc.cf.turret.custom;
 import io.tbbc.cf.common.customizer.CustomizerComponent;
 import jakarta.enterprise.context.ApplicationScoped;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static io.tbbc.cf.turret.custom.TurretCustomizerInstances.*;
 
 @ApplicationScoped
 public class TurretCustomizerRepository implements ITurretCustomizerRepository {
 
-    private static final List<CustomizerComponent> INSTANCES = List.of(
+    private static final List<CustomizerComponent> INSTANCES = Stream.of(
             CANNON, TURRET_ENGINE, ENERGY_SOURCE
-    );
+    ).sorted(Comparator.comparing(CustomizerComponent::label)).toList();
 
     @Override
     public List<CustomizerComponent> getAll() {

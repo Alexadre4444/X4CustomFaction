@@ -6,14 +6,16 @@ import io.tbbc.cf.common.customizer.CustomizerComponent;
 import io.tbbc.cf.common.modifier.Modifier;
 import io.tbbc.cf.common.modifier.Modifiers;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static io.tbbc.cf.common.property.CategoryInstances.COST;
 import static io.tbbc.cf.turret.chassis.TurretChassisInstances.PropertyNames.*;
 
 public class TurretCustomizerInstances {
     public static final CustomizerComponent CANNON = new CustomizerComponent("cannon", "Cannon",
-            List.of(
+            Stream.of(
                     // Basic
                     new Customizer("bDamage", "Damage", CustomizerCategoryInstances.BASIC.name(),
                             new Modifiers(List.of(
@@ -93,10 +95,10 @@ public class TurretCustomizerInstances {
                                     new Modifier(RANGE, 40),
                                     new Modifier(COST.name(), 30)))
                     )
-            )
+            ).sorted(Comparator.comparing(Customizer::label)).toList()
     );
     public static final CustomizerComponent TURRET_ENGINE = new CustomizerComponent("turretEngine", "Turret engine",
-            List.of(
+            Stream.of(
                     // Basic
                     new Customizer("bMobility", "Mobility", CustomizerCategoryInstances.BASIC.name(),
                             new Modifiers(List.of(
@@ -148,10 +150,10 @@ public class TurretCustomizerInstances {
                                     new Modifier(RANGE, 30),
                                     new Modifier(COST.name(), 30)))
                     )
-            )
+            ).sorted(Comparator.comparing(Customizer::label)).toList()
     );
     public static final CustomizerComponent ENERGY_SOURCE = new CustomizerComponent("energySource", "Energy source",
-            List.of(
+            Stream.of(
                     // Basic
                     new Customizer("bDamage", "Damage", CustomizerCategoryInstances.BASIC.name(),
                             new Modifiers(List.of(
@@ -216,7 +218,7 @@ public class TurretCustomizerInstances {
                                     new Modifier(DAMAGE_HULL, -20),
                                     new Modifier(COST.name(), 30)))
                     )
-            )
+            ).sorted(Comparator.comparing(Customizer::label)).toList()
     );
 
     private TurretCustomizerInstances() {
