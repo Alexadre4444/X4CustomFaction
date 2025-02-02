@@ -43,10 +43,16 @@ public class TurretChassisInstances {
             List.of(ARG_M_BEAM, TEL_M_BEAM, PAR_M_BEAM, XEN_M_BEAM));
     // Large
     public static final TurretChassis L_PULSE = new TurretChassis("l_pulse", "Pulse",
-            Size.LARGE, ChassisType.RAFFLE,
-            new ChassisPropsRaffle(30, 3000, 2, 3,
-                    0.5, 0.45, 2041, 3.219, 367, 367, 1, 0,
+            Size.LARGE, ChassisType.STANDARD,
+            new ChassisPropsStandard(30, 3000, 2, 1,
+                    2, 2041, 3.219, 367, 367, 1, 0,
                     0.015, 0.025, 10, 4, 10, 20),
+            List.of(ARG_L_PULSE, TEL_L_PULSE, PAR_L_PULSE, XEN_L_PULSE, KHA_L_PULSE));
+    public static final TurretChassis L_GATLING = new TurretChassis("l_gatling", "Gatling",
+            Size.LARGE, ChassisType.RAFFLE,
+            new ChassisPropsRaffle(30, 3000, 2, 4,
+                    3, 2, 2500, 2.5, 250, 250, 1, 0,
+                    0.015, 0.1, 10, 4, 10, 20),
             List.of(ARG_L_PULSE, TEL_L_PULSE, PAR_L_PULSE, XEN_L_PULSE, KHA_L_PULSE));
     public static final TurretChassis L_PLASMA = new TurretChassis("l_plasma", "Plasma",
             Size.LARGE, ChassisType.STANDARD,

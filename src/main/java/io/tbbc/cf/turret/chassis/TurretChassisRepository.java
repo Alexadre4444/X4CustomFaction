@@ -13,7 +13,7 @@ import static io.tbbc.cf.turret.chassis.TurretChassisInstances.Properties.*;
 public class TurretChassisRepository implements ITurretChassisRepository {
     private final List<TurretChassis> baseTurrets = List.of(
             M_PULSE, M_GATLING, M_PLASMA, M_SHOTGUN, M_BEAM,
-            L_PULSE, L_PLASMA, L_BASE_BEAM, L_PULSE_BEAM
+            L_PULSE, L_PLASMA, L_BASE_BEAM, L_PULSE_BEAM, L_GATLING
     );
     private final List<PropertyDefinition> properties = List.of(
             DAMAGE_HULL, DAMAGE_SHIELD, FIRE_RATE, RELOAD_TIME, ROTATION_SPEED, LIFE_TIME, SPEED,
