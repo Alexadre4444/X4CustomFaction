@@ -64,7 +64,7 @@ public class TurretChassisInstances {
             new ChassisPropsStandard(33, 3000, 2, 1, 4.2,
                     537, 14, 2000, 2000, 1, 0f, 0, 0, 10, 5,
                     8, 32),
-            Stream.of(ARG_L_PLASMA, TEL_L_PLASMA, PAR_L_PLASMA, SPL_L_PLASMA).sorted(Comparator.comparing(ChassisSkin::label)).toList());
+            Stream.of(ARG_L_PLASMA, TEL_L_PLASMA, PAR_L_PLASMA, SPL_L_PLASMA, XEN_L_PULSE).sorted(Comparator.comparing(ChassisSkin::label)).toList());
     public static final TurretChassis L_BASE_BEAM = new TurretChassis("l_base_beam", "Beam",
             Size.LARGE, ChassisType.BEAM,
             new ChassisPropsBeam(26, 3000, 5, 3, 147, 147,
