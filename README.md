@@ -5,7 +5,7 @@
 This project is an external tool that allows the creation of equipment for a custom faction
 accessible only to the player.
 
-Currently, this project is limited to creating turrets using non-DLC assets.
+Currently, this project is limited to creating turrets using Egosoft assets.
 
 Adding a turret is done as follows:
 
@@ -19,6 +19,8 @@ Then, simply install the mod like any other mod.
 For some picture, go to the [preview folder](https://github.com/Alexadre4444/X4CustomFaction/tree/main/preview).
 
 > **_NOTE:_**  This tools is tested only with the 7.50 beta version of X4.
+
+> **_NOTE:_**  Split turrets require the Split Vendetta DLC.
 
 ## Motivations
 
@@ -71,6 +73,7 @@ the [issue page](https://github.com/Alexadre4444/X4CustomFaction/issues).
 ### 0.1.1
 
 * Add a basic views for the turret properties
+* Add some Split turrets
 
 ## Roadmap
 
