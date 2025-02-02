@@ -1,4 +1,4 @@
-# X4 Foundation - Custom Faction - 0.1.0
+# X4 Foundation - Custom Faction - 0.1.1
 
 ## Presentation
 
@@ -38,7 +38,7 @@ __The tool requires Java 21 or above to run.__
 * Launch a powershell or a terminal in the folder and run the following command:
 
 ```shell
-java -jar X4CustomFaction-0.1.0.jar
+java -jar X4CustomFaction-0.1.1.jar
 ```
 
 > **_NOTE:_** Tool data are stored in the folder where the .jar is located.
@@ -61,6 +61,14 @@ Install the new version and delete the old one. The save will then take the chan
 
 If you have any issues or suggestions, please open an issue in
 the [issue page](https://github.com/Alexadre4444/X4CustomFaction/issues).
+
+## Versions
+
+### 0.1.0
+
+* Initial version
+
+### 0.1.1
 
 ## Roadmap
 
