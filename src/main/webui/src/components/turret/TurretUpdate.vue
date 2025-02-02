@@ -72,7 +72,8 @@ const fixBulletSkinOnChange = () => {
 
 const computedPropertiesByCategoryMap = computed(() => {
     let map = new Map<Category, ModifiedValue[]>();
-    computedProperties.value?.forEach(property => {
+    computedProperties.value?.sort((val1, val2) => val1.definition.category.label.localeCompare(val2.definition.category.label))
+        .forEach(property => {
         let category = property.definition.category;
         if(category != null) {
             let list = map.entries().find(entry => entry[0].name == category.name)?.[1];
