@@ -15,7 +15,7 @@ public class ChassisPropsStandard implements IChassisProps {
 
     public ChassisPropsStandard(long rotationSpeed, long hull, long barrelAmount, long amount, double reloadTime,
                                 long speed, double lifeTime, long damageHull, long damageShield, long maxHits, double ricochet, double timeDiff,
-                                double accuracy, long costTime, long costAdvancedElectronics, long costEnergyCells,
+                                double accuracy, long costAdvancedElectronics, long costEnergyCells,
                                 long costTurretsComps) {
         properties = new Properties(List.of(
                 new Property(ROTATION_SPEED, rotationSpeed),
@@ -31,7 +31,6 @@ public class ChassisPropsStandard implements IChassisProps {
                 new Property(RICOCHET, ricochet),
                 new Property(TIME_DIFF, timeDiff),
                 new Property(ACCURACY, accuracy),
-                new Property(COST_TIME, costTime),
                 new Property(COST_ADVANCED_ELECTRONICS, costAdvancedElectronics),
                 new Property(COST_ENERGY_CELLS, costEnergyCells),
                 new Property(COST_TURRET_COMPS, costTurretsComps)

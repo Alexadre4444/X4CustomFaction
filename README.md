@@ -74,6 +74,7 @@ the [issue page](https://github.com/Alexadre4444/X4CustomFaction/issues).
 
 * Add a basic views for the turret properties
 * Add some Split turrets
+* Fix turret cost time at 10
 
 ## Roadmap
 

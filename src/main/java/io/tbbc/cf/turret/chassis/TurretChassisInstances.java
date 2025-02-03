@@ -20,60 +20,60 @@ public class TurretChassisInstances {
             Size.MEDIUM, ChassisType.RAFFLE,
             new ChassisPropsRaffle(140, 660, 2, 3,
                     0.5, 6, 1855, 1.844, 12, 12, 1, 0,
-                    0.019, 0.32, 10, 1, 5, 10),
+                    0.019, 0.32, 1, 5, 10),
             Stream.of(ARG_M_PULSE, TEL_M_PULSE, PAR_M_PULSE, XEN_M_PULSE, SPL_M_PULSE)
                     .sorted(Comparator.comparing(ChassisSkin::label)).toList());
     public static final TurretChassis M_GATLING = new TurretChassis("m_gatling", "Gatling",
             Size.MEDIUM, ChassisType.RAFFLE,
             new ChassisPropsRaffle(120, 660, 2, 15,
                     1.3, 10, 895, 3.8, 11, 11, 2, 0.01,
-                    0.032, 0.49, 10, 1, 6, 13),
+                    0.032, 0.49, 1, 6, 13),
             Stream.of(ARG_M_GATLING, TEL_M_GATLING, PAR_M_GATLING, SPL_M_GATLING).sorted(Comparator.comparing(ChassisSkin::label)).toList());
     public static final TurretChassis M_PLASMA = new TurretChassis("m_plasma", "Plasma",
             Size.MEDIUM, ChassisType.STANDARD,
             new ChassisPropsStandard(50, 660, 2, 1, 4.2,
-                    610, 6.2, 570, 570, 1, 0f, 0, 0.01, 10, 2,
+                    610, 6.2, 570, 570, 1, 0f, 0, 0.01, 2,
                     8, 10),
             Stream.of(ARG_M_PLASMA, TEL_M_PLASMA, PAR_M_PLASMA, SPL_M_PLASMA).sorted(Comparator.comparing(ChassisSkin::label)).toList());
     public static final TurretChassis M_SHOTGUN = new TurretChassis("m_shotgun", "Shotgun",
             Size.MEDIUM, ChassisType.STANDARD,
             new ChassisPropsStandard(108, 660, 2, 5, 1.2,
                     1070, 2.2, 32, 32, 3, 0.5, 0.003, 1.10,
-                    10, 2, 6, 9),
+                    2, 6, 9),
             Stream.of(ARG_M_SHOTGUN, TEL_M_SHOTGUN, PAR_M_SHOTGUN, SPL_M_SHOTGUN).sorted(Comparator.comparing(ChassisSkin::label)).toList());
     public static final TurretChassis M_BEAM = new TurretChassis("m_beam", "Beam",
             Size.MEDIUM, ChassisType.BEAM,
             new ChassisPropsBeam(80, 660, 3, 1, 72, 72,
-                    2550, 10, 6, 10, 10),
+                    2550, 6, 10, 10),
             Stream.of(ARG_M_BEAM, TEL_M_BEAM, PAR_M_BEAM, XEN_M_BEAM, SPL_M_BEAM).sorted(Comparator.comparing(ChassisSkin::label)).toList());
     // Large
     public static final TurretChassis L_PULSE = new TurretChassis("l_pulse", "Pulse",
             Size.LARGE, ChassisType.STANDARD,
             new ChassisPropsStandard(30, 3000, 2, 1,
                     2, 2041, 3.219, 367, 367, 1, 0,
-                    0.015, 0.025, 10, 4, 10, 20),
+                    0.015, 0.025, 4, 10, 20),
             Stream.of(ARG_L_PULSE, TEL_L_PULSE, PAR_L_PULSE, XEN_L_PULSE, KHA_L_PULSE, SPL_L_PULSE).sorted(Comparator.comparing(ChassisSkin::label)).toList());
     public static final TurretChassis L_GATLING = new TurretChassis("l_gatling", "Gatling",
             Size.LARGE, ChassisType.RAFFLE,
             new ChassisPropsRaffle(30, 3000, 2, 4,
                     3, 2, 2500, 2.5, 250, 250, 1, 0,
-                    0.015, 0.1, 10, 4, 10, 20),
+                    0.015, 0.1, 4, 10, 20),
             Stream.of(ARG_L_PULSE, TEL_L_PULSE, PAR_L_PULSE, XEN_L_PULSE, KHA_L_PULSE, SPL_L_PULSE).sorted(Comparator.comparing(ChassisSkin::label)).toList());
     public static final TurretChassis L_PLASMA = new TurretChassis("l_plasma", "Plasma",
             Size.LARGE, ChassisType.STANDARD,
             new ChassisPropsStandard(33, 3000, 2, 1, 4.2,
-                    537, 14, 2000, 2000, 1, 0f, 0, 0, 10, 5,
+                    537, 14, 2000, 2000, 1, 0f, 0, 0, 5,
                     8, 32),
             Stream.of(ARG_L_PLASMA, TEL_L_PLASMA, PAR_L_PLASMA, SPL_L_PLASMA, XEN_L_PULSE).sorted(Comparator.comparing(ChassisSkin::label)).toList());
     public static final TurretChassis L_BASE_BEAM = new TurretChassis("l_base_beam", "Beam",
             Size.LARGE, ChassisType.BEAM,
             new ChassisPropsBeam(26, 3000, 5, 3, 147, 147,
-                    5000, 10, 6, 10, 39),
+                    5000, 6, 10, 39),
             Stream.of(ARG_L_BEAM, TEL_L_BEAM, PAR_L_BEAM, KHA_L_BEAM, SPL_L_BEAM).sorted(Comparator.comparing(ChassisSkin::label)).toList());
     public static final TurretChassis L_PULSE_BEAM = new TurretChassis("l_pulse_beam", "Pulse beam",
             Size.LARGE, ChassisType.BEAM,
             new ChassisPropsBeam(26, 3000, 2, 0.75, 200, 200,
-                    5000, 10, 6, 10, 39),
+                    5000, 6, 10, 39),
             Stream.of(ARG_L_BEAM, TEL_L_BEAM, PAR_L_BEAM, KHA_L_BEAM, SPL_L_BEAM).sorted(Comparator.comparing(ChassisSkin::label)).toList());
 
 
@@ -127,10 +127,6 @@ public class TurretChassisInstances {
                 new PropertyDefinition(PropertyNames.ACCURACY, "Accuracy",
                         "The accuracy of the turret.", true,
                         TURRET.name(), 0.01, 3.0, "°", 2, BASIC);
-        public static final PropertyDefinition COST_TIME =
-                new PropertyDefinition(PropertyNames.COST_TIME, "Time",
-                        "The time cost of the turret.", true,
-                        CategoryInstances.COST.name(), 1.0, null, "s", 0, BASIC);
         public static final PropertyDefinition COST_ADVANCED_ELECTRONICS =
                 new PropertyDefinition(PropertyNames.COST_ADVANCED_ELECTRONICS, "Advanced Electronics",
                         "The advanced electronics cost of the turret.", true,
@@ -191,7 +187,6 @@ public class TurretChassisInstances {
         public static PropertyName MAX_HITS = new PropertyName("maxHits");
         public static PropertyName RICOCHET = new PropertyName("ricochet");
         public static PropertyName ACCURACY = new PropertyName("accuracy");
-        public static PropertyName COST_TIME = new PropertyName("costTime");
         public static PropertyName COST_ADVANCED_ELECTRONICS = new PropertyName("costAdvancedElectronics");
         public static PropertyName COST_ENERGY_CELLS = new PropertyName("costEnergyCells");
         public static PropertyName COST_TURRET_COMPS = new PropertyName("costTurretComps");

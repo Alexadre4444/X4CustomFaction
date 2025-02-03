@@ -7,7 +7,7 @@
               description="\{{it.descriptionSection},{it.index}\}"
               group="turrets" transport="equipment" volume="1" tags="equipment turret">
             <price min="0" average="0" max="0"/>
-            <production time="{it.properties.property('costTime').getFinalValueString}" amount="1" method="default"
+            <production time="10" amount="1" method="default"
                         name="\{20206,101}">
                 <primary>
                     <ware ware="advancedelectronics"

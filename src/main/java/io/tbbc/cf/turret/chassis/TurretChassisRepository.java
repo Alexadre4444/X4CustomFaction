@@ -20,7 +20,7 @@ public class TurretChassisRepository implements ITurretChassisRepository {
 
     private final List<PropertyDefinition> properties = Stream.of(
             DAMAGE_HULL, DAMAGE_SHIELD, FIRE_RATE, RELOAD_TIME, ROTATION_SPEED, LIFE_TIME, SPEED,
-            AMOUNT, MAX_HITS, RICOCHET, BARREL_AMOUNT, HULL, ACCURACY, COST_TIME, COST_ADVANCED_ELECTRONICS,
+            AMOUNT, MAX_HITS, RICOCHET, BARREL_AMOUNT, HULL, ACCURACY, COST_ADVANCED_ELECTRONICS,
             COST_ENERGY_CELLS, COST_TURRET_COMPS, RANGE, BURST_TIME, SHOOT_PER_SECOND, DAMAGE_PER_SECOND_HULL,
             DAMAGE_PER_SECOND_SHIELD, ROTATION_ACCELERATION, TIME_DIFF, DAMAGE_BONUS_SHIELD
     ).sorted(Comparator.comparing(PropertyDefinition::label)).toList();
