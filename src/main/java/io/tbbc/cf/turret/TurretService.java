@@ -6,6 +6,7 @@ import io.tbbc.cf.bullet.skin.BulletSkin;
 import io.tbbc.cf.common.*;
 import io.tbbc.cf.common.customizer.Customizer;
 import io.tbbc.cf.common.modifier.Modifiers;
+import io.tbbc.cf.common.production.IProductionMethodService;
 import io.tbbc.cf.common.property.FinalPropValue;
 import io.tbbc.cf.common.property.FinalProperties;
 import io.tbbc.cf.common.property.PropertyDefinition;
@@ -45,6 +46,8 @@ public class TurretService implements ITurretService {
     ITurretCustomizerService turretCustomizerService;
     @Inject
     IModInfosService modInfosService;
+    @Inject
+    IProductionMethodService productionMethodService;
 
     @Override
     public List<Turret> getAll() {
@@ -71,7 +74,7 @@ public class TurretService implements ITurretService {
         turret.setDescription(StringUtil.normalizeDescription(turret.getDescription()));
 
         turretValidator.validateUpdate(turret, this::getById, turretChassisService::getByName,
-                bulletService::getByName, turretCustomizerService::getByName);
+                bulletService::getByName, turretCustomizerService::getByName, productionMethodService::getByName);
         turret.setState(State.VALID);
         turretRepository.update(turret);
     }

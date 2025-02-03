@@ -4,6 +4,7 @@ import Customizer from '@/model/common/Customizer';
 import CustomizerComponent from '@/model/common/CustomizerComponent';
 import CustomizerValue from '@/model/common/CustomizerValue';
 import ModifiedValue from '@/model/common/ModifiedValue';
+import ProductionMethodName from '@/model/common/ProductionMethodName';
 import Bullet from '@/model/turret/Bullet';
 import BulletSkin from '@/model/turret/BulletSkin';
 import ChassisSkin from '@/model/turret/ChassisSkin';
@@ -34,6 +35,7 @@ const formChassisSkin = ref<ChassisSkin>();
 const formBullet = ref<Bullet>();
 const formBulletSkin = ref<BulletSkin>();
 const formCustomizers = ref<Map<CustomizerComponent, Ref<Customizer>>>();
+const formProductionMethodsName = ref<ProductionMethodName[]>([]);
 
 const formAccessibility = ref<string>('BASIC');
 
@@ -136,7 +138,7 @@ const computedCustomizers = computed(() => {
 const update = () => {
     TurretService.update(new Turret(loadedTurret.value.id, formLabel.value, loadedTurret.value._size, formDescription.value, 
         formChassis.value?.name, formChassisSkin.value?.name,  formBullet.value?.name, formBulletSkin.value?.name,
-        computedCustomizers.value, loadedTurret.value.state))
+        computedCustomizers.value, loadedTurret.value.state, formProductionMethodsName.value))
     .then(() => {
         NotificationService.success('Turret updated.');
     }).catch(error => {
@@ -178,6 +180,7 @@ const resetForm = () => {
             formCustomizers.value.set(category, ref());
         }
     });
+    formProductionMethodsName.value = loadedTurret.value.methods;
 }
 
 const allChassis = ref<ChassisTurret[]>([]);
@@ -255,6 +258,17 @@ await refreshChassis()
                     <div class="flex flex-col gap-2">
                         <label for="description">Description</label>
                         <Textarea id="description" type="text" v-model="formDescription" />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label>Production method</label>
+                        <Suspense>
+                            <template #default>
+                                <ProductionMethodSelector v-model="formProductionMethodsName" />
+                            </template>
+                            <template #fallback>
+                                <Loading />
+                            </template>
+                        </Suspense>
                     </div>
                     <div class="flex flex-col gap-2">
                         <label for="chassis">Chassis</label>

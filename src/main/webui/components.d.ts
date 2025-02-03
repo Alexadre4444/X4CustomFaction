@@ -25,6 +25,7 @@ declare module 'vue' {
     ModifiersDisplay: typeof import('./src/components/common/ModifiersDisplay.vue')['default']
     ModSettings: typeof import('./src/components/mod/ModSettings.vue')['default']
     ModUpdate: typeof import('./src/components/mod/ModUpdate.vue')['default']
+    ProductionMethodSelector: typeof import('./src/components/common/ProductionMethodSelector.vue')['default']
     ProgressSpinner: typeof import('primevue/progressspinner')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

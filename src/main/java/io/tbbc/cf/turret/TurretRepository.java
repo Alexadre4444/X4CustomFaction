@@ -49,8 +49,20 @@ public class TurretRepository implements ITurretRepository, PanacheRepository<Tu
             existingTurret.setBulletSkinName(turret.getBulletSkinName());
             existingTurret.setState(turret.getState());
             updateCustomizers(turret, existingTurret);
+            updateMethods(turret, existingTurret);
             existingTurret.setSize(turret.getSize());
         });
+    }
+
+    private void updateMethods(Turret turret, Turret existingTurret) {
+        // Add new methods
+        turret.getMethods().stream()
+                .filter(method -> existingTurret.getMethods().stream()
+                        .noneMatch(existingMethod -> existingMethod.getName().equals(method.getName())))
+                .forEach(productionMethod -> existingTurret.getMethods().add(productionMethod));
+        // Remove deleted
+        existingTurret.getMethods().removeIf(existingMethod -> turret.getMethods().stream()
+                .noneMatch(method -> method.getName().equals(existingMethod.getName())));
     }
 
     @Override
