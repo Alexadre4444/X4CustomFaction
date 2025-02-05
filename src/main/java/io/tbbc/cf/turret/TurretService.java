@@ -7,6 +7,8 @@ import io.tbbc.cf.common.*;
 import io.tbbc.cf.common.customizer.Customizer;
 import io.tbbc.cf.common.modifier.Modifiers;
 import io.tbbc.cf.common.production.IProductionMethodService;
+import io.tbbc.cf.common.production.ProductionMethodInstances;
+import io.tbbc.cf.common.production.ProductionMethodName;
 import io.tbbc.cf.common.property.FinalPropValue;
 import io.tbbc.cf.common.property.FinalProperties;
 import io.tbbc.cf.common.property.PropertyDefinition;
@@ -15,6 +17,7 @@ import io.tbbc.cf.mod.IModInfosService;
 import io.tbbc.cf.turret.chassis.ChassisType;
 import io.tbbc.cf.turret.chassis.ITurretChassisService;
 import io.tbbc.cf.turret.chassis.TurretChassis;
+import io.tbbc.cf.turret.chassis.TurretChassisInstances;
 import io.tbbc.cf.turret.chassis.skin.ChassisEgoSkinProps;
 import io.tbbc.cf.turret.chassis.skin.ChassisSkin;
 import io.tbbc.cf.turret.custom.ITurretCustomizerService;
@@ -114,7 +117,7 @@ public class TurretService implements ITurretService {
                 getChassisEgoSkinProps(turret, chassis).egoComponentName(),
                 getChassisEgoSkinProps(turret, chassis).egoComponentNameAlias(),
                 getEgoBulletMacroName(turret, bullet), computeAllFinalValues(chassis, bullet, turretChassisService.getProperties(),
-                getCustomizers(turret.getCustomizers())),
+                getCustomizers(turret.getCustomizers()), turret.getMethods()),
                 getBulletSkin(turret, bullet).skinProps(),
                 chassis.type(), TurretEgoType.MAIN, getTurretNameEntry(turret, chassis, i, factionTrigram),
                 getTurretBaseNameEntry(turret, i), getTurretShortNameEntry(turret, i));
@@ -128,7 +131,7 @@ public class TurretService implements ITurretService {
                 getTurretFullLabel(turret, chassis), turret.getDescription(),
                 getChassisEgoSkinProps(turret, chassis).egoComponentNameAlias(), null,
                 getEgoBulletMacroName(turret, bullet), computeAllFinalValues(chassis, bullet, turretChassisService.getProperties(),
-                getCustomizers(turret.getCustomizers())),
+                getCustomizers(turret.getCustomizers()), turret.getMethods()),
                 getBulletSkin(turret, bullet).skinProps(),
                 chassis.type(), TurretEgoType.ALIAS, getTurretNameEntry(turret, chassis, i, factionTrigram),
                 getTurretBaseNameEntry(turret, i), getTurretShortNameEntry(turret, i));
@@ -136,16 +139,18 @@ public class TurretService implements ITurretService {
 
     private FinalProperties computeAllFinalValues(TurretChassis chassis, Bullet bullet,
                                                   List<PropertyDefinition> propertyDefinitions,
-                                                  List<Customizer> customizers) {
+                                                  List<Customizer> customizers,
+                                                  List<ProductionMethodName> productionMethodNames) {
         Modifiers bulletModifiers = bullet != null ? bullet.modifiers() : new Modifiers(List.of());
         FinalProperties baseProps = PropsHelper.computeFinalProps(chassis.props().getProperties(),
                 propertyDefinitions,
                 Stream.concat(Stream.of(bulletModifiers),
                         customizers.stream().map(Customizer::modifiers)).toList());
-        return computeFinalValuesWithComputed(chassis, baseProps);
+        return computeFinalValuesWithComputed(chassis, productionMethodNames, baseProps);
     }
 
-    private FinalProperties computeFinalValuesWithComputed(TurretChassis chassis, FinalProperties baseProperties) {
+    private FinalProperties computeFinalValuesWithComputed(TurretChassis chassis, List<ProductionMethodName> productionMethodNameList,
+                                                           FinalProperties baseProperties) {
         List<FinalPropValue> computedProps = new ArrayList<>();
         FinalPropValue shootPerSecond;
         if (chassis.type() != ChassisType.BEAM) {
@@ -166,20 +171,36 @@ public class TurretService implements ITurretService {
         computedProps.add(damageShieldPerSecond);
         computedProps.add(rotationAcceleration);
         computedProps.add(damageBonusShield);
+        if (productionMethodNameList.stream().map(ProductionMethodName::getName).toList()
+                .contains(ProductionMethodInstances.CLOSED_LOOP.name())) {
+            computedProps.addAll(ComputationHelper.computeCLCost(baseProperties));
+        }
+        if (productionMethodNameList.stream().map(ProductionMethodName::getName).toList()
+                .contains(ProductionMethodInstances.TERRAN.name())) {
+            computedProps.addAll(ComputationHelper.computeTerCost(baseProperties));
+        }
+        List<FinalPropValue> finalBaseProperties = new ArrayList<>(baseProperties.properties());
+        if (!productionMethodNameList.stream().map(ProductionMethodName::getName).toList()
+                .contains(ProductionMethodInstances.CW.name())) {
+            finalBaseProperties.removeIf(prop -> prop.getName().equals(TurretChassisInstances.Properties.COST_CW_ADVANCED_ELECTRONICS.name()));
+            finalBaseProperties.removeIf(prop -> prop.getName().equals(TurretChassisInstances.Properties.COST_CW_TURRET_COMPS.name()));
+            finalBaseProperties.removeIf(prop -> prop.getName().equals(TurretChassisInstances.Properties.COST_CW_ENERGY_CELLS.name()));
+        }
         return new FinalProperties(
                 Stream.concat(
-                                baseProperties.properties().stream(),
+                                finalBaseProperties.stream(),
                                 computedProps.stream())
                         .toList());
     }
 
     @Override
-    public FinalProperties computeFinalValues(String chassisName, String bulletName, Map<String, String> customizers) {
+    public FinalProperties computeFinalValues(String chassisName, String bulletName, Map<String, String> customizers,
+                                              List<ProductionMethodName> productionMethodNames) {
         TurretChassis chassis = turretChassisService.getByName(chassisName)
                 .orElseThrow(() -> new BadArgumentException("Chassis not found"));
         Bullet bullet = bulletService.getByName(bulletName).orElse(null);
         List<Customizer> customizersList = getCustomizers(customizers);
-        return computeAllFinalValues(chassis, bullet, turretChassisService.getProperties(), customizersList);
+        return computeAllFinalValues(chassis, bullet, turretChassisService.getProperties(), customizersList, productionMethodNames);
     }
 
     @Override

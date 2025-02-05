@@ -30,9 +30,9 @@ public class ChassisPropsRaffle implements IChassisProps {
                 new Property(MAX_HITS, maxHits),
                 new Property(RICOCHET, ricochet),
                 new Property(ACCURACY, accuracy),
-                new Property(COST_ADVANCED_ELECTRONICS, costAdvancedElectronics),
-                new Property(COST_ENERGY_CELLS, costEnergyCells),
-                new Property(COST_TURRET_COMPS, costTurretsComps),
+                new Property(COST_CW_ADVANCED_ELECTRONICS, costAdvancedElectronics),
+                new Property(COST_CW_ENERGY_CELLS, costEnergyCells),
+                new Property(COST_CW_TURRET_COMPS, costTurretsComps),
                 new Property(TIME_DIFF, timeDiff)
         ));
     }

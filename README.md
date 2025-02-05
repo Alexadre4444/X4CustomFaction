@@ -2,8 +2,7 @@
 
 ## Presentation
 
-This project is an external tool that allows the creation of equipment for a custom faction
-accessible only to the player.
+This project is an external tool that allows the creation of equipment accessible only to the player.
 
 Currently, this project is limited to creating turrets using Egosoft assets.
 

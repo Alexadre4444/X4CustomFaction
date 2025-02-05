@@ -154,7 +154,7 @@ function computeProperties() {
                 customizers[category.name] = customizer.value?.name;
             }
         });
-        ComputationService.computeTurretProperties(formChassis.value.name, formBullet.value.name, customizers)
+        ComputationService.computeTurretProperties(formChassis.value.name, formBullet.value.name, customizers, formProductionMethodsName.value)
         .then(properties => {
             computedProperties.value = properties;
         }).catch(error => {
@@ -263,7 +263,7 @@ await refreshChassis()
                         <label>Production method</label>
                         <Suspense>
                             <template #default>
-                                <ProductionMethodSelector v-model="formProductionMethodsName" />
+                                <ProductionMethodSelector v-model="formProductionMethodsName" @change="computeProperties"/>
                             </template>
                             <template #fallback>
                                 <Loading />

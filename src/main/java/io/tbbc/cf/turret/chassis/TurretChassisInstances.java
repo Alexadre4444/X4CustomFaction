@@ -127,18 +127,7 @@ public class TurretChassisInstances {
                 new PropertyDefinition(PropertyNames.ACCURACY, "Accuracy",
                         "The accuracy of the turret.", true,
                         TURRET.name(), 0.01, 3.0, "°", 2, BASIC);
-        public static final PropertyDefinition COST_ADVANCED_ELECTRONICS =
-                new PropertyDefinition(PropertyNames.COST_ADVANCED_ELECTRONICS, "Advanced Electronics",
-                        "The advanced electronics cost of the turret.", true,
-                        CategoryInstances.COST.name(), 0.0, null, null, 0, BASIC);
-        public static final PropertyDefinition COST_ENERGY_CELLS =
-                new PropertyDefinition(PropertyNames.COST_ENERGY_CELLS, "Energy Cells",
-                        "The energy cells cost of the turret.", true,
-                        CategoryInstances.COST.name(), 0.0, null, null, 0, BASIC);
-        public static final PropertyDefinition COST_TURRET_COMPS =
-                new PropertyDefinition(PropertyNames.COST_TURRET_COMPS, "Turret Comps",
-                        "The turret comps cost of the turret.", true,
-                        CategoryInstances.COST.name(), 0.0, null, null, 0, BASIC);
+
         public static final PropertyDefinition RANGE =
                 new PropertyDefinition(PropertyNames.RANGE, "Range",
                         "The bullet range.", false,
@@ -167,6 +156,47 @@ public class TurretChassisInstances {
                 new PropertyDefinition(PropertyNames.DAMAGE_BONUS_SHIELD, "Damage Bonus (shield)",
                         "The bonus damage dealt to shielded target.", false,
                         DAMAGE.name(), 0.0, null, "MJ", 0, ADVANCED);
+        // Cost
+        public static final PropertyDefinition COST_CW_ADVANCED_ELECTRONICS =
+                new PropertyDefinition(PropertyNames.COST_CW_ADVANCED_ELECTRONICS, "Common-wealth - Advanced Electronics",
+                        "The advanced electronics cost of the turret.", true,
+                        CategoryInstances.COST.name(), 0.0, null, null, 0, BASIC);
+        public static final PropertyDefinition COST_CW_ENERGY_CELLS =
+                new PropertyDefinition(PropertyNames.COST_CW_ENERGY_CELLS, "Common-wealth - Energy Cells",
+                        "The energy cells cost of the turret.", true,
+                        CategoryInstances.COST.name(), 0.0, null, null, 0, BASIC);
+        public static final PropertyDefinition COST_CW_TURRET_COMPS =
+                new PropertyDefinition(PropertyNames.COST_CW_TURRET_COMPS, "Common-wealth - Turret Comps",
+                        "The turret comps cost of the turret.", true,
+                        CategoryInstances.COST.name(), 0.0, null, null, 0, BASIC);
+        public static final PropertyDefinition COST_CL_ENERGY_CELLS =
+                new PropertyDefinition(PropertyNames.COST_CL_ENERGY_CELLS, "Closed loop - Energy Cells",
+                        "The energy cells cost of the turret.", true,
+                        CategoryInstances.COST.name(), 0.0, null, null, 0, BASIC);
+        public static final PropertyDefinition COST_CL_CLAYTRONICS =
+                new PropertyDefinition(PropertyNames.COST_CL_CLAYTRONICS, "Closed loop - Claytronics",
+                        "The claytronics cost of the turret.", true,
+                        CategoryInstances.COST.name(), 0.0, null, null, 0, BASIC);
+        public static final PropertyDefinition COST_CL_HULL_PART =
+                new PropertyDefinition(PropertyNames.COST_CL_HULL_PART, "Closed loop - Hull part",
+                        "The hull part cost of the turret.", true,
+                        CategoryInstances.COST.name(), 0.0, null, null, 0, BASIC);
+        public static final PropertyDefinition COST_TER_ENERGY_CELLS =
+                new PropertyDefinition(PropertyNames.COST_TER_ENERGY_CELLS, "Terran - Energy Cells",
+                        "The energy cells cost of the turret.", true,
+                        CategoryInstances.COST.name(), 0.0, null, null, 0, BASIC);
+        public static final PropertyDefinition COST_TER_COMPUTRONIC =
+                new PropertyDefinition(PropertyNames.COST_TER_COMPUTRONIC, "Terran - Computronic Substrate",
+                        "The computronic substrate cost of the turret.", true,
+                        CategoryInstances.COST.name(), 0.0, null, null, 0, BASIC);
+        public static final PropertyDefinition COST_TER_MICROLATICE =
+                new PropertyDefinition(PropertyNames.COST_TER_MICROLATICE, "Terran - Metallic Micro lattice",
+                        "The metallic micro lattice cost of the turret.", true,
+                        CategoryInstances.COST.name(), 0.0, null, null, 0, BASIC);
+        public static final PropertyDefinition COST_TER_CARBIDE =
+                new PropertyDefinition(PropertyNames.COST_TER_CARBIDE, "Terran - Silicon Carbide",
+                        "The silicon carbide cost of the turret.", true,
+                        CategoryInstances.COST.name(), 0.0, null, null, 0, BASIC);
 
         Properties() {
         }
@@ -187,11 +217,11 @@ public class TurretChassisInstances {
         public static PropertyName MAX_HITS = new PropertyName("maxHits");
         public static PropertyName RICOCHET = new PropertyName("ricochet");
         public static PropertyName ACCURACY = new PropertyName("accuracy");
-        public static PropertyName COST_ADVANCED_ELECTRONICS = new PropertyName("costAdvancedElectronics");
-        public static PropertyName COST_ENERGY_CELLS = new PropertyName("costEnergyCells");
-        public static PropertyName COST_TURRET_COMPS = new PropertyName("costTurretComps");
+        public static PropertyName COST_CW_ADVANCED_ELECTRONICS = new PropertyName("costCwAdvancedElectronics");
+        public static PropertyName COST_CW_ENERGY_CELLS = new PropertyName("costCwEnergyCells");
+        public static PropertyName COST_CW_TURRET_COMPS = new PropertyName("costCwTurretComps");
         public static PropertyName TIME_DIFF = new PropertyName("timeDiff");
-        //Computed
+        // Computed
         public static PropertyName RANGE = new PropertyName("range");
         public static PropertyName BURST_TIME = new PropertyName("burstTime");
         public static PropertyName SHOOT_PER_SECOND = new PropertyName("shootPerSecond");
@@ -199,6 +229,14 @@ public class TurretChassisInstances {
         public static PropertyName DAMAGE_PER_SECOND_SHIELD = new PropertyName("damagePerSecondShield");
         public static PropertyName DAMAGE_BONUS_SHIELD = new PropertyName("damageBonusShield");
         public static PropertyName ROTATION_ACCELERATION = new PropertyName("rotationAcceleration");
+        // Computed cost
+        public static PropertyName COST_CL_ENERGY_CELLS = new PropertyName("costClEnergyCells");
+        public static PropertyName COST_CL_CLAYTRONICS = new PropertyName("costClClaytronics");
+        public static PropertyName COST_CL_HULL_PART = new PropertyName("costClHullPart");
+        public static PropertyName COST_TER_ENERGY_CELLS = new PropertyName("costTerEnergyCells");
+        public static PropertyName COST_TER_COMPUTRONIC = new PropertyName("costTerComputronic");
+        public static PropertyName COST_TER_MICROLATICE = new PropertyName("costTerMicrolattice");
+        public static PropertyName COST_TER_CARBIDE = new PropertyName("costTerCarbide");
 
         PropertyNames() {
         }

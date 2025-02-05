@@ -56,7 +56,7 @@
                             <do_if value="not $Boso?">
                                 <set_value name="$Boso" exact="@md.$PersistentCharacters.$BosoTa"/>
                                 <do_if value="$Boso">
-                                    <set_value name="$CharacterCutsceneTable.{$Boso}"
+                                    <set_value name="$CharacterCutsceneTable.\{$Boso}"
                                                exact="table[$key = 'ShowCharacterBoron']"/>
                                 </do_if>
                             </do_if>
@@ -87,7 +87,7 @@
                                     <actions>
                                         <set_value name="$LastResearchDescriptionTime" exact="player.age"/>
                                         <speak actor="$Boso" line="30201162" priority="85" recipient="player.entity"
-                                               comment="{10201,30201162}"/>
+                                               comment="\{10201,30201162}"/>
                                     </actions>
                                 </cue>
 
@@ -97,7 +97,7 @@
                                     </conditions>
                                     <actions>
                                         <set_value name="this.$Dialog_Lines" exact="[[30201174]]"
-                                                   comment="{10201,30201174}"/>
+                                                   comment="\{10201,30201174}"/>
                                         <add_blueprints wares="$Blueprints"/>
                                     </actions>
                                     <cues>
@@ -109,7 +109,7 @@
                                                 <cue name="Research_Finished_Speak_Ref_v2"
                                                      ref="md.LIB_Dialog.Speak_Actor">
                                                     <param name="Actor" value="$Boso"/>
-                                                    <param name="CutsceneKey" value="$CharacterCutsceneTable.{$Boso}"/>
+                                                    <param name="CutsceneKey" value="$CharacterCutsceneTable.\{$Boso}"/>
                                                     <param name="DelayInitial" value="2s"/>
                                                     <param name="Lines" value="parent.parent.$Dialog_Lines"/>
                                                 </cue>
