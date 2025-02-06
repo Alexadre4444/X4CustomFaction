@@ -12,6 +12,8 @@ public class ChassisSkinInstances {
             "Xenon", ChassisEgoSkinProps.XEN_M_PULSE);
     public static final ChassisSkin SPL_M_PULSE = new ChassisSkin("spl_m_pulse",
             "Split", ChassisEgoSkinProps.SPL_M_PULSE);
+    public static final ChassisSkin TER_M_PULSE = new ChassisSkin("ter_m_pulse",
+            "Terran", ChassisEgoSkinProps.TER_M_PULSE);
     // Pulse - L
     public static final ChassisSkin ARG_L_PULSE = new ChassisSkin("arg_l_pulse",
             "Argon", ChassisEgoSkinProps.ARG_L_PULSE);
@@ -25,6 +27,8 @@ public class ChassisSkinInstances {
             "Kha'ak", ChassisEgoSkinProps.KHA_L_PULSE);
     public static final ChassisSkin SPL_L_PULSE = new ChassisSkin("spl_l_pulse",
             "Split", ChassisEgoSkinProps.SPL_L_PULSE);
+    public static final ChassisSkin TER_L_PULSE = new ChassisSkin("ter_l_pulse",
+            "Terran", ChassisEgoSkinProps.TER_L_PULSE);
     // Gatling - M
     public static final ChassisSkin ARG_M_GATLING = new ChassisSkin("arg_m_gatling",
             "Argon", ChassisEgoSkinProps.ARG_M_GATLING);
@@ -34,7 +38,11 @@ public class ChassisSkinInstances {
             "Paranid", ChassisEgoSkinProps.PAR_M_GATLING);
     public static final ChassisSkin SPL_M_GATLING = new ChassisSkin("spl_m_gatling",
             "Split", ChassisEgoSkinProps.SPL_M_GATLING);
-
+    public static final ChassisSkin TER_M_GATLING = new ChassisSkin("ter_m_gatling",
+            "Terran", ChassisEgoSkinProps.TER_M_GATLING);
+    // Gatling - L
+    public static final ChassisSkin TER_L_GATLING = new ChassisSkin("ter_l_gatling",
+            "Terran", ChassisEgoSkinProps.TER_L_GATLING);
     // Plasma - M
     public static final ChassisSkin ARG_M_PLASMA = new ChassisSkin("arg_m_plasma",
             "Argon", ChassisEgoSkinProps.ARG_M_PLASMA);
@@ -76,6 +84,8 @@ public class ChassisSkinInstances {
             "Xenon", ChassisEgoSkinProps.XEN_M_BEAM);
     public static final ChassisSkin SPL_M_BEAM = new ChassisSkin("spl_m_beam",
             "Split", ChassisEgoSkinProps.SPL_M_BEAM);
+    public static final ChassisSkin TER_M_BEAM = new ChassisSkin("ter_m_beam",
+            "Terran", ChassisEgoSkinProps.TER_M_BEAM);
 
     // Beam - L
     public static final ChassisSkin ARG_L_BEAM = new ChassisSkin("arg_l_beam",
@@ -88,6 +98,8 @@ public class ChassisSkinInstances {
             "Kha'ak", ChassisEgoSkinProps.KHA_L_BEAM);
     public static final ChassisSkin SPL_L_BEAM = new ChassisSkin("spl_l_beam",
             "Split", ChassisEgoSkinProps.SPL_L_BEAM);
+    public static final ChassisSkin TER_L_BEAM = new ChassisSkin("ter_l_beam",
+            "Terran", ChassisEgoSkinProps.TER_L_BEAM);
 
     private ChassisSkinInstances() {
     }

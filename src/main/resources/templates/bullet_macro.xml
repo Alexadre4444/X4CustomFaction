@@ -22,7 +22,8 @@
                     ricochet="{turret.properties.property('ricochet').getFinalValueString}"
                     timeDiff="{turret.properties.property('timeDiff').getFinalValueString}"
                     scale="0"
-                    attach="0"/>
+                    attach="0"
+                    restitution="0.3"/>
             {#else}
             <bullet speed="2.997925e+08"
                     lifetime="{turret.properties.property('lifeTime').getFinalValueString}"
