@@ -75,6 +75,7 @@ the [issue page](https://github.com/Alexadre4444/X4CustomFaction/issues).
 * Add some Split turrets
 * Set turret cost time to 10 for every turrets
 * Adding production method for turrets
+* Add some Terran turrets
 
 ## Roadmap
 
