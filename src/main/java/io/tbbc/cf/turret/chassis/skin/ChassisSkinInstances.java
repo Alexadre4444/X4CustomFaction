@@ -101,6 +101,10 @@ public class ChassisSkinInstances {
     public static final ChassisSkin TER_L_BEAM = new ChassisSkin("ter_l_beam",
             "Terran", ChassisEgoSkinProps.TER_L_BEAM);
 
+    // Electromagnetic - M
+    public static final ChassisSkin TER_M_ELECTROMAGNETIC = new ChassisSkin("ter_m_electromagnetic",
+            "Terran", ChassisEgoSkinProps.TER_M_ELECTROMAGNETIC);
+
     private ChassisSkinInstances() {
     }
 }

@@ -33,7 +33,8 @@ public class ModService implements IModService {
     private static final String MOD_FOLDER_NAME = "customfaction";
 
     private static final List<String> TURRET_COMPONENTS = List.of(
-            "turret_cf_kha_l_beam_01_mk1", "turret_cf_kha_l_laser_01_mk1"
+            "turret_cf_kha_l_beam_01_mk1", "turret_cf_kha_l_laser_01_mk1",
+            "turret_cf_ter_m_laser_01_mk1", "turret_cf_ter_m_laser_02_mk1"
     );
 
     @Inject

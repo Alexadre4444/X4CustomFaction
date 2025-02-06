@@ -50,6 +50,13 @@ public class TurretChassisInstances {
                     2550, 6, 10, 10),
             Stream.of(ARG_M_BEAM, TEL_M_BEAM, PAR_M_BEAM, XEN_M_BEAM, SPL_M_BEAM, TER_M_BEAM)
                     .sorted(Comparator.comparing(ChassisSkin::label)).toList());
+    public static final TurretChassis M_ELECTROMAGNETIC = new TurretChassis("m_electromagnetic", "Electromagnetic",
+            Size.MEDIUM, ChassisType.STANDARD,
+            new ChassisPropsStandard(120, 800, 1, 1, 0.8,
+                    2000, 1.8, 165, 165, 1, 0f, 0.003, 0.06, 2,
+                    10, 30),
+            Stream.of(TER_M_ELECTROMAGNETIC)
+                    .sorted(Comparator.comparing(ChassisSkin::label)).toList());
     // Large
     public static final TurretChassis L_PULSE = new TurretChassis("l_pulse", "Pulse",
             Size.LARGE, ChassisType.STANDARD,

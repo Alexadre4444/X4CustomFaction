@@ -79,6 +79,10 @@ public class BulletSkinInstances {
     public static final BulletSkin L_BEAM_WHITE = new BulletSkin("beam_l_white", "Terran (white)",
             TER_L_BEAM);
 
+    // Electromagnetic - M
+    public static final BulletSkin M_ELECTROMAGNETIC_TER = new BulletSkin("electromagnetic_m_ter", "Terran (blue)",
+            TER_M_ELECTROMAGNETIC);
+
 
     private BulletSkinInstances() {
     }

@@ -129,7 +129,13 @@ public enum BulletEgoSkinProps {
     TER_L_BEAM("bullet_ter_l_beam_01_mk1", null,
             new BulletEffect("impact_gen_l_laser_01_mk1", "impact_gen_l_laser_01_mk1_inside"),
             new BulletEffect("impact_gen_l_laser_01_mk1_bigobject", "impact_gen_l_laser_01_mk1_bigobject_inside"),
-            new BulletEffect("muzzle_ter_l_beam_01_mk1", null));
+            new BulletEffect("muzzle_ter_l_beam_01_mk1", null)),
+
+    // Electromagnetic - M
+    TER_M_ELECTROMAGNETIC("bullet_ter_s_laser_02_mk1", null,
+            new BulletEffect("impact_ter_s_laser_02_mk1", "impact_ter_s_laser_02_mk1_inside"),
+            new BulletEffect("impact_ter_s_laser_02_mk1_bigobject", "impact_ter_s_laser_02_mk1_bigobject_inside"),
+            new BulletEffect("muzzle_ter_s_laser_02_mk1", null));
 
     private final String componentName;
     private final String soundName;

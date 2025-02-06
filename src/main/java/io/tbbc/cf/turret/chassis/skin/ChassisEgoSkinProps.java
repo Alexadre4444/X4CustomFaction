@@ -52,8 +52,9 @@ public enum ChassisEgoSkinProps {
     PAR_L_BEAM("turret_par_l_beam_01_mk1", null),
     KHA_L_BEAM("turret_cf_kha_l_beam_01_mk1", null),
     SPL_L_BEAM("turret_spl_l_beam_01_mk1", null),
-    TER_L_BEAM("turret_ter_l_beam_01_mk1", null);
-
+    TER_L_BEAM("turret_ter_l_beam_01_mk1", null),
+    // Electromagnetic - M
+    TER_M_ELECTROMAGNETIC("turret_cf_ter_m_laser_01_mk1", "turret_cf_ter_m_laser_02_mk1");
 
     private final String egoComponentName;
     private final String egoComponentNameAlias;

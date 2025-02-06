@@ -64,6 +64,17 @@ public class BulletInstances {
             new Modifiers(List.of()),
             Stream.of(M_BEAM_CW, M_BEAM_CW_MINING, M_BEAM_KHA, M_BEAM_TER)
                     .sorted(Comparator.comparing(BulletSkin::label)).toList());
+    public static final Bullet M_ELECTROMAGNETIC = new Bullet("m_ter_electromagnetic", "Electromagnetic",
+            Size.MEDIUM, List.of(ChassisType.STANDARD, ChassisType.RAFFLE),
+            new Modifiers(List.of(
+                    new Modifier(ROTATION_SPEED, -10),
+                    new Modifier(DAMAGE_SHIELD, 20),
+                    new Modifier(DAMAGE_HULL, 20),
+                    new Modifier(LIFE_TIME, 20),
+                    new Modifier(SPEED, -10),
+                    new Modifier(RELOAD_TIME, 10)
+            )),
+            List.of(M_ELECTROMAGNETIC_TER));
 
     // Large
     public static final Bullet L_PULSE = new Bullet("l_pulse", "Pulse",
