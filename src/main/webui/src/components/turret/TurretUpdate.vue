@@ -96,11 +96,8 @@ const computedPropertiesByCategoryMap = computed(() => {
     return map;
 });
 
-const chassisPropertiesDefinitions = computed(() => {
-    if(formChassis.value == null) {
-        return [];
-    }
-    return formChassis.value.props.properties.map(property => property.definition);
+const applicableProperties = computed(() => {
+    return computedProperties.value.map(modifiedValue => modifiedValue.definition);
 });
 
 const availableBullets = computed<Bullet[]>(() => {
@@ -305,7 +302,8 @@ await refreshChassis()
                         @change="bulletOnChange"
                         :filter="true" :showClear="true" />
                     </div>
-                    <ModifiersDisplay v-if="formBullet" 
+                    <ModifiersDisplay v-if="formBullet"
+                    :applicable-properties="applicableProperties" 
                     :modifiers="formBullet.modifiers.modifiers"/>
                     <div v-if="formBullet" class="flex flex-col gap-2">
                         <label for="bulletSkin">Bullet skin</label>
@@ -314,7 +312,8 @@ await refreshChassis()
                         :options="formBullet.availableSkins" 
                         optionLabel="label" :filter="true" :showClear="true" />   
                     </div>
-                <CustomizersComponents v-model="formCustomizers" @change="computeProperties"/> 
+                <CustomizersComponents v-model="formCustomizers" @change="computeProperties" 
+                :applicable-properties="applicableProperties" /> 
             </div>
         </div>
         <CategoryProperties v-if="formAccessibility == 'ADVANCED'" v-for="categoryPropertiesEntry in computedPropertiesByCategoryMap" 

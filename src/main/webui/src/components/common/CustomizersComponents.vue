@@ -2,10 +2,15 @@
 import Customizer from '@/model/common/Customizer';
 import CustomizerCategory from '@/model/common/CustomizerCategory';
 import CustomizerComponent from '@/model/common/CustomizerComponent';
+import PropertyDefinition from '@/model/common/PropertyDefinition';
 import { Ref } from 'vue';
 
 const model = defineModel({
     type: Map<CustomizerComponent, Ref<Customizer>>
+});
+
+const props = defineProps({
+    applicableProperties: Array<PropertyDefinition>
 });
 
 const changeValue = (category: CustomizerComponent, customizer: Customizer) => {
@@ -53,7 +58,7 @@ emit('change', model.value);
             @change="event => changeValue(category[0], event.value)"
             optionLabel="label" />
         </div>
-        <ModifiersDisplay v-if="category[1]"
+        <ModifiersDisplay v-if="category[1]" :applicableProperties="applicableProperties"
                         :modifiers="category[1].value?.modifiers.modifiers"/>
     </div>
 </template>

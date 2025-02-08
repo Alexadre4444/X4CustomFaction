@@ -19,8 +19,6 @@ For some picture, go to the [preview folder](https://github.com/Alexadre4444/X4C
 
 > **_NOTE:_**  This tools is tested only with the 7.50 beta version of X4.
 
-> **_NOTE:_**  Split turrets require the Split Vendetta DLC.
-
 ## Motivations
 
 After many runs on X4, during the late game, my empire is either composed of ships and equipment from a single faction (
