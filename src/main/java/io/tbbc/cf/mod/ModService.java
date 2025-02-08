@@ -88,7 +88,7 @@ public class ModService implements IModService {
         File languagesFolder = createAndGetFolder(new File(modFolder, "t"), Behavior.IGNORE);
         generateLanguages(languagesFolder, turretEgoProps, actualModInfos);
         File mdFolder = createAndGetFolder(new File(modFolder, "md"), Behavior.IGNORE);
-        generateBlueprintScriptFiles(mdFolder, turretEgoProps);
+        generateBlueprintScriptFiles(mdFolder, actualModInfos, turretEgoProps);
         addNewTurretComponents(modFolder);
     }
 
@@ -120,9 +120,10 @@ public class ModService implements IModService {
         });
     }
 
-    private void generateBlueprintScriptFiles(File mdFolder, List<TurretEgoProps> turretEgoProps) {
+    private void generateBlueprintScriptFiles(File mdFolder, ModInfos actualModInfos, List<TurretEgoProps> turretEgoProps) {
         File file = createAndGetFile(new File(mdFolder, "setup_blueprints.xml"), Behavior.THROW);
         String setupBlueprintsXml = setupBlueprintsTemplate
+                .data("version", actualModInfos.getVersion())
                 .data("turrets", turretEgoProps)
                 .render();
         writeInFile(file, setupBlueprintsXml);

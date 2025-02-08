@@ -2,7 +2,7 @@
 <mdscript xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="SetupBluprints"
           xsi:noNamespaceSchemaLocation="md.xsd">
     <cues>
-        <cue name="GiveCfBluePrints">
+        <cue name="GiveCfBluePrints{version}">
             <conditions>
                 <event_cue_signalled cue="md.Setup.Start"/>
             </conditions>
