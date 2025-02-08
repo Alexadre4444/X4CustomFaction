@@ -37,7 +37,7 @@ public class TurretCustomizerInstances {
                     new Customizer("bSpeed", "Speed/Range", CustomizerCategoryInstances.BASIC.name(),
                             new Modifiers(List.of(
                                     new Modifier(SPEED, 10),
-                                    new Modifier(RANGE, 10),
+                                    new Modifier(BEAM_RANGE, 10),
                                     new Modifier(COST.name(), 10)))
                     ),
                     new Customizer("bAccuracy", "Accuracy", CustomizerCategoryInstances.BASIC.name(),
@@ -67,7 +67,7 @@ public class TurretCustomizerInstances {
                                     new Modifier(ACCURACY, -20),
                                     new Modifier(SPEED, 15),
                                     new Modifier(LIFE_TIME, 15),
-                                    new Modifier(RANGE, 25),
+                                    new Modifier(BEAM_RANGE, 25),
                                     new Modifier(COST.name(), 20)))
                     ),
                     // Expert
@@ -92,7 +92,7 @@ public class TurretCustomizerInstances {
                                     new Modifier(ACCURACY, -30),
                                     new Modifier(SPEED, 20),
                                     new Modifier(LIFE_TIME, 20),
-                                    new Modifier(RANGE, 40),
+                                    new Modifier(BEAM_RANGE, 40),
                                     new Modifier(COST.name(), 30)))
                     )
             ).sorted(Comparator.comparing(Customizer::label)).toList()
@@ -113,7 +113,7 @@ public class TurretCustomizerInstances {
                     new Customizer("bAccuracy", "Accuracy/Beam range", CustomizerCategoryInstances.BASIC.name(),
                             new Modifiers(List.of(
                                     new Modifier(ACCURACY, -10),
-                                    new Modifier(RANGE, 10),
+                                    new Modifier(BEAM_RANGE, 10),
                                     new Modifier(COST.name(), 10)))
                     ),
                     // Advanced
@@ -130,7 +130,7 @@ public class TurretCustomizerInstances {
                     new Customizer("aAccuracy", "Accuracy/Beam range", CustomizerCategoryInstances.ADVANCED.name(),
                             new Modifiers(List.of(
                                     new Modifier(ACCURACY, -20),
-                                    new Modifier(RANGE, 20),
+                                    new Modifier(BEAM_RANGE, 20),
                                     new Modifier(COST.name(), 20)))
                     ),
                     // Expert
@@ -147,7 +147,7 @@ public class TurretCustomizerInstances {
                     new Customizer("eAccuracy", "Accuracy/Beam range", CustomizerCategoryInstances.EXPERT.name(),
                             new Modifiers(List.of(
                                     new Modifier(ACCURACY, -30),
-                                    new Modifier(RANGE, 30),
+                                    new Modifier(BEAM_RANGE, 30),
                                     new Modifier(COST.name(), 30)))
                     )
             ).sorted(Comparator.comparing(Customizer::label)).toList()

@@ -14,7 +14,12 @@ public record TurretEgoProps(String name, int labelSection, int descriptionSecti
                              LangEntry langEntryBaseName, LangEntry langEntryShortName) {
 
     public TurretRange turretRange() {
-        FinalPropValue range = properties.property("range");
+        FinalPropValue range;
+        if (properties.hasProperty("range")) {
+            range = properties.property("range");
+        } else {
+            range = properties.property("beamRange");
+        }
         return range.getFinalDoubleValue() < 2500 ? TurretRange.SHORT :
                 range.getFinalDoubleValue() < 5000 ? TurretRange.MID : TurretRange.LONG;
     }

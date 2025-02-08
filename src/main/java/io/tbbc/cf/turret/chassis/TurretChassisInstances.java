@@ -87,7 +87,7 @@ public class TurretChassisInstances {
                     .sorted(Comparator.comparing(ChassisSkin::label)).toList());
     public static final TurretChassis L_PULSE_BEAM = new TurretChassis("l_pulse_beam", "Pulse beam",
             Size.LARGE, ChassisType.BEAM,
-            new ChassisPropsBeam(26, 3000, 2, 0.75, 200, 200,
+            new ChassisPropsBeam(26, 3000, 2, 0.75, 250, 250,
                     5000, 6, 10, 39),
             Stream.of(ARG_L_BEAM, TEL_L_BEAM, PAR_L_BEAM, KHA_L_BEAM, SPL_L_BEAM, TER_L_BEAM)
                     .sorted(Comparator.comparing(ChassisSkin::label)).toList());
@@ -147,6 +147,10 @@ public class TurretChassisInstances {
         public static final PropertyDefinition RANGE =
                 new PropertyDefinition(PropertyNames.RANGE, "Range",
                         "The bullet range.", false,
+                        BULLET.name(), 1.0, null, "m", 0, BASIC);
+        public static final PropertyDefinition BEAM_RANGE =
+                new PropertyDefinition(PropertyNames.BEAM_RANGE, "Range",
+                        "The beam range.", false,
                         BULLET.name(), 1.0, null, "m", 0, BASIC);
         public static final PropertyDefinition BURST_TIME =
                 new PropertyDefinition(PropertyNames.BURST_TIME, "Burst Time",
@@ -237,6 +241,7 @@ public class TurretChassisInstances {
         public static PropertyName COST_CW_ENERGY_CELLS = new PropertyName("costCwEnergyCells");
         public static PropertyName COST_CW_TURRET_COMPS = new PropertyName("costCwTurretComps");
         public static PropertyName TIME_DIFF = new PropertyName("timeDiff");
+        public static PropertyName BEAM_RANGE = new PropertyName("beamRange");
         // Computed
         public static PropertyName RANGE = new PropertyName("range");
         public static PropertyName BURST_TIME = new PropertyName("burstTime");
