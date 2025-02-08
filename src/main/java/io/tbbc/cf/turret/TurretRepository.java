@@ -2,6 +2,8 @@ package io.tbbc.cf.turret;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import io.quarkus.panache.common.Sort;
+import io.tbbc.cf.common.production.ProductionMethodInstances;
+import io.tbbc.cf.common.production.ProductionMethodName;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.List;
@@ -30,7 +32,9 @@ public class TurretRepository implements ITurretRepository, PanacheRepository<Tu
 
     @Override
     public List<Turret> getAll() {
-        return listAll(Sort.ascending("label"));
+        return listAll(Sort.ascending("label"))
+                .stream().map(this::addDefaultMethods)
+                .toList();
     }
 
     @Override
@@ -67,7 +71,9 @@ public class TurretRepository implements ITurretRepository, PanacheRepository<Tu
 
     @Override
     public Optional<Turret> getById(long id) {
-        return find("id", id).stream().findFirst();
+        return find("id", id).stream()
+                .map(this::addDefaultMethods)
+                .findFirst();
     }
 
     @Override
@@ -75,4 +81,10 @@ public class TurretRepository implements ITurretRepository, PanacheRepository<Tu
         delete("id", id);
     }
 
+    private Turret addDefaultMethods(Turret turret) {
+        ProductionMethodName defaultMethod = new ProductionMethodName();
+        defaultMethod.setName(ProductionMethodInstances.CW.name());
+        turret.getMethods().add(defaultMethod);
+        return turret;
+    }
 }
