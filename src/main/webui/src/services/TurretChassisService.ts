@@ -40,7 +40,7 @@ function getPropertyDefinition(name: string): Promise<PropertyDefinition> {
 
 function dataToPropertyDefinition(data: any): Promise<PropertyDefinition> {
     return getCategory(data.categoryName.name).then((category) => {
-        return new PropertyDefinition(data.name.name, data.label, data.description, data.reverse, category, data.unit);
+        return new PropertyDefinition(data.name.name, data.label, data.description, data.reverse, category, data.unit, data.accessibility);
     });
 }
 

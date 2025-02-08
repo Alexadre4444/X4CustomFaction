@@ -7,16 +7,45 @@
               description="\{{it.descriptionSection},{it.index}\}"
               group="turrets" transport="equipment" volume="1" tags="equipment turret">
             <price min="0" average="0" max="0"/>
-            <production time="{it.properties.property('costTime').getFinalValueString}" amount="1" method="default"
+            {#if it.properties.hasProperty('costCwAdvancedElectronics')}
+            <production time="10" amount="1" method="default"
                         name="\{20206,101}">
                 <primary>
                     <ware ware="advancedelectronics"
-                          amount="{it.properties.property('costAdvancedElectronics').getFinalValueString}"/>
-                    <ware ware="energycells" amount="{it.properties.property('costEnergyCells').getFinalValueString}"/>
+                          amount="{it.properties.property('costCwAdvancedElectronics').getFinalValueString}"/>
+                    <ware ware="energycells"
+                          amount="{it.properties.property('costCwEnergyCells').getFinalValueString}"/>
                     <ware ware="turretcomponents"
-                          amount="{it.properties.property('costTurretComps').getFinalValueString}"/>
+                          amount="{it.properties.property('costCwTurretComps').getFinalValueString}"/>
                 </primary>
             </production>
+            {/if}
+            {#if it.properties.hasProperty('costClEnergyCells')}
+            <production time="10" amount="1" method="closedloop" name="\{20206,1201}">
+                <primary>
+                    <ware ware="claytronics"
+                          amount="{it.properties.property('costClClaytronics').getFinalValueString}"/>
+                    <ware ware="energycells"
+                          amount="{it.properties.property('costClEnergyCells').getFinalValueString}"/>
+                    <ware ware="hullparts"
+                          amount="{it.properties.property('costClHullPart').getFinalValueString}"/>
+                </primary>
+            </production>
+            {/if}
+            {#if it.properties.hasProperty('costTerEnergyCells')}
+            <production time="20" amount="1" method="terran" name="\{20206,901}">
+                <primary>
+                    <ware ware="computronicsubstrate"
+                          amount="{it.properties.property('costTerComputronic').getFinalValueString}"/>
+                    <ware ware="energycells"
+                          amount="{it.properties.property('costTerEnergyCells').getFinalValueString}"/>
+                    <ware ware="metallicmicrolattice"
+                          amount="{it.properties.property('costTerMicrolattice').getFinalValueString}"/>
+                    <ware ware="siliconcarbide"
+                          amount="{it.properties.property('costTerCarbide').getFinalValueString}"/>
+                </primary>
+            </production>
+            {/if}
             <component ref="{it.macroName}"/>
             <restriction licence="militaryequipment"/>
             <use threshold="0.10"/>

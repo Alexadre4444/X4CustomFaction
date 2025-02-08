@@ -18,6 +18,10 @@ public record FinalProperties(List<FinalPropValue> properties) {
         return properties.stream().sorted(Comparator.comparing(FinalPropValue::getName)).toList();
     }
 
+    public boolean hasProperty(String name) {
+        return properties.stream().anyMatch(property -> property.getName().name().equals(name));
+    }
+
     public FinalPropValue property(PropertyName name) {
         return properties.stream().filter(property -> property.getName().equals(name))
                 .findFirst().orElseThrow(() -> new InternalException("Property not found: " + name));

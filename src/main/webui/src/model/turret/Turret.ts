@@ -1,5 +1,6 @@
-import CustomizerValue from "./common/CustomizerValue";
-import Size from "./common/Size";
+import CustomizerValue from "../common/CustomizerValue";
+import ProductionMethodName from "../common/ProductionMethodName";
+import Size from "../common/Size";
 
 export default class Turret {
     id: number;
@@ -13,10 +14,11 @@ export default class Turret {
     state: string;
     _size: Size;
     size: string;
+    methods: ProductionMethodName[];
 
     constructor(id: number, label: string, size: Size, description: string, chassisName: string, 
         chassisSkinName:string, bulletName: string, bulletSkinName: string, customizers: CustomizerValue[],
-        state: string) {
+        state: string, methods: ProductionMethodName[]) {
         this.id = id;
         this.label = label;
         this.description = description;
@@ -28,5 +30,6 @@ export default class Turret {
         this.state = state;
         this.size = size.key;
         this._size = size;
+        this.methods = methods;
     }
 }

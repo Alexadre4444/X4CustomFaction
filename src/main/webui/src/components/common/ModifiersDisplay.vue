@@ -1,9 +1,11 @@
 <script lang="ts" setup>
 import Modifier from '@/model/common/Modifier';
+import PropertyDefinition from '@/model/common/PropertyDefinition';
 import { computed } from 'vue';
 
 const props = defineProps({
-    modifiers: Array<Modifier>
+    modifiers: Array<Modifier>,
+    applicableProperties: Array<PropertyDefinition>
 });
 
 const displayableModifiers = computed(() => {
@@ -13,10 +15,16 @@ const displayableModifiers = computed(() => {
     return props.modifiers;
 });
 
+const shouldDisplayModifier = (modifier: Modifier) => {
+    return props.applicableProperties && props.applicableProperties.includes(modifier.propertyDefinition);
+};
+
 </script>
 <template>
     <div class="flex flex-wrap justify-center gap-2">
-        <ModifierDisplay v-for="modifier in displayableModifiers" :key="modifier.name"
-        :modifier="modifier" />
+        <div v-for="modifier in displayableModifiers" :key="modifier.name">
+            <ModifierDisplay v-if="shouldDisplayModifier(modifier)"
+            :modifier="modifier" />
+        </div>
     </div>
 </template>

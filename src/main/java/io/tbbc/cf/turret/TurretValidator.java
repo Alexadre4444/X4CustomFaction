@@ -3,6 +3,7 @@ package io.tbbc.cf.turret;
 import io.tbbc.cf.bullet.Bullet;
 import io.tbbc.cf.common.BadArgumentException;
 import io.tbbc.cf.common.customizer.CustomizerComponent;
+import io.tbbc.cf.common.production.ProductionMethod;
 import io.tbbc.cf.turret.chassis.TurretChassis;
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -37,7 +38,8 @@ public class TurretValidator {
     public void validateUpdate(Turret turret, Function<Long, Optional<Turret>> getTurretByIdFunction,
                                Function<String, Optional<TurretChassis>> getChassisByNameFunction,
                                Function<String, Optional<Bullet>> getBulletByNameFunction,
-                               Function<String, CustomizerComponent> getCustomizerCategoryByNameFunction) {
+                               Function<String, CustomizerComponent> getCustomizerCategoryByNameFunction,
+                               Function<String, Optional<ProductionMethod>> getProductionMethodByNameFunction) {
         validateLabel(turret);
         validateDescription(turret);
         validateUpdateSize(turret, getTurretByIdFunction);
@@ -45,6 +47,18 @@ public class TurretValidator {
         validateChassis(turret, getChassisByNameFunction);
         validateBullet(turret, getBulletByNameFunction, getChassisByNameFunction);
         validateCustomizers(turret, getCustomizerCategoryByNameFunction);
+        validateProductionMethods(turret, getProductionMethodByNameFunction);
+    }
+
+    private void validateProductionMethods(Turret turret, Function<String, Optional<ProductionMethod>> getProductionMethodByNameFunction) {
+        if (turret.getMethods().isEmpty()) {
+            throw new BadArgumentException("Turret production methods are required.");
+        }
+        turret.getMethods().forEach(method -> {
+            getProductionMethodByNameFunction.apply(method.getName()).orElseThrow(() ->
+                    new BadArgumentException("Production method with name %s does not exist.".formatted(method.getName()))
+            );
+        });
     }
 
     private void validateDescription(Turret turret) {

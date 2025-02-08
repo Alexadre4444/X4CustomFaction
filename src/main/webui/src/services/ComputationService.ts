@@ -1,6 +1,7 @@
 import Category from '@/model/common/Category';
 import ModifiedValue from '@/model/common/ModifiedValue';
 import Modifier from '@/model/common/Modifier';
+import ProductionMethodName from '@/model/common/ProductionMethodName';
 import PropertyDefinition from '@/model/common/PropertyDefinition';
 import axios from 'axios';
 import { CategoryService } from './CategoryService';
@@ -37,11 +38,14 @@ function getPropertyDefinition(name: string): Promise<PropertyDefinition> {
     });
 }
 
-function _computeTurretProperties(chassisName: String, bulletName: String, customizers: Record<string, string>) : Promise<ModifiedValue[]> {
+function _computeTurretProperties(chassisName: String, bulletName: String, customizers: Record<string, string>,
+    productionMethodNames: ProductionMethodName[]
+) : Promise<ModifiedValue[]> {
     let body = {
         chassisName: chassisName,
         bulletName: bulletName,
-        customizers: customizers
+        customizers: customizers,
+        productionMethodNames: productionMethodNames
     };
     return axios.post('/api/v1/computation/turret', body)
     .then((response) => {
@@ -50,7 +54,8 @@ function _computeTurretProperties(chassisName: String, bulletName: String, custo
 }
 
 export const ComputationService = {
-    computeTurretProperties(chassisName: String, bulletName: String, customizers: Record<string, string>) : Promise<ModifiedValue[]> {
-        return _computeTurretProperties(chassisName, bulletName, customizers);
+    computeTurretProperties(chassisName: String, bulletName: String, customizers: Record<string, string>,
+        productionMethodNames: ProductionMethodName[]) : Promise<ModifiedValue[]> {
+        return _computeTurretProperties(chassisName, bulletName, customizers, productionMethodNames);
     }
 }

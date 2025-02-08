@@ -16,6 +16,7 @@ public class ComputationResource {
     @Path("/turret")
     public FinalProperties computeTurretStats(TurretComputation turretComputation) {
         return turretService.computeFinalValues(turretComputation.getChassisName(),
-                turretComputation.getBulletName(), turretComputation.getCustomizers());
+                turretComputation.getBulletName(), turretComputation.getCustomizers(),
+                turretComputation.getProductionMethodNames());
     }
 }

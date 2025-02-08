@@ -2,6 +2,8 @@ package io.tbbc.cf.turret;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import io.quarkus.panache.common.Sort;
+import io.tbbc.cf.common.production.ProductionMethodInstances;
+import io.tbbc.cf.common.production.ProductionMethodName;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.List;
@@ -30,7 +32,9 @@ public class TurretRepository implements ITurretRepository, PanacheRepository<Tu
 
     @Override
     public List<Turret> getAll() {
-        return listAll(Sort.ascending("label"));
+        return listAll(Sort.ascending("label"))
+                .stream().map(this::addDefaultMethods)
+                .toList();
     }
 
     @Override
@@ -49,13 +53,27 @@ public class TurretRepository implements ITurretRepository, PanacheRepository<Tu
             existingTurret.setBulletSkinName(turret.getBulletSkinName());
             existingTurret.setState(turret.getState());
             updateCustomizers(turret, existingTurret);
+            updateMethods(turret, existingTurret);
             existingTurret.setSize(turret.getSize());
         });
     }
 
+    private void updateMethods(Turret turret, Turret existingTurret) {
+        // Add new methods
+        turret.getMethods().stream()
+                .filter(method -> existingTurret.getMethods().stream()
+                        .noneMatch(existingMethod -> existingMethod.getName().equals(method.getName())))
+                .forEach(productionMethod -> existingTurret.getMethods().add(productionMethod));
+        // Remove deleted
+        existingTurret.getMethods().removeIf(existingMethod -> turret.getMethods().stream()
+                .noneMatch(method -> method.getName().equals(existingMethod.getName())));
+    }
+
     @Override
     public Optional<Turret> getById(long id) {
-        return find("id", id).stream().findFirst();
+        return find("id", id).stream()
+                .map(this::addDefaultMethods)
+                .findFirst();
     }
 
     @Override
@@ -63,4 +81,10 @@ public class TurretRepository implements ITurretRepository, PanacheRepository<Tu
         delete("id", id);
     }
 
+    private Turret addDefaultMethods(Turret turret) {
+        ProductionMethodName defaultMethod = new ProductionMethodName();
+        defaultMethod.setName(ProductionMethodInstances.CW.name());
+        turret.getMethods().add(defaultMethod);
+        return turret;
+    }
 }

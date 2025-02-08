@@ -4,6 +4,7 @@ import Customizer from '@/model/common/Customizer';
 import CustomizerComponent from '@/model/common/CustomizerComponent';
 import CustomizerValue from '@/model/common/CustomizerValue';
 import ModifiedValue from '@/model/common/ModifiedValue';
+import ProductionMethodName from '@/model/common/ProductionMethodName';
 import Bullet from '@/model/turret/Bullet';
 import BulletSkin from '@/model/turret/BulletSkin';
 import ChassisSkin from '@/model/turret/ChassisSkin';
@@ -34,6 +35,9 @@ const formChassisSkin = ref<ChassisSkin>();
 const formBullet = ref<Bullet>();
 const formBulletSkin = ref<BulletSkin>();
 const formCustomizers = ref<Map<CustomizerComponent, Ref<Customizer>>>();
+const formProductionMethodsName = ref<ProductionMethodName[]>([]);
+
+const formAccessibility = ref<string>('BASIC');
 
 const customizerComponents = ref<CustomizerComponent[]>();
 
@@ -70,7 +74,8 @@ const fixBulletSkinOnChange = () => {
 
 const computedPropertiesByCategoryMap = computed(() => {
     let map = new Map<Category, ModifiedValue[]>();
-    computedProperties.value?.forEach(property => {
+    computedProperties.value?.sort((val1, val2) => val1.definition.category.label.localeCompare(val2.definition.category.label))
+        .forEach(property => {
         let category = property.definition.category;
         if(category != null) {
             let list = map.entries().find(entry => entry[0].name == category.name)?.[1];
@@ -91,11 +96,8 @@ const computedPropertiesByCategoryMap = computed(() => {
     return map;
 });
 
-const chassisPropertiesDefinitions = computed(() => {
-    if(formChassis.value == null) {
-        return [];
-    }
-    return formChassis.value.props.properties.map(property => property.definition);
+const applicableProperties = computed(() => {
+    return computedProperties.value.map(modifiedValue => modifiedValue.definition);
 });
 
 const availableBullets = computed<Bullet[]>(() => {
@@ -133,7 +135,7 @@ const computedCustomizers = computed(() => {
 const update = () => {
     TurretService.update(new Turret(loadedTurret.value.id, formLabel.value, loadedTurret.value._size, formDescription.value, 
         formChassis.value?.name, formChassisSkin.value?.name,  formBullet.value?.name, formBulletSkin.value?.name,
-        computedCustomizers.value, loadedTurret.value.state))
+        computedCustomizers.value, loadedTurret.value.state, formProductionMethodsName.value))
     .then(() => {
         NotificationService.success('Turret updated.');
     }).catch(error => {
@@ -149,7 +151,7 @@ function computeProperties() {
                 customizers[category.name] = customizer.value?.name;
             }
         });
-        ComputationService.computeTurretProperties(formChassis.value.name, formBullet.value.name, customizers)
+        ComputationService.computeTurretProperties(formChassis.value.name, formBullet.value.name, customizers, formProductionMethodsName.value)
         .then(properties => {
             computedProperties.value = properties;
         }).catch(error => {
@@ -175,6 +177,7 @@ const resetForm = () => {
             formCustomizers.value.set(category, ref());
         }
     });
+    formProductionMethodsName.value = loadedTurret.value.methods;
 }
 
 const allChassis = ref<ChassisTurret[]>([]);
@@ -232,6 +235,9 @@ await refreshChassis()
 <template>
     <div class="mb-4">
         <Menubar :model="menu" breakpoint="500px">
+            <template #end>
+                <Accessibility v-model="formAccessibility"/>
+            </template>
         </Menubar>
     </div>
     <div class="card grid grid-cols-12 gap-2">
@@ -249,6 +255,17 @@ await refreshChassis()
                     <div class="flex flex-col gap-2">
                         <label for="description">Description</label>
                         <Textarea id="description" type="text" v-model="formDescription" />
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label>Production method</label>
+                        <Suspense>
+                            <template #default>
+                                <ProductionMethodSelector v-model="formProductionMethodsName" @change="computeProperties"/>
+                            </template>
+                            <template #fallback>
+                                <Loading />
+                            </template>
+                        </Suspense>
                     </div>
                     <div class="flex flex-col gap-2">
                         <label for="chassis">Chassis</label>
@@ -285,7 +302,8 @@ await refreshChassis()
                         @change="bulletOnChange"
                         :filter="true" :showClear="true" />
                     </div>
-                    <ModifiersDisplay v-if="formBullet" 
+                    <ModifiersDisplay v-if="formBullet"
+                    :applicable-properties="applicableProperties" 
                     :modifiers="formBullet.modifiers.modifiers"/>
                     <div v-if="formBullet" class="flex flex-col gap-2">
                         <label for="bulletSkin">Bullet skin</label>
@@ -294,11 +312,21 @@ await refreshChassis()
                         :options="formBullet.availableSkins" 
                         optionLabel="label" :filter="true" :showClear="true" />   
                     </div>
-                <CustomizersComponents v-model="formCustomizers" @change="computeProperties"/> 
+                <CustomizersComponents v-model="formCustomizers" @change="computeProperties" 
+                :applicable-properties="applicableProperties" /> 
             </div>
         </div>
-        <CategoryProperties v-for="categoryPropertiesEntry in computedPropertiesByCategoryMap" 
+        <CategoryProperties v-if="formAccessibility == 'ADVANCED'" v-for="categoryPropertiesEntry in computedPropertiesByCategoryMap" 
         :category="categoryPropertiesEntry[0]" :modifiedValues="categoryPropertiesEntry[1]"
         :key="categoryPropertiesEntry[0].name"/>
+        <div v-if="formAccessibility == 'BASIC'" class="col-span-6 xl:col-span-6">
+            <div class="font-semibold text-xl">Basic properties</div>
+            <div v-for="categoryPropertiesEntry in computedPropertiesByCategoryMap">
+                <div class="font-semibold text-xl">{{ categoryPropertiesEntry[0].label }}</div>
+                <div v-for="modifiedValue in categoryPropertiesEntry[1]" :key="modifiedValue.definition.name">
+                <ModifiedValueDisplay v-if="modifiedValue.definition.accessibility == 'BASIC'" :modifiedValue="modifiedValue" />
+                </div>
+            </div>
+        </div>
     </div>
 </template>

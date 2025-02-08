@@ -2,6 +2,7 @@ package io.tbbc.cf.turret;
 
 import io.tbbc.cf.common.Size;
 import io.tbbc.cf.common.State;
+import io.tbbc.cf.common.production.ProductionMethodName;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -22,6 +23,16 @@ public class Turret extends TurretCreate {
     private Size size;
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
     private List<CustomizerValue> customizers = List.of();
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<ProductionMethodName> methods = List.of();
+
+    public List<ProductionMethodName> getMethods() {
+        return methods;
+    }
+
+    public void setMethods(List<ProductionMethodName> methods) {
+        this.methods = methods;
+    }
 
     public Size getSize() {
         return size;

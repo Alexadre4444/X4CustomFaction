@@ -1,5 +1,5 @@
-import Modifier from "./common/Modifier";
-import PropertyDefinition from "./common/PropertyDefinition";
+import Modifier from "./Modifier";
+import PropertyDefinition from "./PropertyDefinition";
 
 export default class ModifiedValue {
     definition: PropertyDefinition;

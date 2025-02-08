@@ -20,12 +20,22 @@ public class BulletSkinInstances {
             VIOLET_L_PULSE);
     public static final BulletSkin L_PULSE_RED = new BulletSkin("pulse_l_red", "Xenon (red)",
             RED_L_PULSE);
+    public static final BulletSkin L_PULSE_ORANGE = new BulletSkin("pulse_l_orange", "Split (orange)",
+            ORANGE_L_PULSE);
+    public static final BulletSkin L_PULSE_WHITE = new BulletSkin("pulse_l_white", "Terran (white)",
+            WHITE_L_PULSE);
 
     // Gatling - M
     public static final BulletSkin M_GATLING_CW = new BulletSkin("gatling_m_cw", "Common wealth (orange)",
             CW_M_GATLING);
     public static final BulletSkin M_GATLING_XEN = new BulletSkin("gatling_m_xen", "Xenon (orange)",
             XEN_M_GATLING);
+    public static final BulletSkin M_GATLING_TER = new BulletSkin("gatling_m_ter", "Terran (blue)",
+            TER_M_GATLING);
+
+    // Gatling - L
+    public static final BulletSkin L_GATLING_TER = new BulletSkin("gatling_l_ter", "Terran (blue)",
+            TER_L_GATLING);
 
     // Plasma - M
     public static final BulletSkin M_PLASMA_CW = new BulletSkin("plasma_m_cw", "Common wealth (yellow)",
@@ -38,6 +48,8 @@ public class BulletSkinInstances {
             YELLOW_L_PLASMA);
     public static final BulletSkin L_PLASMA_VIOLET = new BulletSkin("plasma_l_violet", "Paranid (violet)",
             VIOLET_L_PLASMA);
+    public static final BulletSkin L_PLASMA_ORANGE = new BulletSkin("plasma_l_orange", "Split (orange)",
+            ORANGE_L_PLASMA);
 
     // Shotgun - M
     public static final BulletSkin M_SHOTGUN_CW = new BulletSkin("shotgun_m_cw", "Common wealth (orange)",
@@ -50,6 +62,8 @@ public class BulletSkinInstances {
             CW_M_BEAM_MINING);
     public static final BulletSkin M_BEAM_KHA = new BulletSkin("beam_m_kha", "Kha'ak (violet)",
             KHA_M_BEAM);
+    public static final BulletSkin M_BEAM_TER = new BulletSkin("beam_m_ter", "Terran (white)",
+            TER_M_BEAM);
 
     // Beam - L
     public static final BulletSkin L_BEAM_BLUE = new BulletSkin("beam_l_blue", "Argon (blue)",
@@ -60,6 +74,14 @@ public class BulletSkinInstances {
             PAR_L_BEAM);
     public static final BulletSkin L_BEAM_VIOLET_KHA = new BulletSkin("beam_l_violet_kha", "Kha'ak (violet)",
             KHA_L_BEAM);
+    public static final BulletSkin L_BEAM_ORANGE = new BulletSkin("beam_l_orange", "Split (orange)",
+            SPL_L_BEAM);
+    public static final BulletSkin L_BEAM_WHITE = new BulletSkin("beam_l_white", "Terran (white)",
+            TER_L_BEAM);
+
+    // Electromagnetic - M
+    public static final BulletSkin M_ELECTROMAGNETIC_TER = new BulletSkin("electromagnetic_m_ter", "Terran (blue)",
+            TER_M_ELECTROMAGNETIC);
 
 
     private BulletSkinInstances() {

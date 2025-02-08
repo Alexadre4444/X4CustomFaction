@@ -14,7 +14,7 @@ public class ChassisPropsBeam implements IChassisProps {
     private final Properties properties;
 
     public ChassisPropsBeam(long rotationSpeed, long hull, double reloadTime,
-                            double lifeTime, long damageHull, long damageShield, long range, long costTime, long costAdvancedElectronics,
+                            double lifeTime, long damageHull, long damageShield, long range, long costAdvancedElectronics,
                             long costEnergyCells, long costTurretsComps) {
         properties = new Properties(List.of(
                 new Property(ROTATION_SPEED, rotationSpeed),
@@ -23,11 +23,10 @@ public class ChassisPropsBeam implements IChassisProps {
                 new Property(LIFE_TIME, lifeTime),
                 new Property(DAMAGE_HULL, damageHull),
                 new Property(DAMAGE_SHIELD, damageShield),
-                new Property(COST_TIME, costTime),
-                new Property(COST_ADVANCED_ELECTRONICS, costAdvancedElectronics),
-                new Property(COST_ENERGY_CELLS, costEnergyCells),
-                new Property(COST_TURRET_COMPS, costTurretsComps),
-                new Property(RANGE, range)
+                new Property(COST_CW_ADVANCED_ELECTRONICS, costAdvancedElectronics),
+                new Property(COST_CW_ENERGY_CELLS, costEnergyCells),
+                new Property(COST_CW_TURRET_COMPS, costTurretsComps),
+                new Property(BEAM_RANGE, range)
         ));
     }
 

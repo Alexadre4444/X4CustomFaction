@@ -227,4 +227,77 @@ public class ComputationHelper {
     private static double computeDamageBonusShield(double damageHull, double damageShield) {
         return damageShield - damageHull;
     }
+
+    public static List<FinalPropValue> computeCLCost(FinalProperties baseProperties) {
+        return List.of(
+                computeCLClaytronicsCost(baseProperties),
+                computeCLEcCost(baseProperties),
+                computeCLHullPartCost(baseProperties)
+        );
+    }
+
+    public static List<FinalPropValue> computeTerCost(FinalProperties baseProperties) {
+        return List.of(
+                computeTerEcCost(baseProperties),
+                computeTerComputronicCost(baseProperties),
+                computeTerMicrolatticeCost(baseProperties),
+                computeTerCarbideCost(baseProperties)
+        );
+    }
+
+    private static FinalPropValue computeTerCarbideCost(FinalProperties baseProperties) {
+        FinalPropValue costTurretComps = baseProperties.property(COST_CW_TURRET_COMPS);
+
+        double baseValue = costTurretComps.getBaseDoubleValue() / 10d * 0.2d;
+        double finalValue = costTurretComps.getFinalDoubleValue() / 10d * 0.2d;
+        return new FinalPropValueComputed(TurretChassisInstances.Properties.COST_TER_CARBIDE, baseValue, finalValue);
+    }
+
+    private static FinalPropValue computeTerMicrolatticeCost(FinalProperties baseProperties) {
+        FinalPropValue costTurretComps = baseProperties.property(COST_CW_TURRET_COMPS);
+
+        double baseValue = costTurretComps.getBaseDoubleValue() / 10d * 0.8d;
+        double finalValue = costTurretComps.getFinalDoubleValue() / 10d * 0.8d;
+        return new FinalPropValueComputed(TurretChassisInstances.Properties.COST_TER_MICROLATICE, baseValue, finalValue);
+    }
+
+    private static FinalPropValue computeTerComputronicCost(FinalProperties baseProperties) {
+        FinalPropValue costAdvancedElectronics = baseProperties.property(COST_CW_ADVANCED_ELECTRONICS);
+
+        double baseValue = costAdvancedElectronics.getBaseDoubleValue();
+        double finalValue = costAdvancedElectronics.getFinalDoubleValue();
+        return new FinalPropValueComputed(TurretChassisInstances.Properties.COST_TER_COMPUTRONIC, baseValue, finalValue);
+    }
+
+    private static FinalPropValue computeTerEcCost(FinalProperties baseProperties) {
+        FinalPropValue costEnergyCells = baseProperties.property(COST_CW_ENERGY_CELLS);
+
+        double baseValue = costEnergyCells.getBaseDoubleValue() * 7d;
+        double finalValue = costEnergyCells.getFinalDoubleValue() * 7d;
+        return new FinalPropValueComputed(TurretChassisInstances.Properties.COST_TER_ENERGY_CELLS, baseValue, finalValue);
+    }
+
+    private static FinalPropValue computeCLHullPartCost(FinalProperties baseProperties) {
+        FinalPropValue costTurretComps = baseProperties.property(COST_CW_TURRET_COMPS);
+
+        double baseValue = costTurretComps.getBaseDoubleValue();
+        double finalValue = costTurretComps.getFinalDoubleValue();
+        return new FinalPropValueComputed(TurretChassisInstances.Properties.COST_CL_HULL_PART, baseValue, finalValue);
+    }
+
+    private static FinalPropValue computeCLClaytronicsCost(FinalProperties baseProperties) {
+        FinalPropValue costAdvancedElectronics = baseProperties.property(COST_CW_ADVANCED_ELECTRONICS);
+
+        double baseValue = costAdvancedElectronics.getBaseDoubleValue() / 3d;
+        double finalValue = costAdvancedElectronics.getFinalDoubleValue() / 3d;
+        return new FinalPropValueComputed(TurretChassisInstances.Properties.COST_CL_CLAYTRONICS, baseValue, finalValue);
+    }
+
+    private static FinalPropValue computeCLEcCost(FinalProperties baseProperties) {
+        FinalPropValue costEnergyCells = baseProperties.property(COST_CW_ENERGY_CELLS);
+
+        double baseValue = costEnergyCells.getBaseDoubleValue() * 10d;
+        double finalValue = costEnergyCells.getFinalDoubleValue() * 10d;
+        return new FinalPropValueComputed(TurretChassisInstances.Properties.COST_CL_ENERGY_CELLS, baseValue, finalValue);
+    }
 }
