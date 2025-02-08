@@ -1,5 +1,7 @@
 # X4 Foundation - Custom Faction - 0.1.1
 
+> **_NOTE:_**  The version 0.1.1 is compatible with the 0.1.0 version. See update section for more information.
+
 ## Presentation
 
 This project is an external tool that allows the creation of equipment accessible only to the player.
@@ -33,14 +35,23 @@ The reality: External tools to create mods with the custom equipment.
 
 __The tool requires Java 21 or above to run.__
 
+### First Installation
+
 * Download the latest .jar version in [release page](https://github.com/Alexadre4444/X4CustomFaction/releases)
+* Create a folder where you want to store the tool, data and generated mods
 * Launch a powershell or a terminal in the folder and run the following command:
 
 ```shell
 java -jar X4CustomFaction-0.1.1.jar
 ```
 
-> **_NOTE:_** Tool data are stored in the folder where the .jar is located.
+### Update
+
+* Download the latest .jar version in [release page](https://github.com/Alexadre4444/X4CustomFaction/releases)
+* Replace the old .jar with the new one
+* Launch the tool with the same command as the first installation
+
+### Once started
 
 * Access the tool at [http://localhost:8080](http://localhost:8080)
 
