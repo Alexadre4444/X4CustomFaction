@@ -40,7 +40,10 @@ __The tool requires Java 21 or above to run.__
 * Download the latest version in [release page](https://github.com/Alexadre4444/X4CustomFaction/releases)
 * Create a folder where you want to store the tool, data and generated mods
 * Unzip the downloaded file in the folder
-* Execute the `start.ps1` file.
+* Execute the `start.ps1` with powershell.
+
+> **_NOTE:_** If windows does not execute the script by default using powershell, you can right-click on the file and
+> choose "execute with powershell" .
 
 ### Update
 
