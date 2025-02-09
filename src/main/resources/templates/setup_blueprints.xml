@@ -7,24 +7,69 @@
                 <event_cue_signalled cue="md.Setup.Start"/>
             </conditions>
             <actions>
-                <!-- do not add blueprints in the Station Design Simulator or any Timelines gamestart (also avoiding the unlock notification popup which is just unnecessarily distracting there) -->
-                <do_if value="player.module != 'x4ep1_gamestart_workshop' and player.module != 'x4ep1_gamestart_hub' and player.allmodules.\{player.module}.exists and not player.allmodules.\{player.module}.isscenario">
-                    {#each turrets}
-                    {! Dot not generate for alias turrets !}
-                    {#if it.aliasMacroName == null}
-                    <add_blueprints wares="[ware.{it.name}]"/>
-                    {/if}
-                    {/each}
-                </do_if>
+                <signal_cue cue="md.SetupBluprints.CheckAllBluePrintsUnlock"/>
             </actions>
+            <!-- No use atm, soon <cues>
+                <cue name="Kha_Reasearch" ref="Research_Unlock">
+                    <param name="ResearchItem" value="'research_kha'"/>
+                    <param name="ResearchWare" value="ware.research_kha"/>
+                </cue>
+            </cues> -->
         </cue>
+        <cue name="CheckAllBluePrintsUnlock" instantiate="true">
+            <conditions>
+                <event_cue_signalled/>
+            </conditions>
+            <cues>
+                {#each turrets}
+                {! Dot not generate for alias turrets !}
+                {#if it.aliasMacroName == null}
+                <cue name="Unlock_Blueprint_{it.name}" ref="md.SetupBluprints.Check_Unlock_Blueprint">
+                    <param name="Blueprint" value="ware.{it.name}"/>
+                    <param name="ResearchWares" value="[]"/>
+                </cue>
+                {/if}
+                {/each}
+            </cues>
+        </cue>
+        <!-- Library used to check if a blueprint should be unlocked -->
+        <library name="Check_Unlock_Blueprint">
+            <params>
+                <param name="Blueprint"/>
+                <param name="ResearchWares"/>
+            </params>
+            <cues>
+                <cue name="Check_Blueprint_Unlocked" onfail="cancel">
+                    <conditions>
+                        <cue_is_complete cue="md.X4Ep1_Mentor_Subscriptions.UnlockResearch"/>
+                    </conditions>
+                    <actions>
+                        <!-- Check if all research are unlocked -->
+                        <debug_text text="'Checking if all research are unlocked for ' + $Blueprint"/>
+                        <set_value name="$AllResearch" exact="true"/>
+                        <set_value name="$Index" exact="1"/>
+                        <do_for_each name="$Research" in="$ResearchWares">
+                            <do_if value="not $Research.research.unlocked">
+                                <set_value name="$AllResearch" exact="false"/>
+                                <debug_text text="'Missing research ' + $Research"/>
+                                <break/>
+                            </do_if>
+                        </do_for_each>
+                        <!-- If all unlocked, give blueprint -->
+                        <do_if value="$AllResearch">
+                            <debug_text text="'Unlock blueprint ' + $Blueprint"/>
+                            <add_blueprints wares="$Blueprint"/>
+                        </do_if>
+                    </actions>
+                </cue>
+            </cues>
+        </library>
         <!-- This library is used to unlock a research item and give the player the blueprints for the research ware -->
         <!-- Copy from "story_research_abandoned_ships.xml" -->
         <library name="Research_Unlock">
             <params>
                 <param name="ResearchItem"/>
                 <param name="ResearchWare"/>
-                <param name="Blueprints"/>
             </params>
             <cues>
                 <cue name="Check_Research_Unlocked" onfail="cancel">
@@ -32,7 +77,6 @@
                         <cue_is_complete cue="md.X4Ep1_Mentor_Subscriptions.UnlockResearch"/>
                     </conditions>
                 </cue>
-
                 <cue name="Research_Unlocked">
                     <conditions>
                         <check_any>
@@ -43,13 +87,6 @@
                     <!--Delay to allow any further initialisation of the HQ and mentors-->
                     <delay exact="1s"/>
                     <actions>
-                        <!-- If already unlocked -->
-                        <set_value name="$AlreadyResearched" exact="$ResearchWare.research.unlocked"/>
-                        <debug_text text="'Researched ware...'"/>
-                        <do_if value="$AlreadyResearched">
-                            <add_blueprints wares="$Blueprints"/>
-                        </do_if>
-                        <!-- Default -->
                         <set_value name="$CharacterCutsceneTable" exact="table[]"/>
                         <do_if value="md.X4Ep1_Mentor_Subscriptions.Start.$BoronMet?"
                                comment="only if we already met with Boso">
@@ -98,7 +135,7 @@
                                     <actions>
                                         <set_value name="this.$Dialog_Lines" exact="[[30201174]]"
                                                    comment="\{10201,30201174}"/>
-                                        <add_blueprints wares="$Blueprints"/>
+                                        <signal_cue cue="md.SetupBluprints.CheckAllBluePrintsUnlock"/>
                                     </actions>
                                     <cues>
                                         <cue name="Research_Finished_LastMentorSpeak" checkinterval="10s">
