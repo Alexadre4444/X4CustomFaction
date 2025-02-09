@@ -64,7 +64,7 @@ public enum BulletEgoSkinProps {
             new BulletEffect("impact_gen_s_plasma_01_mk1_bigobject", "impact_gen_s_plasma_01_mk1_bigobject_inside"),
             new BulletEffect("muzzle_turret_gen_m_plasma_01_mk1", null)),
     // Gatling - M
-    CW_M_GATLING("bullet_gen_s_gatling_01_mk1", null,
+    CW_M_GATLING("bullet_gen_s_gatling_01_mk1", "turret_gatling_muzzle",
             new BulletEffect("impact_gen_s_gatling_01_mk1", "impact_gen_s_gatling_01_mk1_inside"),
             new BulletEffect("impact_gen_s_gatling_01_mk1_bigobject", "impact_gen_s_gatling_01_mk1_bigobject_inside"),
             new BulletEffect("muzzle_turret_gen_m_gatling_01_mk1", null)),
