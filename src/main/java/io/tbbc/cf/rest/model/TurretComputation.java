@@ -8,10 +8,28 @@ import java.util.Map;
 public class TurretComputation {
     String chassisName;
     String bulletName;
+    String chassisSkinName;
+    String bulletSkinName;
     Map<String, String> customizers;
     List<ProductionMethodName> productionMethodNames;
 
     public TurretComputation() {
+    }
+
+    public String getChassisSkinName() {
+        return chassisSkinName;
+    }
+
+    public void setChassisSkinName(String chassisSkinName) {
+        this.chassisSkinName = chassisSkinName;
+    }
+
+    public String getBulletSkinName() {
+        return bulletSkinName;
+    }
+
+    public void setBulletSkinName(String bulletSkinName) {
+        this.bulletSkinName = bulletSkinName;
     }
 
     public List<ProductionMethodName> getProductionMethodNames() {

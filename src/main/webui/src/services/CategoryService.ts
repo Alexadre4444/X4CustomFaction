@@ -13,7 +13,7 @@ function _getCategories() : Promise<Category[]> {
         () => axios.get('/api/v1/categories')
             .then((response) => {return response.data;}))
         .then((response) => {
-            return response.map((data) => dataToObject(data));
+            return response.map((data: any) => dataToObject(data));
         });
 }
 

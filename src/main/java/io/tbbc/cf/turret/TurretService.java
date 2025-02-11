@@ -7,6 +7,7 @@ import io.tbbc.cf.common.*;
 import io.tbbc.cf.common.customizer.Customizer;
 import io.tbbc.cf.common.modifier.Modifiers;
 import io.tbbc.cf.common.production.IProductionMethodService;
+import io.tbbc.cf.common.production.ProductionMethod;
 import io.tbbc.cf.common.production.ProductionMethodInstances;
 import io.tbbc.cf.common.production.ProductionMethodName;
 import io.tbbc.cf.common.property.FinalPropValue;
@@ -14,6 +15,7 @@ import io.tbbc.cf.common.property.FinalProperties;
 import io.tbbc.cf.common.property.PropertyDefinition;
 import io.tbbc.cf.common.property.PropsHelper;
 import io.tbbc.cf.mod.IModInfosService;
+import io.tbbc.cf.research.Research;
 import io.tbbc.cf.turret.chassis.ChassisType;
 import io.tbbc.cf.turret.chassis.ITurretChassisService;
 import io.tbbc.cf.turret.chassis.TurretChassis;
@@ -194,13 +196,37 @@ public class TurretService implements ITurretService {
     }
 
     @Override
-    public FinalProperties computeFinalValues(String chassisName, String bulletName, Map<String, String> customizers,
-                                              List<ProductionMethodName> productionMethodNames) {
+    public ComputationResult computeFinalProperties(String chassisName, String chassisSkinName, String bulletName, String bulletSkinName,
+                                                    Map<String, String> customizers,
+                                                    List<ProductionMethodName> productionMethodNames) {
         TurretChassis chassis = turretChassisService.getByName(chassisName)
-                .orElseThrow(() -> new BadArgumentException("Chassis not found"));
-        Bullet bullet = bulletService.getByName(bulletName).orElse(null);
+                .orElseThrow(() -> new BadArgumentException("Chassis %s not found".formatted(chassisName)));
+        ChassisSkin chassisSkin = chassis.availableSkins().stream()
+                .filter(chassisSkin1 -> chassisSkin1.name().equals(chassisSkinName))
+                .findFirst()
+                .orElseThrow(() -> new BadArgumentException("Skin %s not found for turret %s".formatted(chassisSkinName, chassisName)));
+        Bullet bullet = bulletService.getByName(bulletName)
+                .orElseThrow(() -> new BadArgumentException("Bullet %s not found".formatted(bulletName)));
+        BulletSkin bulletSkin = bullet.availableSkins().stream()
+                .filter(bulletSkin1 -> bulletSkin1.name().equals(bulletSkinName))
+                .findFirst()
+                .orElseThrow(() -> new BadArgumentException("Skin %s not found for bullet %s".formatted(bulletSkinName, bulletName)));
+        List<ProductionMethod> productionMethods = productionMethodNames.stream()
+                .map(ProductionMethodName::getName)
+                .map(productionMethodService::getByName)
+                .map(optProductionMethod -> optProductionMethod
+                        .orElseThrow(() -> new BadArgumentException("Production method not found")))
+                .toList();
+
+        FinalProperties finalProperties = computeFinalProperties(chassis, bullet, customizers, productionMethodNames);
+        List<Research> requiredResearches = ComputationHelper.computeRequiredResearch(chassisSkin, bulletSkin, productionMethods);
+        return new ComputationResult(finalProperties, requiredResearches);
+    }
+
+    private FinalProperties computeFinalProperties(TurretChassis turretChassis, Bullet bullet,
+                                                   Map<String, String> customizers, List<ProductionMethodName> productionMethodNames) {
         List<Customizer> customizersList = getCustomizers(customizers);
-        return computeAllFinalValues(chassis, bullet, turretChassisService.getProperties(), customizersList, productionMethodNames);
+        return computeAllFinalValues(turretChassis, bullet, turretChassisService.getProperties(), customizersList, productionMethodNames);
     }
 
     @Override

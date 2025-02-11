@@ -28,21 +28,21 @@ function dataToCustomzerValue(data: any) : CustomizerValue {
     return new CustomizerValue(data.categoryName, data.customizerName);
 }
 
-function getPropertyDefinition(name: string): Promise<PropertyDefinition> {
+function getPropertyDefinition(name: string): Promise<PropertyDefinition | undefined> {
     return TurretChassisService.getProperties().then((properties) => {
-        return properties.find((property) => property.name === name);
+        return properties.find((property) => property.name === name);;
     });
 }
 
-function getCategory(name: string): Promise<Category> {
+function getCategory(name: string): Promise<Category | undefined> {
     return CategoryService.getAll().then((categories) => {
-        return categories.find((category) => category.name === name);
+        return categories.find((category) => category.name === name);;
     });
 }
 
 function dataToModifier(data: any) : Promise<Modifier> {
     return getPropertyDefinition(data.name.name).then((definition) => {
-            return new Modifier(data.name.name, data.value, definition, null);
+            return new Modifier(data.name.name, data.value, definition, undefined);
     })
     .then((modifier) => {
         return getCategory(data.name.name).then((category) => {
@@ -52,7 +52,7 @@ function dataToModifier(data: any) : Promise<Modifier> {
 }
 
 function dataToCustomizer(data: any) : Promise<Customizer> {
-    return Promise.all(data.modifiers.modifiers.map((data: any) => dataToModifier(data)))
+    return Promise.all<Modifier>(data.modifiers.modifiers.map((data: any) => dataToModifier(data)))
     .then((modifiers) => {
         return dataToCustomizerCategory(data.categoryName).then((category) => {
             return new Customizer(data.name, data.label, new Modifiers(modifiers), category);
@@ -62,12 +62,16 @@ function dataToCustomizer(data: any) : Promise<Customizer> {
 
 function dataToCustomizerCategory(data: any) : Promise<CustomizerCategory> {
     return CustomizerCategoryService.getAll().then((categories) => {
-        return categories.find((category) => category.name === data.name);
+        const category = categories.find((category) => category.name === data.name);
+        if (!category) {
+            throw new Error(`CustomizerCategory not found for name: ${data.name}`);
+        }
+        return category;
     });
 }
 
 function dataToCustomizerComponents(data: any) : Promise<CustomizerComponent> {
-    return Promise.all(data.customizers.map((data: any) => dataToCustomizer(data)))
+    return Promise.all<Customizer>(data.customizers.map((data: any) => dataToCustomizer(data)))
     .then((customizers) => {
         return new CustomizerComponent(data.name, data.label, customizers);
     });

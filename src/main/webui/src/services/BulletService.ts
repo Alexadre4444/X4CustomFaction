@@ -16,7 +16,7 @@ function dataToObject(data : any): Promise<Bullet> {
 }
 
 function dataToModifiers(data: any) : Promise<Modifiers> {
-    return Promise.all(data.map((data: any) => dataToModifier(data)))
+    return Promise.all<Modifier>(data.map((data: any) => dataToModifier(data)))
     .then((modifiers) => {
         return new Modifiers(modifiers);
     });
@@ -24,7 +24,7 @@ function dataToModifiers(data: any) : Promise<Modifiers> {
 
 function dataToModifier(data: any) : Promise<Modifier> {
     return getPropertyDefinition(data.name.name).then((definition) => {
-            return new Modifier(data.name.name, data.value, definition, null);
+            return new Modifier(data.name.name, data.value, definition, undefined);
     })
     .then((modifier) => {
         return getCategory(data.name.name).then((category) => {
@@ -33,13 +33,13 @@ function dataToModifier(data: any) : Promise<Modifier> {
     });
 }
 
-function getPropertyDefinition(name: string): Promise<PropertyDefinition> {
+function getPropertyDefinition(name: string): Promise<PropertyDefinition | undefined> {
     return TurretChassisService.getProperties().then((properties) => {
-        return properties.find((property) => property.name === name);
+        return properties.find((property) => property.name === name);;
     });
 }
 
-function getCategory(name: string): Promise<Category> {
+function getCategory(name: string): Promise<Category | undefined> {
     return CategoryService.getAll().then((categories) => {
         return categories.find((category) => category.name === name);
     });
@@ -52,7 +52,7 @@ export const BulletService = {
     getAll(): Promise<Bullet[]> {
         return axios.get('/api/v1/bullets')
         .then((response) => {
-            return Promise.all(response.data.map((data) => dataToObject(data)));
+            return Promise.all(response.data.map((data: any) => dataToObject(data)));
         });
     }
 }

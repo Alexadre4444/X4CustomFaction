@@ -1,11 +1,16 @@
 package io.tbbc.cf.turret;
 
+import io.tbbc.cf.bullet.skin.BulletSkin;
 import io.tbbc.cf.common.modifier.Modifier;
+import io.tbbc.cf.common.production.ProductionMethod;
 import io.tbbc.cf.common.property.*;
+import io.tbbc.cf.research.Research;
 import io.tbbc.cf.turret.chassis.TurretChassis;
 import io.tbbc.cf.turret.chassis.TurretChassisInstances;
+import io.tbbc.cf.turret.chassis.skin.ChassisSkin;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import static io.tbbc.cf.turret.chassis.TurretChassisInstances.PropertyNames.*;
 
@@ -299,5 +304,15 @@ public class ComputationHelper {
         double baseValue = costEnergyCells.getBaseDoubleValue() * 10d;
         double finalValue = costEnergyCells.getFinalDoubleValue() * 10d;
         return new FinalPropValueComputed(TurretChassisInstances.Properties.COST_CL_ENERGY_CELLS, baseValue, finalValue);
+    }
+
+    public static List<Research> computeRequiredResearch(ChassisSkin chassisSkin, BulletSkin bulletSkin,
+                                                         List<ProductionMethod> productionMethods) {
+        return Stream.concat(Stream.concat(chassisSkin.requiredResearch().stream(),
+                                bulletSkin.requiredResearch().stream()),
+                        productionMethods.stream()
+                                .flatMap(productionMethod -> productionMethod.requiredResearch().stream()))
+                .distinct()
+                .toList();
     }
 }

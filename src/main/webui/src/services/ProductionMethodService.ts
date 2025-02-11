@@ -14,7 +14,7 @@ function _getMethods() : Promise<ProductionMethod[]> {
         () => axios.get('/api/v1/production_methods')
             .then((response) => {return response.data;}))
         .then((response) => {
-            return response.map((data) => dataToObject(data));
+            return response.map((data: any) => dataToObject(data));
         });
 }
 

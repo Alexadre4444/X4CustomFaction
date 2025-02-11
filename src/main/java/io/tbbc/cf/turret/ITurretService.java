@@ -1,7 +1,6 @@
 package io.tbbc.cf.turret;
 
 import io.tbbc.cf.common.production.ProductionMethodName;
-import io.tbbc.cf.common.property.FinalProperties;
 
 import java.util.List;
 import java.util.Map;
@@ -18,8 +17,9 @@ public interface ITurretService {
 
     List<TurretEgoProps> getTurretEgoProps();
 
-    FinalProperties computeFinalValues(String chassisName, String bulletName, Map<String, String> customizers,
-                                       List<ProductionMethodName> productionMethodNames);
+    ComputationResult computeFinalProperties(String chassisName, String chassisSkin, String bulletName, String bulletSkin,
+                                             Map<String, String> customizers,
+                                             List<ProductionMethodName> productionMethodNames);
 
     void delete(long id);
 

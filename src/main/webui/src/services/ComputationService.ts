@@ -9,7 +9,7 @@ import { TurretChassisService } from './TurretChassisService';
 
 function dataToObject(data : any): Promise<ModifiedValue> {
     return getPropertyDefinition(data.name.name).then((definition) => {
-        return Promise.all(data.modifiers.map((data: any) => dataToModifier(data)))
+        return Promise.all<Modifier>(data.modifiers.map((data: any) => dataToModifier(data)))
         .then((modifiers) => {
             return new ModifiedValue(definition, modifiers, data.baseValueString, data.finalValueString, data.baseDoubleValue, data.finalDoubleValue);
         });
@@ -18,7 +18,7 @@ function dataToObject(data : any): Promise<ModifiedValue> {
 
 function dataToModifier(data: any) : Promise<Modifier> {
     return getPropertyDefinition(data.name.name).then((definition) => {
-            return new Modifier(data.name.name, data.value, definition, null);
+            return new Modifier(data.name.name, data.value, definition, undefined);
     })
     .then((modifier) => {
         return getCategory(data.name.name).then((category) => {
@@ -27,14 +27,14 @@ function dataToModifier(data: any) : Promise<Modifier> {
     });
 }
 
-function getCategory(name: string): Promise<Category> {
+function getCategory(name: string): Promise<Category | undefined> {
     return CategoryService.getAll().then((categories) => {
-        return categories.find((category) => category.name === name);
+        return categories.find((category) => category.name === name);;
     });
 }
 function getPropertyDefinition(name: string): Promise<PropertyDefinition> {
     return TurretChassisService.getProperties().then((properties) => {
-        return properties.find((property) => property.name === name);
+        return properties.find((property) => property.name === name);;
     });
 }
 
@@ -49,7 +49,7 @@ function _computeTurretProperties(chassisName: String, bulletName: String, custo
     };
     return axios.post('/api/v1/computation/turret', body)
     .then((response) => {
-        return Promise.all(response.data.properties.map((data) => dataToObject(data)));
+        return Promise.all(response.data.properties.map((data: any) => dataToObject(data)));
     });
 }
 

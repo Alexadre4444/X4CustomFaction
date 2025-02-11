@@ -1,4 +1,4 @@
-import Size from "./common/Size";
+import Size from "../common/Size";
 
 export default class Turret {
     label: string;

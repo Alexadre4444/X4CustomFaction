@@ -5,6 +5,7 @@ import CustomizerComponent from '@/model/common/CustomizerComponent';
 import CustomizerValue from '@/model/common/CustomizerValue';
 import ModifiedValue from '@/model/common/ModifiedValue';
 import ProductionMethodName from '@/model/common/ProductionMethodName';
+import Research from '@/model/common/Research';
 import Bullet from '@/model/turret/Bullet';
 import BulletSkin from '@/model/turret/BulletSkin';
 import ChassisSkin from '@/model/turret/ChassisSkin';
@@ -72,6 +73,20 @@ const fixBulletSkinOnChange = () => {
     }
 }
 
+const requiredResearch = computed(() => {
+    let requiredResearch = Array<Research>();
+    if(formChassisSkin.value != null) {
+        formChassisSkin.value.requiredResearch.forEach(research => addIfNotExists(requiredResearch, research));
+    }
+    return requiredResearch;
+});
+
+const addIfNotExists = (research: Array<Research>, researchToAdd: Research) => {
+    if(research.find(r => r.name == researchToAdd.name) == null) {
+        research.push(researchToAdd);
+    }
+}
+
 const computedPropertiesByCategoryMap = computed(() => {
     let map = new Map<Category, ModifiedValue[]>();
     computedProperties.value?.sort((val1, val2) => val1.definition.category.label.localeCompare(val2.definition.category.label))
@@ -111,6 +126,7 @@ const availableBullets = computed<Bullet[]>(() => {
 });
 
 const iconUrl = computed(() => {
+    console.log(formChassisSkin.value);
     if(formChassisSkin.value == null) {
         return `/assets/turret/notfound.png`;
     }
@@ -293,25 +309,30 @@ await refreshChassis()
         </div>
         <div v-if="loadedTurret" class="col-span-6 xl:col-span-3">
             <div class="card flex flex-col gap-2 w-full">
+                <div v-if="requiredResearch.length > 0" class="font-semibold text-xl">Required research</div>
+                <div class="flex flex-col gap-2">
+                    <ResearchTag v-for="research in requiredResearch" :key="research.name" :research="research"/>
+                </div>
+
                 <div class="font-semibold text-xl">Customization</div>
-                    <div class="flex flex-col gap-2">
-                        <label for="bullet">Bullet</label>
-                        <Select  id="bullet" v-model="formBullet" 
-                        :options="availableBullets" 
-                        optionLabel="label" 
-                        @change="bulletOnChange"
-                        :filter="true" :showClear="true" />
-                    </div>
-                    <ModifiersDisplay v-if="formBullet"
-                    :applicable-properties="applicableProperties" 
-                    :modifiers="formBullet.modifiers.modifiers"/>
-                    <div v-if="formBullet" class="flex flex-col gap-2">
-                        <label for="bulletSkin">Bullet skin</label>
-                        <Select id="bulletSkin" 
-                        v-model="formBulletSkin" 
-                        :options="formBullet.availableSkins" 
-                        optionLabel="label" :filter="true" :showClear="true" />   
-                    </div>
+                <div class="flex flex-col gap-2">
+                    <label for="bullet">Bullet</label>
+                    <Select  id="bullet" v-model="formBullet" 
+                    :options="availableBullets" 
+                    optionLabel="label" 
+                    @change="bulletOnChange"
+                    :filter="true" :showClear="true" />
+                </div>
+                <ModifiersDisplay v-if="formBullet"
+                :applicable-properties="applicableProperties" 
+                :modifiers="formBullet.modifiers.modifiers"/>
+                <div v-if="formBullet" class="flex flex-col gap-2">
+                    <label for="bulletSkin">Bullet skin</label>
+                    <Select id="bulletSkin" 
+                    v-model="formBulletSkin" 
+                    :options="formBullet.availableSkins" 
+                    optionLabel="label" :filter="true" :showClear="true" />   
+                </div>
                 <CustomizersComponents v-model="formCustomizers" @change="computeProperties" 
                 :applicable-properties="applicableProperties" /> 
             </div>
