@@ -101,17 +101,32 @@ public class TurretService implements ITurretService {
             Turret turret = validTurrets.get(i);
             TurretChassis chassis = turretChassisService.getByName(turret.getChassisName()).orElseThrow();
             Bullet bullet = bulletService.getByName(turret.getBulletName()).orElseThrow();
-            result.add(getTurretEgoPropsMain(turret, chassis, i, bullet, factionTrigram));
+            ChassisSkin chassisSkin = chassis.availableSkins().stream()
+                    .filter(skin -> skin.name().equals(turret.getChassisSkinName()))
+                    .findFirst()
+                    .orElseThrow(() -> new InternalException("Skin %s not found".formatted(turret.getChassisSkinName())));
+            BulletSkin bulletSkin = bullet.availableSkins().stream()
+                    .filter(skin -> skin.name().equals(turret.getBulletSkinName()))
+                    .findFirst()
+                    .orElseThrow(() -> new InternalException("Skin %s not found".formatted(turret.getBulletSkinName())));
+            List<ProductionMethod> productionMethods = turret.getMethods().stream()
+                    .map(ProductionMethodName::getName)
+                    .map(productionMethodService::getByName)
+                    .map(optProductionMethod -> optProductionMethod
+                            .orElseThrow(() -> new BadArgumentException("Production method not found")))
+                    .toList();
+            result.add(getTurretEgoPropsMain(turret, chassis, chassisSkin, i, bullet, bulletSkin, factionTrigram, productionMethods));
             if (turret.getSize().equals(Size.MEDIUM)) {
-                result.add(getTurretEgoPropsAlias(turret, chassis, i, bullet, factionTrigram));
+                result.add(getTurretEgoPropsAlias(turret, chassis, chassisSkin, i, bullet, bulletSkin, factionTrigram, productionMethods));
             }
         }
 
         return result;
     }
 
-    private TurretEgoProps getTurretEgoPropsMain(Turret turret, TurretChassis chassis, int i, Bullet bullet,
-                                                 String factionTrigram) {
+    private TurretEgoProps getTurretEgoPropsMain(Turret turret, TurretChassis chassis, ChassisSkin chassisSkin, int i,
+                                                 Bullet bullet, BulletSkin bulletSkin, String factionTrigram,
+                                                 List<ProductionMethod> productionMethods) {
         return new TurretEgoProps(getEgoTurretName(turret, chassis),
                 EGO_TURRET_LABEL_SECTION, EGO_TURRET_DESCRIPTION_SECTION, i,
                 chassis.size().egoInitial(), getEgoTurretMacroName(turret, chassis), getEgoTurretAliasMacroName(turret, chassis),
@@ -122,11 +137,13 @@ public class TurretService implements ITurretService {
                 getCustomizers(turret.getCustomizers()), turret.getMethods()),
                 getBulletSkin(turret, bullet).skinProps(),
                 chassis.type(), TurretEgoType.MAIN, getTurretNameEntry(turret, chassis, i, factionTrigram),
-                getTurretBaseNameEntry(turret, i), getTurretShortNameEntry(turret, i));
+                getTurretBaseNameEntry(turret, i), getTurretShortNameEntry(turret, i),
+                ComputationHelper.computeRequiredResearch(chassisSkin, bulletSkin, productionMethods));
     }
 
-    private TurretEgoProps getTurretEgoPropsAlias(Turret turret, TurretChassis chassis, int i, Bullet bullet,
-                                                  String factionTrigram) {
+    private TurretEgoProps getTurretEgoPropsAlias(Turret turret, TurretChassis chassis, ChassisSkin chassisSkin, int i,
+                                                  Bullet bullet, BulletSkin bulletSkin, String factionTrigram,
+                                                  List<ProductionMethod> productionMethods) {
         return new TurretEgoProps(getEgoTurretAliasName(turret, chassis),
                 EGO_TURRET_LABEL_SECTION, EGO_TURRET_DESCRIPTION_SECTION, i,
                 chassis.size().egoInitial(), getEgoTurretAliasMacroName(turret, chassis), null,
@@ -136,7 +153,8 @@ public class TurretService implements ITurretService {
                 getCustomizers(turret.getCustomizers()), turret.getMethods()),
                 getBulletSkin(turret, bullet).skinProps(),
                 chassis.type(), TurretEgoType.ALIAS, getTurretNameEntry(turret, chassis, i, factionTrigram),
-                getTurretBaseNameEntry(turret, i), getTurretShortNameEntry(turret, i));
+                getTurretBaseNameEntry(turret, i), getTurretShortNameEntry(turret, i),
+                ComputationHelper.computeRequiredResearch(chassisSkin, bulletSkin, productionMethods));
     }
 
     private FinalProperties computeAllFinalValues(TurretChassis chassis, Bullet bullet,

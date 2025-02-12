@@ -9,12 +9,14 @@
             <actions>
                 <signal_cue cue="md.SetupBluprints.CheckAllBluePrintsUnlock"/>
             </actions>
-            <!-- No use atm, soon <cues>
-                <cue name="Kha_Reasearch" ref="Research_Unlock">
-                    <param name="ResearchItem" value="'research_kha'"/>
-                    <param name="ResearchWare" value="ware.research_kha"/>
+            <cues>
+                {#each research}
+                <cue name="Unlock_Research_{it.name}" ref="Research_Unlock">
+                    <param name="ResearchItem" value="'research_{it.name}'"/>
+                    <param name="ResearchWare" value="ware.research_{it.name}"/>
                 </cue>
-            </cues> -->
+                {/each}
+            </cues>
         </cue>
         <cue name="CheckAllBluePrintsUnlock" instantiate="true">
             <conditions>
@@ -26,7 +28,11 @@
                 {#if it.aliasMacroName == null}
                 <cue name="Unlock_Blueprint_{it.name}" ref="md.SetupBluprints.Check_Unlock_Blueprint">
                     <param name="Blueprint" value="ware.{it.name}"/>
-                    <param name="ResearchWares" value="[]"/>
+                    <param name="ResearchWares" value="[
+                    {#for research in it.requiredResearch}
+                    ware.research_{research.name} {#if research_hasNext}, {/if}
+                    {/for}
+                    ]"/>
                 </cue>
                 {/if}
                 {/each}

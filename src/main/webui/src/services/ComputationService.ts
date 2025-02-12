@@ -1,13 +1,37 @@
 import Category from '@/model/common/Category';
+import ComputationResult from '@/model/common/ComputationResult';
 import ModifiedValue from '@/model/common/ModifiedValue';
 import Modifier from '@/model/common/Modifier';
 import ProductionMethodName from '@/model/common/ProductionMethodName';
 import PropertyDefinition from '@/model/common/PropertyDefinition';
+import Research from '@/model/common/Research';
 import axios from 'axios';
 import { CategoryService } from './CategoryService';
+import { ResearchService } from './ResearchService';
 import { TurretChassisService } from './TurretChassisService';
 
-function dataToObject(data : any): Promise<ModifiedValue> {
+function dataToComputationResult(data: any): Promise<ComputationResult> {
+    return Promise.all<ModifiedValue>(data.finalProperties.properties.map((data: any) => dataToModifiedValue(data)))
+    .then((properties) => {
+        return Promise.all<Research>(data.requiredResearch.map((data: any) => dataToResearch(data)))
+        .then((requiredResearch) => {
+            return new ComputationResult(properties, requiredResearch);
+        });
+    });
+}
+
+function dataToResearch(data : any) : Promise<Research> {
+    return ResearchService.getAll().then((research) => {
+        const foundResearch = research.find((r) => r.name === data.name);
+        if (!foundResearch) {
+            throw new Error(`Research with name ${data.name} not found`);
+        }
+        return foundResearch;
+    });
+}
+
+
+function dataToModifiedValue(data : any): Promise<ModifiedValue> {
     return getPropertyDefinition(data.name.name).then((definition) => {
         return Promise.all<Modifier>(data.modifiers.map((data: any) => dataToModifier(data)))
         .then((modifiers) => {
@@ -38,24 +62,25 @@ function getPropertyDefinition(name: string): Promise<PropertyDefinition> {
     });
 }
 
-function _computeTurretProperties(chassisName: String, bulletName: String, customizers: Record<string, string>,
-    productionMethodNames: ProductionMethodName[]
-) : Promise<ModifiedValue[]> {
+function _computeTurretProperties(chassisName: String, chassisSkinName: String, bulletName: String, bulletSkinName: String,
+    customizers: Record<string, string>, productionMethodNames: ProductionMethodName[]): Promise<ComputationResult> {
     let body = {
         chassisName: chassisName,
         bulletName: bulletName,
         customizers: customizers,
-        productionMethodNames: productionMethodNames
+        productionMethodNames: productionMethodNames,
+        chassisSkinName: chassisSkinName,
+        bulletSkinName: bulletSkinName
     };
     return axios.post('/api/v1/computation/turret', body)
     .then((response) => {
-        return Promise.all(response.data.properties.map((data: any) => dataToObject(data)));
+        return dataToComputationResult(response.data);
     });
 }
 
 export const ComputationService = {
-    computeTurretProperties(chassisName: String, bulletName: String, customizers: Record<string, string>,
-        productionMethodNames: ProductionMethodName[]) : Promise<ModifiedValue[]> {
-        return _computeTurretProperties(chassisName, bulletName, customizers, productionMethodNames);
+    computeTurretProperties(chassisName: String, chassisSkinName: String, bulletName: String, bulletSkinName: String,
+        customizers: Record<string, string>, productionMethodNames: ProductionMethodName[]) : Promise<ComputationResult> {
+        return _computeTurretProperties(chassisName, chassisSkinName, bulletName, bulletSkinName, customizers, productionMethodNames);
     }
 }

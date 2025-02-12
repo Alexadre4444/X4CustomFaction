@@ -2,16 +2,20 @@ import Category from '@/model/common/Category';
 import Modifier from '@/model/common/Modifier';
 import Modifiers from '@/model/common/Modifiers';
 import PropertyDefinition from '@/model/common/PropertyDefinition';
+import Research from '@/model/common/Research';
 import Bullet from '@/model/turret/Bullet';
 import BulletSkin from '@/model/turret/BulletSkin';
 import axios from 'axios';
 import { CategoryService } from './CategoryService';
+import { ResearchService } from './ResearchService';
 import { TurretChassisService } from './TurretChassisService';
 
 function dataToObject(data : any): Promise<Bullet> {
     return dataToModifiers(data.modifiers.modifiers).then((modifiers) => {
-        return new Bullet(data.name, data.label, data.description, data.size, modifiers, 
-            data.availableSkins.map((data: any) => dataToBulletSkin(data)), data.compatibleChassis);
+        return Promise.all<BulletSkin>(data.availableSkins.map((data: any) => dataToBulletSkin(data)))
+        .then((skins) => {
+            return new Bullet(data.name, data.label, data.description, data.size, modifiers, skins, data.compatibleChassis);
+        });
     });
 }
 
@@ -45,8 +49,22 @@ function getCategory(name: string): Promise<Category | undefined> {
     });
 }
 
-function dataToBulletSkin(data: any) : BulletSkin {
-    return new BulletSkin(data.name, data.label);
+function dataToResearch(data : any) : Promise<Research> {
+    return ResearchService.getAll().then((research) => {
+        const foundResearch = research.find((r) => r.name === data.name);
+        if (!foundResearch) {
+            throw new Error(`Research with name ${data.name} not found`);
+        }
+        return foundResearch;
+    });
+}
+
+
+function dataToBulletSkin(data: any) : Promise<BulletSkin> {
+    return Promise.all<Research>(data.requiredResearch.map((data: any) => dataToResearch(data)))
+    .then((requiredResearch) => {
+        return new BulletSkin(data.name, data.label, requiredResearch);
+    });
 }
 export const BulletService = {
     getAll(): Promise<Bullet[]> {

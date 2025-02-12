@@ -2,9 +2,12 @@
 import TurretCreate from '@/components/turret/TurretCreate.vue';
 import Size from '@/model/common/Size';
 import Turret from '@/model/turret/Turret.ts';
+import { CacheService } from '@/services/CacheService';
 import { TurretService } from '@/services/TurretServiceMain';
 import { computed, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+
+CacheService.clear();
 
 const displayCreate = ref(false);
 const route = useRoute()

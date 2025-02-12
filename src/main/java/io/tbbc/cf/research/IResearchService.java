@@ -4,4 +4,6 @@ import java.util.List;
 
 public interface IResearchService {
     List<Research> getAll();
+
+    List<ResearchEgoProp> getResearchEgoProps();
 }
