@@ -134,6 +134,7 @@ public class ModService implements IModService {
                 .data("version", actualModInfos.getVersion())
                 .data("turrets", turretEgoProps)
                 .data("research", research)
+                .data("researchNeeded", actualModInfos.getResearchMode().equals(ModInfos.ResearchMode.RESEARCH))
                 .render();
         writeInFile(file, setupBlueprintsXml);
     }

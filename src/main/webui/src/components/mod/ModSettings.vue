@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ModService } from '@/services/ModService';
-import { InputNumber } from 'primevue';
+import { Checkbox, InputNumber } from 'primevue';
 import { ref } from 'vue';
 
 const props = defineProps({
@@ -11,7 +11,7 @@ const props = defineProps({
 const formError = ref();
 
 const callOnSave = async () => {
-    ModService.updateTrigram(formFactionTrigram.value)
+    ModService.updateInfos(formFactionTrigram.value, formResearchActivated.value)
     .then(() => {
         props.onSave();
     }).catch(error => {
@@ -23,6 +23,7 @@ let modInfos = await ModService.getActual();
 
 const formVersion = ref(modInfos.version);
 const formFactionTrigram = ref(modInfos.factionTrigram);
+const formResearchActivated = ref<boolean>(modInfos.researchMode == "RESEARCH");
 
 </script>
 <template>
@@ -35,6 +36,10 @@ const formFactionTrigram = ref(modInfos.factionTrigram);
     <div class="flex flex-col gap-2">
         <label for="trigram">Faction trigram</label>
         <InputText id="trigram" v-model="formFactionTrigram"/>
+    </div>
+    <div class="flex flex-col gap-2">
+        <label for="research">Research needed for blueprints</label>
+        <Checkbox id="research" v-model="formResearchActivated" binary />
     </div>
 </div>
 <div class="flex flex-wrap items-start gap-4 justify-end">

@@ -14,7 +14,17 @@ public class ModInfos {
 
     private ZonedDateTime deploymentTime;
 
+    private ResearchMode researchMode = ResearchMode.RESEARCH;
+
     public ModInfos() {
+    }
+
+    public ResearchMode getResearchMode() {
+        return researchMode;
+    }
+
+    public void setResearchMode(ResearchMode researchMode) {
+        this.researchMode = researchMode;
     }
 
     public long getVersion() {
@@ -43,5 +53,10 @@ public class ModInfos {
 
     public ModVersion getEgoVersion() {
         return new ModVersion(version);
+    }
+
+    public enum ResearchMode {
+        NO_RESEARCH,
+        RESEARCH
     }
 }

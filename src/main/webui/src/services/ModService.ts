@@ -2,7 +2,7 @@ import ModInfos from "@/model/mod/ModInfos";
 import axios from "axios";
 
 function dataToObject(data: any) {
-    return new ModInfos(data.version, data.factionTrigram);
+    return new ModInfos(data.version, data.factionTrigram, data.researchMode);
 }
 
 export const ModService = {
@@ -12,8 +12,12 @@ export const ModService = {
             return dataToObject(response.data);
         });
     },
-    updateTrigram(trigram: string) : Promise<void> {
-        return axios.post('/api/v1/mod', {factionTrigram: trigram});
+    updateInfos(trigram: string, research: boolean) : Promise<void> {
+        return axios.post('/api/v1/mod', 
+            {
+                factionTrigram: trigram, 
+                researchMode: research ? 'RESEARCH' : 'NO_RESEARCH'
+            });
     },
     generateNewVersion() : Promise<void> {
         return axios.put('/api/v1/mod/generate');

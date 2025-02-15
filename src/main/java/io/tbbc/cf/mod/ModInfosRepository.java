@@ -23,6 +23,7 @@ public class ModInfosRepository implements IModInfosRepository, PanacheRepositor
                 .orElseThrow(() -> new IllegalArgumentException("Mod version not found"));
         modInfos.setFactionTrigram(infoToUpdate.getFactionTrigram());
         modInfos.setDeploymentTime(infoToUpdate.getDeploymentTime());
+        modInfos.setResearchMode(infoToUpdate.getResearchMode());
     }
 
     @Override

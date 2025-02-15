@@ -3,6 +3,7 @@ package io.tbbc.cf.rest;
 import io.tbbc.cf.mod.IModInfosService;
 import io.tbbc.cf.mod.IModService;
 import io.tbbc.cf.mod.ModInfos;
+import io.tbbc.cf.mod.ModInfosUpdate;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
@@ -30,7 +31,7 @@ public class ModResource {
     }
 
     @POST
-    public void setInfos(ModInfos infos) {
-        modInfosService.setFactionTrigram(infos.getFactionTrigram());
+    public void setInfos(ModInfosUpdate infos) {
+        modInfosService.updateInfos(infos);
     }
 }

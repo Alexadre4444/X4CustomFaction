@@ -29,9 +29,11 @@
                 <cue name="Unlock_Blueprint_{it.name}" ref="md.SetupBluprints.Check_Unlock_Blueprint">
                     <param name="Blueprint" value="ware.{it.name}"/>
                     <param name="ResearchWares" value="[
+                    {#if researchNeeded}
                     {#for research in it.requiredResearch}
                     ware.research_{research.name} {#if research_hasNext}, {/if}
                     {/for}
+                    {/if}
                     ]"/>
                 </cue>
                 {/if}
