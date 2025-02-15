@@ -38,6 +38,7 @@ public class ResearchService implements IResearchService {
     private ResearchEgoProp makeEgoProps(Research research, int index) {
         return new ResearchEgoProp(research.name(), EGO_RESEARCH_LABEL_SECTION, EGO_RESEARCH_DESCRIPTION_SECTION,
                 new LangEntry(index, research.label()),
-                new LangEntry(index, research.description()));
+                new LangEntry(index, research.description()),
+                research.researchTime(), research.costs(), research.parents());
     }
 }

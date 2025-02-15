@@ -17,7 +17,7 @@ public class ChassisSkinInstances {
     public static final ChassisSkin SPL_M_PULSE = new ChassisSkin("spl_m_pulse",
             "Split", ChassisEgoSkinProps.SPL_M_PULSE, List.of(RESEARCH_SPLIT));
     public static final ChassisSkin TER_M_PULSE = new ChassisSkin("ter_m_pulse",
-            "Terran", ChassisEgoSkinProps.TER_M_PULSE, List.of(RESEARCH_TERRAN));
+            "Terran", ChassisEgoSkinProps.TER_M_PULSE, List.of(RESEARCH_TERRAN_TECH));
     // Pulse - L
     public static final ChassisSkin ARG_L_PULSE = new ChassisSkin("arg_l_pulse",
             "Argon", ChassisEgoSkinProps.ARG_L_PULSE, List.of(RESEARCH_ARGON));
@@ -32,7 +32,7 @@ public class ChassisSkinInstances {
     public static final ChassisSkin SPL_L_PULSE = new ChassisSkin("spl_l_pulse",
             "Split", ChassisEgoSkinProps.SPL_L_PULSE, List.of(RESEARCH_SPLIT));
     public static final ChassisSkin TER_L_PULSE = new ChassisSkin("ter_l_pulse",
-            "Terran", ChassisEgoSkinProps.TER_L_PULSE, List.of(RESEARCH_TERRAN));
+            "Terran", ChassisEgoSkinProps.TER_L_PULSE, List.of(RESEARCH_TERRAN_TECH));
     // Gatling - M
     public static final ChassisSkin ARG_M_GATLING = new ChassisSkin("arg_m_gatling",
             "Argon", ChassisEgoSkinProps.ARG_M_GATLING, List.of(RESEARCH_ARGON));
@@ -43,10 +43,10 @@ public class ChassisSkinInstances {
     public static final ChassisSkin SPL_M_GATLING = new ChassisSkin("spl_m_gatling",
             "Split", ChassisEgoSkinProps.SPL_M_GATLING, List.of(RESEARCH_SPLIT));
     public static final ChassisSkin TER_M_GATLING = new ChassisSkin("ter_m_gatling",
-            "Terran", ChassisEgoSkinProps.TER_M_GATLING, List.of(RESEARCH_TERRAN));
+            "Terran", ChassisEgoSkinProps.TER_M_GATLING, List.of(RESEARCH_TERRAN_TECH));
     // Gatling - L
     public static final ChassisSkin TER_L_GATLING = new ChassisSkin("ter_l_gatling",
-            "Terran", ChassisEgoSkinProps.TER_L_GATLING, List.of(RESEARCH_TERRAN));
+            "Terran", ChassisEgoSkinProps.TER_L_GATLING, List.of(RESEARCH_TERRAN_TECH));
     // Plasma - M
     public static final ChassisSkin ARG_M_PLASMA = new ChassisSkin("arg_m_plasma",
             "Argon", ChassisEgoSkinProps.ARG_M_PLASMA, List.of(RESEARCH_ARGON));
@@ -89,7 +89,7 @@ public class ChassisSkinInstances {
     public static final ChassisSkin SPL_M_BEAM = new ChassisSkin("spl_m_beam",
             "Split", ChassisEgoSkinProps.SPL_M_BEAM, List.of(RESEARCH_SPLIT));
     public static final ChassisSkin TER_M_BEAM = new ChassisSkin("ter_m_beam",
-            "Terran", ChassisEgoSkinProps.TER_M_BEAM, List.of(RESEARCH_TERRAN));
+            "Terran", ChassisEgoSkinProps.TER_M_BEAM, List.of(RESEARCH_TERRAN_TECH));
 
     // Beam - L
     public static final ChassisSkin ARG_L_BEAM = new ChassisSkin("arg_l_beam",
@@ -103,7 +103,7 @@ public class ChassisSkinInstances {
     public static final ChassisSkin SPL_L_BEAM = new ChassisSkin("spl_l_beam",
             "Split", ChassisEgoSkinProps.SPL_L_BEAM, List.of(RESEARCH_SPLIT));
     public static final ChassisSkin TER_L_BEAM = new ChassisSkin("ter_l_beam",
-            "Terran", ChassisEgoSkinProps.TER_L_BEAM, List.of(RESEARCH_TERRAN));
+            "Terran", ChassisEgoSkinProps.TER_L_BEAM, List.of(RESEARCH_TERRAN_TECH));
 
     // Electromagnetic - M
     public static final ChassisSkin TER_M_ELECTROMAGNETIC = new ChassisSkin("ter_m_electromagnetic",

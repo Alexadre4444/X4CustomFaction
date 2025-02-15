@@ -26,7 +26,7 @@ public class BulletSkinInstances {
     public static final BulletSkin L_PULSE_ORANGE = new BulletSkin("pulse_l_orange", "Split (orange)",
             ORANGE_L_PULSE, List.of(RESEARCH_SPLIT));
     public static final BulletSkin L_PULSE_WHITE = new BulletSkin("pulse_l_white", "Terran (white)",
-            WHITE_L_PULSE, List.of(RESEARCH_TERRAN));
+            WHITE_L_PULSE, List.of(RESEARCH_TERRAN_TECH));
 
     // Gatling - M
     public static final BulletSkin M_GATLING_CW = new BulletSkin("gatling_m_cw", "Common wealth (orange)",
@@ -34,11 +34,11 @@ public class BulletSkinInstances {
     public static final BulletSkin M_GATLING_XEN = new BulletSkin("gatling_m_xen", "Xenon (orange)",
             XEN_M_GATLING, List.of(RESEARCH_XENON));
     public static final BulletSkin M_GATLING_TER = new BulletSkin("gatling_m_ter", "Terran (blue)",
-            TER_M_GATLING, List.of(RESEARCH_TERRAN));
+            TER_M_GATLING, List.of(RESEARCH_TERRAN_TECH));
 
     // Gatling - L
     public static final BulletSkin L_GATLING_TER = new BulletSkin("gatling_l_ter", "Terran (blue)",
-            TER_L_GATLING, List.of(RESEARCH_TERRAN));
+            TER_L_GATLING, List.of(RESEARCH_TERRAN_TECH));
 
     // Plasma - M
     public static final BulletSkin M_PLASMA_CW = new BulletSkin("plasma_m_cw", "Common wealth (yellow)",
@@ -66,7 +66,7 @@ public class BulletSkinInstances {
     public static final BulletSkin M_BEAM_KHA = new BulletSkin("beam_m_kha", "Kha'ak (violet)",
             KHA_M_BEAM, List.of(RESEARCH_KHAAK));
     public static final BulletSkin M_BEAM_TER = new BulletSkin("beam_m_ter", "Terran (white)",
-            TER_M_BEAM, List.of(RESEARCH_TERRAN));
+            TER_M_BEAM, List.of(RESEARCH_TERRAN_TECH));
 
     // Beam - L
     public static final BulletSkin L_BEAM_BLUE = new BulletSkin("beam_l_blue", "Argon (blue)",
@@ -80,7 +80,7 @@ public class BulletSkinInstances {
     public static final BulletSkin L_BEAM_ORANGE = new BulletSkin("beam_l_orange", "Split (orange)",
             SPL_L_BEAM, List.of(RESEARCH_SPLIT));
     public static final BulletSkin L_BEAM_WHITE = new BulletSkin("beam_l_white", "Terran (white)",
-            TER_L_BEAM, List.of(RESEARCH_TERRAN));
+            TER_L_BEAM, List.of(RESEARCH_TERRAN_TECH));
 
     // Electromagnetic - M
     public static final BulletSkin M_ELECTROMAGNETIC_TER = new BulletSkin("electromagnetic_m_ter", "Terran (blue)",

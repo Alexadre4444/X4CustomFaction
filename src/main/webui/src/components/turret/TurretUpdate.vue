@@ -165,6 +165,7 @@ function computeProperties() {
         });
     } else {
         computedProperties.value = [];
+        requiredResearch.value = [];
     }
 }
 

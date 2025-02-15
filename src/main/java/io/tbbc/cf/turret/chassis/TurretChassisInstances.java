@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 
 import static io.tbbc.cf.property.Accessibility.ADVANCED;
 import static io.tbbc.cf.property.Accessibility.BASIC;
+import static io.tbbc.cf.property.CategoryInstances.*;
 import static io.tbbc.cf.turret.chassis.skin.ChassisSkinInstances.*;
 
 public class TurretChassisInstances {

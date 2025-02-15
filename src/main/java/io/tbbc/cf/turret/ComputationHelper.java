@@ -1,6 +1,7 @@
 package io.tbbc.cf.turret;
 
 import io.tbbc.cf.bullet.skin.BulletSkin;
+import io.tbbc.cf.customizer.Customizer;
 import io.tbbc.cf.modifier.Modifier;
 import io.tbbc.cf.production.ProductionMethod;
 import io.tbbc.cf.property.*;
@@ -307,11 +308,15 @@ public class ComputationHelper {
     }
 
     public static List<Research> computeRequiredResearch(ChassisSkin chassisSkin, BulletSkin bulletSkin,
-                                                         List<ProductionMethod> productionMethods) {
-        return Stream.concat(Stream.concat(chassisSkin.requiredResearch().stream(),
-                                bulletSkin.requiredResearch().stream()),
+                                                         List<ProductionMethod> productionMethods,
+                                                         List<Customizer> customizers) {
+        return Stream.of(chassisSkin.requiredResearch().stream(),
+                        bulletSkin.requiredResearch().stream(),
                         productionMethods.stream()
-                                .flatMap(productionMethod -> productionMethod.requiredResearch().stream()))
+                                .flatMap(productionMethod -> productionMethod.requiredResearch().stream()),
+                        customizers.stream().map(Customizer::requiredResearch))
+                .reduce(Stream::concat)
+                .orElseGet(Stream::empty)
                 .distinct()
                 .toList();
     }
