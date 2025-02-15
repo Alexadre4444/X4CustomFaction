@@ -23,7 +23,7 @@ public class TurretChassisInstances {
                     0.019, 0.32, 1, 5, 10),
             Stream.of(ARG_M_PULSE, TEL_M_PULSE, PAR_M_PULSE, XEN_M_PULSE, SPL_M_PULSE, TER_M_PULSE)
                     .sorted(Comparator.comparing(ChassisSkin::label)).toList());
-    public static final TurretChassis M_GATLING = new TurretChassis("m_gatling", "Gatling",
+    public static final TurretChassis M_GATLING = new TurretChassis("m_gatling", "Bolt",
             Size.MEDIUM, ChassisType.RAFFLE,
             new ChassisPropsRaffle(120, 660, 2, 15,
                     1.3, 10, 895, 3.8, 11, 11, 2, 0.01,
@@ -37,7 +37,7 @@ public class TurretChassisInstances {
                     8, 10),
             Stream.of(ARG_M_PLASMA, TEL_M_PLASMA, PAR_M_PLASMA, SPL_M_PLASMA)
                     .sorted(Comparator.comparing(ChassisSkin::label)).toList());
-    public static final TurretChassis M_SHOTGUN = new TurretChassis("m_shotgun", "Shotgun",
+    public static final TurretChassis M_SHOTGUN = new TurretChassis("m_shotgun", "Shard",
             Size.MEDIUM, ChassisType.STANDARD,
             new ChassisPropsStandard(108, 660, 2, 5, 1.2,
                     1070, 2.2, 32, 32, 3, 0.5, 0.003, 1.10,
@@ -65,7 +65,7 @@ public class TurretChassisInstances {
                     0.015, 0.025, 4, 10, 20),
             Stream.of(ARG_L_PULSE, TEL_L_PULSE, PAR_L_PULSE, XEN_L_PULSE, KHA_L_PULSE, SPL_L_PULSE, TER_L_PULSE)
                     .sorted(Comparator.comparing(ChassisSkin::label)).toList());
-    public static final TurretChassis L_GATLING = new TurretChassis("l_gatling", "Gatling",
+    public static final TurretChassis L_GATLING = new TurretChassis("l_gatling", "Bolt",
             Size.LARGE, ChassisType.RAFFLE,
             new ChassisPropsRaffle(30, 3000, 2, 4,
                     3, 2, 2500, 2.5, 250, 250, 1, 0,

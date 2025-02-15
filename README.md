@@ -93,6 +93,7 @@ the [issue page](https://github.com/Alexadre4444/X4CustomFaction/issues).
 
 * Add required research for turrets blueprint in-game (optional)
 * Fix Common-Wealth bolt bullet sound
+* Change some chassis and bullet names
 
 ## Roadmap
 

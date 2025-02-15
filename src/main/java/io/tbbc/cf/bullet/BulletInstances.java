@@ -16,10 +16,10 @@ import static io.tbbc.cf.turret.chassis.TurretChassisInstances.PropertyNames.*;
 
 public class BulletInstances {
     // Medium
-    public static final Bullet M_PULSE = new Bullet("m_cw_pulse", "Pulse laser",
+    public static final Bullet M_PULSE = new Bullet("m_cw_pulse", "Pulse",
             Size.MEDIUM, List.of(ChassisType.STANDARD, ChassisType.RAFFLE),
             new Modifiers(List.of()), List.of(M_PULSE_BLUE, M_PULSE_RED));
-    public static final Bullet M_PULSE_ION = new Bullet("m_cw_pulse_ion", "Ionic laser",
+    public static final Bullet M_PULSE_ION = new Bullet("m_cw_pulse_ion", "Ionic pulse",
             Size.MEDIUM, List.of(ChassisType.STANDARD, ChassisType.RAFFLE),
             new Modifiers(List.of(
                     new Modifier(DAMAGE_SHIELD, 80),
@@ -36,7 +36,7 @@ public class BulletInstances {
                     new Modifier(DAMAGE_SHIELD, 30),
                     new Modifier(COST.name(), 20))),
             List.of(M_PLASMA_CW));
-    public static final Bullet M_GATLING = new Bullet("m_cw_gatling", "Gatling",
+    public static final Bullet M_GATLING = new Bullet("m_cw_gatling", "Bolt",
             Size.MEDIUM, List.of(ChassisType.STANDARD, ChassisType.RAFFLE),
             new Modifiers(List.of(
                     new Modifier(RELOAD_TIME, -25),
@@ -48,7 +48,7 @@ public class BulletInstances {
                     new Modifier(COST.name(), -10))),
             Stream.of(M_GATLING_CW, M_GATLING_XEN, M_GATLING_TER)
                     .sorted(Comparator.comparing(BulletSkin::label)).toList());
-    public static final Bullet M_SHOTGUN = new Bullet("m_cw_shotgun", "Shotgun",
+    public static final Bullet M_SHOTGUN = new Bullet("m_cw_shotgun", "Shard",
             Size.MEDIUM, List.of(ChassisType.STANDARD, ChassisType.RAFFLE),
             new Modifiers(List.of(
                     new Modifier(SPEED, 20),
@@ -82,7 +82,7 @@ public class BulletInstances {
             new Modifiers(List.of()),
             Stream.of(L_PULSE_BLUE, L_PULSE_YELLOW, L_PULSE_VIOLET, L_PULSE_RED, L_PULSE_ORANGE, L_PULSE_WHITE)
                     .sorted(Comparator.comparing(BulletSkin::label)).toList());
-    public static final Bullet L_GATLING = new Bullet("l_gatling", "Gatling",
+    public static final Bullet L_GATLING = new Bullet("l_gatling", "Bolt",
             Size.LARGE, List.of(ChassisType.STANDARD, ChassisType.RAFFLE),
             new Modifiers(List.of(
                     new Modifier(DAMAGE_HULL, 20),
