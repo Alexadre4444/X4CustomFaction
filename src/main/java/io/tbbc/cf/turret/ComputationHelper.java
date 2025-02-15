@@ -10,6 +10,7 @@ import io.tbbc.cf.turret.chassis.TurretChassis;
 import io.tbbc.cf.turret.chassis.TurretChassisInstances;
 import io.tbbc.cf.turret.chassis.skin.ChassisSkin;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -317,8 +318,17 @@ public class ComputationHelper {
                         customizers.stream().map(Customizer::requiredResearch))
                 .reduce(Stream::concat)
                 .orElseGet(Stream::empty)
-                .flatMap(research -> Stream.concat(Stream.of(research), research.parents().stream()))
+                .flatMap(research -> getAllParentResearch(research).stream())
                 .distinct()
                 .toList();
+    }
+
+    public static List<Research> getAllParentResearch(Research research) {
+        List<Research> result = new ArrayList<>();
+        result.add(research);
+        for (Research parent : research.parents()) {
+            result.addAll(getAllParentResearch(parent));
+        }
+        return result;
     }
 }
