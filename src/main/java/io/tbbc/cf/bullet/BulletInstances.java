@@ -2,8 +2,8 @@ package io.tbbc.cf.bullet;
 
 import io.tbbc.cf.bullet.skin.BulletSkin;
 import io.tbbc.cf.common.Size;
-import io.tbbc.cf.common.modifier.Modifier;
-import io.tbbc.cf.common.modifier.Modifiers;
+import io.tbbc.cf.modifier.Modifier;
+import io.tbbc.cf.modifier.Modifiers;
 import io.tbbc.cf.turret.chassis.ChassisType;
 
 import java.util.Comparator;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static io.tbbc.cf.bullet.skin.BulletSkinInstances.*;
-import static io.tbbc.cf.common.property.CategoryInstances.COST;
+import static io.tbbc.cf.property.CategoryInstances.COST;
 import static io.tbbc.cf.turret.chassis.TurretChassisInstances.PropertyNames.*;
 
 public class BulletInstances {

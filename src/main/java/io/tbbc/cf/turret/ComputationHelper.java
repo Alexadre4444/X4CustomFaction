@@ -1,9 +1,9 @@
 package io.tbbc.cf.turret;
 
 import io.tbbc.cf.bullet.skin.BulletSkin;
-import io.tbbc.cf.common.modifier.Modifier;
-import io.tbbc.cf.common.production.ProductionMethod;
-import io.tbbc.cf.common.property.*;
+import io.tbbc.cf.modifier.Modifier;
+import io.tbbc.cf.production.ProductionMethod;
+import io.tbbc.cf.property.*;
 import io.tbbc.cf.research.Research;
 import io.tbbc.cf.turret.chassis.TurretChassis;
 import io.tbbc.cf.turret.chassis.TurretChassisInstances;

@@ -2,7 +2,7 @@ package io.tbbc.cf.turret;
 
 import io.tbbc.cf.common.Size;
 import io.tbbc.cf.common.State;
-import io.tbbc.cf.common.production.ProductionMethodName;
+import io.tbbc.cf.production.ProductionMethodName;
 import jakarta.persistence.*;
 
 import java.util.List;

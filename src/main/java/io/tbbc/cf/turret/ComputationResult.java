@@ -1,6 +1,6 @@
 package io.tbbc.cf.turret;
 
-import io.tbbc.cf.common.property.FinalProperties;
+import io.tbbc.cf.property.FinalProperties;
 import io.tbbc.cf.research.Research;
 
 import java.util.List;

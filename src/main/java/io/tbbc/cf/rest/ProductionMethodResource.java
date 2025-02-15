@@ -1,7 +1,7 @@
 package io.tbbc.cf.rest;
 
-import io.tbbc.cf.common.production.IProductionMethodService;
-import io.tbbc.cf.common.production.ProductionMethod;
+import io.tbbc.cf.production.IProductionMethodService;
+import io.tbbc.cf.production.ProductionMethod;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;

@@ -1,6 +1,6 @@
 package io.tbbc.cf.turret;
 
-import io.tbbc.cf.common.production.ProductionMethodName;
+import io.tbbc.cf.production.ProductionMethodName;
 
 import java.util.List;
 import java.util.Map;

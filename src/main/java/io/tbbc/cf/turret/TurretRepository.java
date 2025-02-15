@@ -2,8 +2,8 @@ package io.tbbc.cf.turret;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import io.quarkus.panache.common.Sort;
-import io.tbbc.cf.common.production.ProductionMethodInstances;
-import io.tbbc.cf.common.production.ProductionMethodName;
+import io.tbbc.cf.production.ProductionMethodInstances;
+import io.tbbc.cf.production.ProductionMethodName;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.List;
