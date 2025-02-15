@@ -317,6 +317,7 @@ public class ComputationHelper {
                         customizers.stream().map(Customizer::requiredResearch))
                 .reduce(Stream::concat)
                 .orElseGet(Stream::empty)
+                .flatMap(research -> Stream.concat(Stream.of(research), research.parents().stream()))
                 .distinct()
                 .toList();
     }
