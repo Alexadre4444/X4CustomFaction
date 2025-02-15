@@ -67,6 +67,9 @@ Install the new version and delete the old one. The save will then take the chan
 
 > **_NOTE:_** The faction trigram can be changed in the mod settings next to the "Generate new version" button.
 
+By default, the generated turret required research to be unlocked in-game.
+This behavior can be disabled in the mod settings.
+
 ## Issues and suggestions
 
 If you have any issues or suggestions, please open an issue in
@@ -87,6 +90,9 @@ the [issue page](https://github.com/Alexadre4444/X4CustomFaction/issues).
 * Add some Terran turrets
 
 ### 0.1.2
+
+* Add required research for turrets blueprint in-game (optional)
+* Fix Common-Wealth bolt bullet sound
 
 ## Roadmap
 
