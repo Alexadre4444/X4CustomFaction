@@ -28,4 +28,8 @@
         <t id="{it.langEntryDescription.id}}">{it.langEntryDescription.value}</t>
         {/each}
     </page>
+    <page id="{factionLabelSection}" title="Faction" descr="Names of faction" voice="no">
+        <t id="0">Unknown</t>
+        <t id="1">{factionShortName}</t>
+    </page>
 </language>

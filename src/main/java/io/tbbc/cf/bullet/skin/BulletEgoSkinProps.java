@@ -135,7 +135,13 @@ public enum BulletEgoSkinProps {
     TER_M_ELECTROMAGNETIC("bullet_ter_s_laser_02_mk1", null,
             new BulletEffect("impact_ter_s_laser_02_mk1", "impact_ter_s_laser_02_mk1_inside"),
             new BulletEffect("impact_ter_s_laser_02_mk1_bigobject", "impact_ter_s_laser_02_mk1_bigobject_inside"),
-            new BulletEffect("muzzle_ter_s_laser_02_mk1", null));
+            new BulletEffect("muzzle_ter_s_laser_02_mk1", null)),
+
+    // Flak - M
+    CW_M_FLAK("bullet_gen_m_flak_01_mk1", null,
+            new BulletEffect("impact_gen_m_flak_01_mk1", null),
+            null,
+            new BulletEffect("muzzle_turret_gen_m_flak_01_mk1", null));
 
     private final String componentName;
     private final String soundName;

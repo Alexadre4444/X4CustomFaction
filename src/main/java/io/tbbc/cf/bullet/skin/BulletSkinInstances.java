@@ -86,6 +86,10 @@ public class BulletSkinInstances {
     public static final BulletSkin M_ELECTROMAGNETIC_TER = new BulletSkin("electromagnetic_m_ter", "Terran (blue)",
             TER_M_ELECTROMAGNETIC, List.of(RESEARCH_FRONTIER));
 
+    // Flak - M
+    public static final BulletSkin M_FLAK_CW = new BulletSkin("flak_m_cw", "Common wealth (orange)",
+            CW_M_FLAK, List.of());
+
 
     private BulletSkinInstances() {
     }

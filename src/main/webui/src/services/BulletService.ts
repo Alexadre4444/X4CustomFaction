@@ -70,6 +70,7 @@ export const BulletService = {
     getAll(): Promise<Bullet[]> {
         return axios.get('/api/v1/bullets')
         .then((response) => {
+            console.log(response.data);
             return Promise.all(response.data.map((data: any) => dataToObject(data)));
         });
     }

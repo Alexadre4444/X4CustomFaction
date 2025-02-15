@@ -5,6 +5,7 @@ import io.tbbc.cf.common.InternalException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Stream;
 
 public record FinalProperties(List<FinalPropValue> properties) {
     public FinalProperties(List<FinalPropValue> properties) {
@@ -29,5 +30,13 @@ public record FinalProperties(List<FinalPropValue> properties) {
 
     public FinalPropValue property(String name) {
         return property(new PropertyName(name));
+    }
+
+    public FinalProperties concat(FinalProperties other) {
+        return new FinalProperties(Stream.concat(properties.stream(),
+                other.properties.stream()
+                        .filter(property ->
+                                properties.stream().noneMatch(existingProperty ->
+                                        existingProperty.getName().equals(property.getName())))).toList());
     }
 }

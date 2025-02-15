@@ -217,6 +217,31 @@ public class TurretChassisInstances {
                 new PropertyDefinition(PropertyNames.COST_TER_CARBIDE, "Terran - Silicon Carbide",
                         "The silicon carbide cost of the turret.", true,
                         CategoryInstances.COST.name(), 0.0, null, null, 0, BASIC);
+        // Bullet effect
+        public static final PropertyDefinition SELF_DESTRUCT =
+                new PropertyDefinition(PropertyNames.SELF_DESTRUCT, "Self destruct",
+                        "The bullet self destruct", false,
+                        BULLET.name(), 0d, 1d, "boolean", 0, ADVANCED);
+        public static final PropertyDefinition AREA_DAMAGE_HULL =
+                new PropertyDefinition(PropertyNames.AREA_DAMAGE_HULL, "Area damage (hull)",
+                        "The amount of damage dealt to unshielded target in the area.", false,
+                        DAMAGE.name(), 0.0, null, "MJ", 0, BASIC);
+        public static final PropertyDefinition AREA_DAMAGE_SHIELD =
+                new PropertyDefinition(PropertyNames.AREA_DAMAGE_SHIELD, "Area damage (shield)",
+                        "The amount of damage dealt to shielded target in the area.", false,
+                        DAMAGE.name(), 0.0, null, "MJ", 0, BASIC);
+        public static final PropertyDefinition AREA_DAMAGE_BONUS_SHIELD =
+                new PropertyDefinition(PropertyNames.AREA_DAMAGE_BONUS_SHIELD, "Area damage bonus (shield)",
+                        "The bonus damage dealt to shielded target in the area.", false,
+                        DAMAGE.name(), 0.0, null, "MJ", 0, ADVANCED);
+        public static final PropertyDefinition AREA_TIME =
+                new PropertyDefinition(PropertyNames.AREA_TIME, "Area time",
+                        "The time the area effect last.", false,
+                        BULLET.name(), 0.1, null, "s", 2, ADVANCED);
+        public static final PropertyDefinition AREA_LIFE_TIME =
+                new PropertyDefinition(PropertyNames.AREA_LIFE_TIME, "Area life time",
+                        "The time the area effect last.", false,
+                        BULLET.name(), 0.1, null, "s", 2, ADVANCED);
 
         Properties() {
         }
@@ -259,7 +284,12 @@ public class TurretChassisInstances {
         public static PropertyName COST_TER_MICROLATICE = new PropertyName("costTerMicrolattice");
         public static PropertyName COST_TER_CARBIDE = new PropertyName("costTerCarbide");
 
-        PropertyNames() {
-        }
+        // Bullet effect
+        public static PropertyName SELF_DESTRUCT = new PropertyName("selfDestruct");
+        public static PropertyName AREA_DAMAGE_HULL = new PropertyName("areaDamageHull");
+        public static PropertyName AREA_DAMAGE_SHIELD = new PropertyName("areaDamageShield");
+        public static PropertyName AREA_DAMAGE_BONUS_SHIELD = new PropertyName("areaDamageBonusShield");
+        public static PropertyName AREA_TIME = new PropertyName("areaTime");
+        public static PropertyName AREA_LIFE_TIME = new PropertyName("areaLifeTime");
     }
 }

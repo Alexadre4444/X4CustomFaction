@@ -1,5 +1,6 @@
 package io.tbbc.cf.turret;
 
+import io.tbbc.cf.bullet.Bullet;
 import io.tbbc.cf.bullet.skin.BulletSkin;
 import io.tbbc.cf.customizer.Customizer;
 import io.tbbc.cf.modifier.Modifier;
@@ -18,6 +19,13 @@ import static io.tbbc.cf.turret.chassis.TurretChassisInstances.PropertyNames.*;
 
 public class ComputationHelper {
     private ComputationHelper() {
+    }
+
+    public static FinalProperties computeBulletEffectProperties(FinalProperties properties, Bullet bullet) {
+        return bullet.effects().stream()
+                .reduce(new FinalProperties(List.of()),
+                        (finalProperties, effect) -> effect.getNewProperties(properties),
+                        FinalProperties::concat);
     }
 
     static FinalPropValue computeShootPerSecondForBeam(FinalProperties baseProperties) {
@@ -229,6 +237,17 @@ public class ComputationHelper {
         double finalValue = computeDamageBonusShield(damageHull.getFinalDoubleValue(),
                 damageShield.getFinalDoubleValue());
         return new FinalPropValueComputed(TurretChassisInstances.Properties.DAMAGE_BONUS_SHIELD, baseValue, finalValue);
+    }
+
+    public static FinalPropValue computeAreaDamageBonusShield(FinalProperties baseProperties) {
+        FinalPropValue areaDamageHull = baseProperties.property(AREA_DAMAGE_HULL);
+        FinalPropValue areaDamageShield = baseProperties.property(AREA_DAMAGE_SHIELD);
+        double baseValue = computeDamageBonusShield(areaDamageHull.getBaseDoubleValue(),
+                areaDamageShield.getBaseDoubleValue());
+        double finalValue = computeDamageBonusShield(areaDamageHull.getFinalDoubleValue(),
+                areaDamageShield.getFinalDoubleValue());
+        return new FinalPropValueComputed(TurretChassisInstances.Properties.AREA_DAMAGE_BONUS_SHIELD,
+                baseValue, finalValue);
     }
 
     private static double computeDamageBonusShield(double damageHull, double damageShield) {

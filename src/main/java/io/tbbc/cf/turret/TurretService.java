@@ -34,6 +34,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static io.tbbc.cf.turret.chassis.TurretChassisInstances.PropertyNames.AREA_DAMAGE_HULL;
+
 @ApplicationScoped
 public class TurretService implements ITurretService {
     public static final int EGO_TURRET_LABEL_SECTION = 142000;
@@ -170,7 +172,11 @@ public class TurretService implements ITurretService {
                 propertyDefinitions,
                 Stream.concat(Stream.of(bulletModifiers),
                         customizers.stream().map(Customizer::modifiers)).toList());
-        return computeFinalValuesWithComputed(chassis, productionMethodNames, baseProps);
+        FinalProperties basePropsWithEffect = baseProps;
+        if (bullet != null) {
+            basePropsWithEffect = baseProps.concat(ComputationHelper.computeBulletEffectProperties(baseProps, bullet));
+        }
+        return computeFinalValuesWithComputed(chassis, productionMethodNames, basePropsWithEffect);
     }
 
     private FinalProperties computeFinalValuesWithComputed(TurretChassis chassis, List<ProductionMethodName> productionMethodNameList,
@@ -190,6 +196,10 @@ public class TurretService implements ITurretService {
         FinalPropValue damageShieldPerSecond = ComputationHelper.computeDamageShieldPerSecond(chassis, baseProperties, shootPerSecond);
         FinalPropValue rotationAcceleration = ComputationHelper.computeAcceleration(baseProperties);
         FinalPropValue damageBonusShield = ComputationHelper.computeDamageBonusShield(baseProperties);
+        if (baseProperties.hasProperty(AREA_DAMAGE_HULL.name())) {
+            FinalPropValue areaDamageBonusShield = ComputationHelper.computeAreaDamageBonusShield(baseProperties);
+            computedProps.add(areaDamageBonusShield);
+        }
         computedProps.add(shootPerSecond);
         computedProps.add(damageHullPerSecond);
         computedProps.add(damageShieldPerSecond);
