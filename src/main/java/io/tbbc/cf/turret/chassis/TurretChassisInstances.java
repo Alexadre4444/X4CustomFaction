@@ -1,17 +1,16 @@
 package io.tbbc.cf.turret.chassis;
 
 import io.tbbc.cf.common.Size;
-import io.tbbc.cf.common.property.CategoryInstances;
-import io.tbbc.cf.common.property.PropertyDefinition;
-import io.tbbc.cf.common.property.PropertyName;
+import io.tbbc.cf.property.CategoryInstances;
+import io.tbbc.cf.property.PropertyDefinition;
+import io.tbbc.cf.property.PropertyName;
 import io.tbbc.cf.turret.chassis.skin.ChassisSkin;
 
 import java.util.Comparator;
 import java.util.stream.Stream;
 
-import static io.tbbc.cf.common.property.Accessibility.ADVANCED;
-import static io.tbbc.cf.common.property.Accessibility.BASIC;
-import static io.tbbc.cf.common.property.CategoryInstances.*;
+import static io.tbbc.cf.property.Accessibility.ADVANCED;
+import static io.tbbc.cf.property.Accessibility.BASIC;
 import static io.tbbc.cf.turret.chassis.skin.ChassisSkinInstances.*;
 
 public class TurretChassisInstances {

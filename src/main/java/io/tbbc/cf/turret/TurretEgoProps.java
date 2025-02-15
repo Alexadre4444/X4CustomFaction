@@ -2,8 +2,8 @@ package io.tbbc.cf.turret;
 
 import io.tbbc.cf.bullet.skin.BulletEgoSkinProps;
 import io.tbbc.cf.common.LangEntry;
-import io.tbbc.cf.common.property.FinalPropValue;
-import io.tbbc.cf.common.property.FinalProperties;
+import io.tbbc.cf.property.FinalPropValue;
+import io.tbbc.cf.property.FinalProperties;
 import io.tbbc.cf.research.Research;
 import io.tbbc.cf.turret.chassis.ChassisType;
 
