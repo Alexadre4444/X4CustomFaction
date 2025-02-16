@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ModService } from '@/services/ModService';
-import { Checkbox, InputNumber } from 'primevue';
+import { InputNumber } from 'primevue';
 import { ref } from 'vue';
 
 const props = defineProps({
@@ -21,9 +21,11 @@ const callOnSave = async () => {
 
 let modInfos = await ModService.getActual();
 
+const options = ref([{label:"Off", name:"NO_RESEARCH"}, {label:"On", name: "RESEARCH"}]);
+
 const formVersion = ref(modInfos.version);
 const formFactionTrigram = ref(modInfos.factionTrigram);
-const formResearchActivated = ref<boolean>(modInfos.researchMode == "RESEARCH");
+const formResearchActivated = ref(modInfos.researchMode);
 
 </script>
 <template>
@@ -39,7 +41,7 @@ const formResearchActivated = ref<boolean>(modInfos.researchMode == "RESEARCH");
     </div>
     <div class="flex flex-col gap-2">
         <label for="research">Research needed for blueprints</label>
-        <Checkbox id="research" v-model="formResearchActivated" binary />
+        <SelectButton v-model="formResearchActivated" :options="options" optionLabel="label" optionValue="name" />
     </div>
 </div>
 <div class="flex flex-wrap items-start gap-4 justify-end">

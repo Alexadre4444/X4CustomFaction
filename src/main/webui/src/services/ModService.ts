@@ -12,11 +12,11 @@ export const ModService = {
             return dataToObject(response.data);
         });
     },
-    updateInfos(trigram: string, research: boolean) : Promise<void> {
+    updateInfos(trigram: string, research: string) : Promise<void> {
         return axios.post('/api/v1/mod', 
             {
                 factionTrigram: trigram, 
-                researchMode: research ? 'RESEARCH' : 'NO_RESEARCH'
+                researchMode: research
             });
     },
     generateNewVersion() : Promise<void> {

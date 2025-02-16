@@ -67,8 +67,8 @@ Install the new version and delete the old one. The save will then take the chan
 
 > **_NOTE:_** The faction trigram can be changed in the mod settings next to the "Generate new version" button.
 
-By default, the generated turret required research to be unlocked in-game.
-This behavior can be disabled in the mod settings.
+By default, the generated turret does not require research to be unlocked in-game.
+This behavior can be changed in the mod settings.
 
 ## Issues and suggestions
 
@@ -91,9 +91,10 @@ the [issue page](https://github.com/Alexadre4444/X4CustomFaction/issues).
 
 ### 0.1.2
 
-* Add required research for turrets blueprint in-game (optional)
+* Preview: Add required research for turrets blueprint in-game (optional, disabled by default)
 * Fix Common-Wealth bolt bullet sound
 * Change some chassis and bullet names
+* Add Xenon needler and seismic turret
 
 ## Roadmap
 
@@ -106,13 +107,13 @@ The "short-term" planned features are as follows:
 * Addition of turrets and projectiles from DLCs
 * Improvement of existing "customizers"
 * Addition of area damage and other special effects (notably Boron)
-* Addition of a system requiring turrets to be unlocked in-game (probably through research)
 
 The "medium-term" planned features are as follows:
 
 * Addition of weapons
 * Addition of shields
 * Addition of engines
+* Improve research mechanism
 
 ## Development
 
