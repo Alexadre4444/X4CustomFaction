@@ -85,7 +85,11 @@ public class BulletInstances {
 
     public static final Bullet M_FLAK = new Bullet("m_cw_flak", "Flak",
             Size.MEDIUM, List.of(ChassisType.STANDARD, ChassisType.RAFFLE),
-            new Modifiers(List.of()),
+            new Modifiers(List.of(
+                    new Modifier(SPEED, -10),
+                    new Modifier(DAMAGE_HULL, 10),
+                    new Modifier(DAMAGE_SHIELD, 10)
+            )),
             List.of(M_FLAK_CW),
             List.of(new FlakEffect()));
 

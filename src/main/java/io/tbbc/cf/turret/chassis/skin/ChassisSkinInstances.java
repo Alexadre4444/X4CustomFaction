@@ -109,6 +109,12 @@ public class ChassisSkinInstances {
     public static final ChassisSkin TER_M_ELECTROMAGNETIC = new ChassisSkin("ter_m_electromagnetic",
             "Terran", ChassisEgoSkinProps.TER_M_ELECTROMAGNETIC, List.of(RESEARCH_FRONTIER));
 
+    // Flak - M
+    public static final ChassisSkin ARG_M_FLAK = new ChassisSkin("arg_m_flak",
+            "Argon", ChassisEgoSkinProps.ARG_M_FLAK, List.of(RESEARCH_ARGON));
+    public static final ChassisSkin SPL_M_FLAK = new ChassisSkin("spl_m_flak",
+            "Split", ChassisEgoSkinProps.SPL_M_FLAK, List.of(RESEARCH_SPLIT));
+
     private ChassisSkinInstances() {
     }
 }

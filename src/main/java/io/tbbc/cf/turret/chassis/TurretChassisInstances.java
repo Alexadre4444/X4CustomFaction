@@ -57,6 +57,13 @@ public class TurretChassisInstances {
                     10, 30),
             Stream.of(TER_M_ELECTROMAGNETIC)
                     .sorted(Comparator.comparing(ChassisSkin::label)).toList());
+    public static final TurretChassis M_FLAK = new TurretChassis("m_flak", "Flak",
+            Size.MEDIUM, ChassisType.RAFFLE,
+            new ChassisPropsRaffle(140, 660, 1, 3,
+                    0.3, 3, 1660, 2, 50, 50, 1, 0,
+                    0.005, 0.09, 5, 18, 21),
+            Stream.of(ARG_M_FLAK, SPL_M_FLAK)
+                    .sorted(Comparator.comparing(ChassisSkin::label)).toList());
     // Large
     public static final TurretChassis L_PULSE = new TurretChassis("l_pulse", "Pulse",
             Size.LARGE, ChassisType.STANDARD,
