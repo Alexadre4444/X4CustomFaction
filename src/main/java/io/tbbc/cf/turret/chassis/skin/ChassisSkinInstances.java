@@ -119,6 +119,10 @@ public class ChassisSkinInstances {
     public static final ChassisSkin XEN_M_NEEDLER = new ChassisSkin("xen_m_needler",
             "Xenon", ChassisEgoSkinProps.XEN_M_NEEDLER, List.of(RESEARCH_XENON));
 
+    // Seismic - L
+    public static final ChassisSkin XEN_L_SEISMIC = new ChassisSkin("xen_l_seismic",
+            "Xenon", ChassisEgoSkinProps.XEN_L_SEISMIC, List.of(RESEARCH_XENON));
+
     private ChassisSkinInstances() {
     }
 }

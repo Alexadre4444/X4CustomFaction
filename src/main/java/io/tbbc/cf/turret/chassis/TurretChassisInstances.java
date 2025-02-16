@@ -107,6 +107,13 @@ public class TurretChassisInstances {
                     5000, 6, 10, 39),
             Stream.of(ARG_L_BEAM, TEL_L_BEAM, PAR_L_BEAM, KHA_L_BEAM, SPL_L_BEAM, TER_L_BEAM)
                     .sorted(Comparator.comparing(ChassisSkin::label)).toList());
+    public static final TurretChassis L_SEISMIC = new TurretChassis("l_seismic", "Seismic",
+            Size.LARGE, ChassisType.STANDARD,
+            new ChassisPropsStandard(25, 3500, 1, 1, 4,
+                    1100, 5, 3500, 3500, 1, 0,
+                    0.001, 0.15, 20, 50, 33),
+            Stream.of(XEN_L_SEISMIC)
+                    .sorted(Comparator.comparing(ChassisSkin::label)).toList());
 
 
     private TurretChassisInstances() {
@@ -258,6 +265,18 @@ public class TurretChassisInstances {
                 new PropertyDefinition(PropertyNames.AREA_LIFE_TIME, "Area life time",
                         "The time the area effect last.", false,
                         BULLET.name(), 0.1, null, "s", 2, ADVANCED);
+        public static final PropertyDefinition PLANNED_SELF_DESTRUCT =
+                new PropertyDefinition(PropertyNames.PLANNED_SELF_DESTRUCT, "Self destruct",
+                        "The bullet self destruct", false,
+                        BULLET.name(), 0d, 1d, "boolean", 0, ADVANCED);
+        public static final PropertyDefinition SELF_DESTRUCT_TIME_DIFF =
+                new PropertyDefinition(PropertyNames.SELF_DESTRUCT_TIME_DIFF, "Self destruct time diff",
+                        "Random time at self destruct time... Maybe?", false,
+                        BULLET.name(), 0.00001, null, "s", 2, ADVANCED);
+        public static final PropertyDefinition SELF_DESTRUCT_MIN_TIME =
+                new PropertyDefinition(PropertyNames.SELF_DESTRUCT_MIN_TIME, "Self destruct min time",
+                        "Minimum time between bullet explosion.", false,
+                        BULLET.name(), 0.1, null, "s", 2, ADVANCED);
 
         Properties() {
         }
@@ -307,5 +326,8 @@ public class TurretChassisInstances {
         public static PropertyName AREA_DAMAGE_BONUS_SHIELD = new PropertyName("areaDamageBonusShield");
         public static PropertyName AREA_TIME = new PropertyName("areaTime");
         public static PropertyName AREA_LIFE_TIME = new PropertyName("areaLifeTime");
+        public static PropertyName PLANNED_SELF_DESTRUCT = new PropertyName("plannedSelfDestruct");
+        public static PropertyName SELF_DESTRUCT_TIME_DIFF = new PropertyName("selfdestructtimediff");
+        public static PropertyName SELF_DESTRUCT_MIN_TIME = new PropertyName("selfdestructmintime");
     }
 }

@@ -90,6 +90,10 @@ public class BulletSkinInstances {
     public static final BulletSkin M_FLAK_CW = new BulletSkin("flak_m_cw", "Common wealth (orange)",
             CW_M_FLAK, List.of());
 
+    // Seismic - L
+    public static final BulletSkin L_SEISMIC_XEN = new BulletSkin("seismic_l_xen", "Xenon (red)",
+            XEN_L_SEISMIC, List.of(RESEARCH_XENON));
+
 
     private BulletSkinInstances() {
     }

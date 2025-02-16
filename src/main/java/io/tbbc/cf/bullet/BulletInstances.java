@@ -130,6 +130,12 @@ public class BulletInstances {
             Stream.of(L_BEAM_BLUE, L_BEAM_YELLOW, L_BEAM_VIOLET, L_BEAM_VIOLET_KHA, L_BEAM_ORANGE, L_BEAM_WHITE)
                     .sorted(Comparator.comparing(BulletSkin::label)).toList(),
             List.of());
+    public static final Bullet L_SEISMIC = new Bullet("l_seismic", "Seismic",
+            Size.LARGE, List.of(ChassisType.STANDARD, ChassisType.RAFFLE),
+            new Modifiers(List.of(
+            )),
+            List.of(L_SEISMIC_XEN),
+            List.of(new SeismicEffect()));
 
     private BulletInstances() {
     }

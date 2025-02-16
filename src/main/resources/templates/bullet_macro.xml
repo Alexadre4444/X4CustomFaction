@@ -27,6 +27,15 @@
                     {#if turret.properties.hasProperty('selfDestruct')}
                     selfdestruct="{turret.properties.property('selfDestruct').getFinalValueString}"
                     {/if}
+                    {#if turret.properties.hasProperty('plannedselfdestruct')}
+                    plannedselfdestruct="{turret.properties.property('plannedselfdestruct').getFinalValueString}"
+                    {/if}
+                    {#if turret.properties.hasProperty('selfdestructtimediff')}
+                    selfdestructtimediff="{turret.properties.property('selfdestructtimediff').getFinalValueString}"
+                    {/if}
+                    {#if turret.properties.hasProperty('selfdestructmintime')}
+                    selfdestructmintime="{turret.properties.property('selfdestructmintime').getFinalValueString}"
+                    {/if}
                     />
             {#else}
             <bullet speed="2.997925e+08"
@@ -44,8 +53,13 @@
             {#if turret.properties.hasProperty('areaDamageHull')}
             <areadamage value="{turret.properties.property('areaDamageHull').getFinalValueString}"
                         shield="{turret.properties.property('areaDamageBonusShield').getFinalValueString}"
+                        {#if turret.properties.hasProperty('areaTime')}
                         time="{turret.properties.property('areaTime').getFinalValueString}"
-                        lifetime="{turret.properties.property('areaLifeTime').getFinalValueString}" />
+                        {/if}
+                        {#if turret.properties.hasProperty('areaLifeTime')}
+                        lifetime="{turret.properties.property('areaLifeTime').getFinalValueString}"
+                        {/if}
+                        />
             {/if}
             {#if turret.chassisType == ChassisType:RAFFLE}
             <reload rate="{turret.properties.property('fireRate').getFinalValueString}"/>

@@ -14,7 +14,7 @@ public class BulletRepository implements IBulletRepository {
 
     private final List<Bullet> bullets = Stream.of(
             M_PULSE, M_PULSE_ION, M_PLASMA, M_GATLING, M_SHOTGUN, M_BEAM, M_ELECTROMAGNETIC, M_FLAK,
-            L_PULSE, L_PLASMA, L_BEAM, L_GATLING
+            L_PULSE, L_PLASMA, L_BEAM, L_GATLING, L_SEISMIC
     ).sorted(Comparator.comparing(Bullet::label)).toList();
 
     @Override
