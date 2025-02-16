@@ -64,6 +64,15 @@ public class TurretChassisInstances {
                     0.005, 0.09, 5, 18, 21),
             Stream.of(ARG_M_FLAK, SPL_M_FLAK)
                     .sorted(Comparator.comparing(ChassisSkin::label)).toList());
+    public static final TurretChassis M_NEEDLER = new TurretChassis("m_needler", "Needler",
+            Size.MEDIUM, ChassisType.RAFFLE,
+            new ChassisPropsRaffle(60, 800, 1, 8,
+                    0.5, 4, 2500, 1.3, 50, 50, 1,
+                    0, 0.1,
+                    0.21, 10, 20, 33),
+            Stream.of(XEN_M_NEEDLER)
+                    .sorted(Comparator.comparing(ChassisSkin::label)).toList());
+
     // Large
     public static final TurretChassis L_PULSE = new TurretChassis("l_pulse", "Pulse",
             Size.LARGE, ChassisType.STANDARD,

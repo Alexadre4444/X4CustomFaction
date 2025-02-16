@@ -15,7 +15,7 @@ import static io.tbbc.cf.turret.chassis.TurretChassisInstances.Properties.*;
 public class TurretChassisRepository implements ITurretChassisRepository {
     private final List<TurretChassis> baseTurrets = Stream.of(
             M_PULSE, M_GATLING, M_PLASMA, M_SHOTGUN, M_BEAM, M_FLAK,
-            M_ELECTROMAGNETIC,
+            M_ELECTROMAGNETIC, M_NEEDLER,
             L_PULSE, L_PLASMA, L_BASE_BEAM, L_PULSE_BEAM, L_GATLING
     ).sorted(Comparator.comparing(TurretChassis::label)).toList();
 

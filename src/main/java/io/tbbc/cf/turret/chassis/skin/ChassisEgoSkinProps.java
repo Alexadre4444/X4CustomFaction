@@ -49,6 +49,8 @@ public enum ChassisEgoSkinProps {
     // Flak - M
     ARG_M_FLAK("turret_arg_m_flak_01_mk1", "turret_arg_m_flak_02_mk1"),
     SPL_M_FLAK("turret_spl_m_flak_01_mk1", "turret_spl_m_flak_02_mk1"),
+    // Needler - M
+    XEN_M_NEEDLER("turret_cf_xen_m_gatling_01_mk1", "turret_cf_xen_m_gatling_02_mk1"),
     // Beam - L
     ARG_L_BEAM("turret_arg_l_beam_01_mk1", null),
     TEL_L_BEAM("turret_tel_l_beam_01_mk1", null),

@@ -115,6 +115,10 @@ public class ChassisSkinInstances {
     public static final ChassisSkin SPL_M_FLAK = new ChassisSkin("spl_m_flak",
             "Split", ChassisEgoSkinProps.SPL_M_FLAK, List.of(RESEARCH_SPLIT));
 
+    // Needler - M
+    public static final ChassisSkin XEN_M_NEEDLER = new ChassisSkin("xen_m_needler",
+            "Xenon", ChassisEgoSkinProps.XEN_M_NEEDLER, List.of(RESEARCH_XENON));
+
     private ChassisSkinInstances() {
     }
 }
