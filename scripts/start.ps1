@@ -28,3 +28,4 @@ else
     Write-Output "Java is not installed or the version could not be determined."
     Write-Output "Please install Java version $requiredJavaVersion or higher. See: https://www.oracle.com/java/technologies/downloads/"
 }
+Pause
