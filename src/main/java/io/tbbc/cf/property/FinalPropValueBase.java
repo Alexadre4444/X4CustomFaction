@@ -8,6 +8,11 @@ public record FinalPropValueBase(Property property, PropertyDefinition definitio
         implements FinalPropValue {
 
     @Override
+    public List<Modifier> getModifiers() {
+        return modifiers.stream().toList();
+    }
+
+    @Override
     public double getFinalDoubleValue() {
         return property.value().doubleValue() +
                 property.value().doubleValue() * sumModifiers() / 100;
