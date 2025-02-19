@@ -1,3 +1,4 @@
+import Tooltip from 'primevue/tooltip';
 import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
@@ -23,5 +24,6 @@ app.use(PrimeVue, {
 });
 app.use(ToastService);
 app.use(ConfirmationService);
+app.directive('tooltip', Tooltip);
 
 app.mount('#app');

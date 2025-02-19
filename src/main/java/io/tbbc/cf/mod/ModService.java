@@ -3,6 +3,9 @@ package io.tbbc.cf.mod;
 import io.quarkus.qute.Location;
 import io.quarkus.qute.Template;
 import io.tbbc.cf.common.IOHelper;
+import io.tbbc.cf.research.IResearchService;
+import io.tbbc.cf.research.ResearchEgoProp;
+import io.tbbc.cf.research.ResearchService;
 import io.tbbc.cf.turret.ITurretService;
 import io.tbbc.cf.turret.TurretEgoProps;
 import io.tbbc.cf.turret.TurretEgoType;
@@ -34,13 +37,17 @@ public class ModService implements IModService {
 
     private static final List<String> TURRET_COMPONENTS = List.of(
             "turret_cf_kha_l_beam_01_mk1", "turret_cf_kha_l_laser_01_mk1",
-            "turret_cf_ter_m_laser_01_mk1", "turret_cf_ter_m_laser_02_mk1"
+            "turret_cf_ter_m_laser_01_mk1", "turret_cf_ter_m_laser_02_mk1",
+            "turret_cf_xen_m_gatling_01_mk1", "turret_cf_xen_m_gatling_02_mk1",
+            "turret_cf_xen_l_plasma_01_mk1"
     );
 
     @Inject
     ITurretService turretService;
     @Inject
     IModInfosService modInfosService;
+    @Inject
+    IResearchService researchService;
 
     @Location("content.xml")
     Template contentXmlTemplate;
@@ -67,16 +74,18 @@ public class ModService implements IModService {
     public void generateNewVersion() {
         ModInfos actualModInfos = modInfosService.getActualModInfos();
         List<TurretEgoProps> turretEgoProps = turretService.getTurretEgoProps();
+        List<ResearchEgoProp> research = researchService.getResearchEgoProps();
         File modFolder = generateModFolder(actualModInfos.getEgoVersion());
-        generateModFiles(modFolder, actualModInfos, turretEgoProps);
+        generateModFiles(modFolder, actualModInfos, turretEgoProps, research);
         turretService.deployTurrets();
         modInfosService.deployAndGenerateNewVersion();
     }
 
-    private void generateModFiles(File modFolder, ModInfos actualModInfos, List<TurretEgoProps> turretEgoProps) {
+    private void generateModFiles(File modFolder, ModInfos actualModInfos, List<TurretEgoProps> turretEgoProps,
+                                  List<ResearchEgoProp> research) {
         generateContentXml(modFolder, actualModInfos);
         File librariesFolder = createAndGetFolder(new File(modFolder, "libraries"), Behavior.IGNORE);
-        generateWaresXml(librariesFolder, turretEgoProps);
+        generateWaresXml(librariesFolder, turretEgoProps, research);
         generateIconXml(librariesFolder);
         generateRacesXml(librariesFolder);
         File indexFolder = createAndGetFolder(new File(modFolder, "index"), Behavior.IGNORE);
@@ -86,9 +95,9 @@ public class ModService implements IModService {
         generateBulletsMacro(assetsFolder, turretEgoProps);
         copyTurretsIcons(assetsFolder, turretEgoProps);
         File languagesFolder = createAndGetFolder(new File(modFolder, "t"), Behavior.IGNORE);
-        generateLanguages(languagesFolder, turretEgoProps, actualModInfos);
+        generateLanguages(languagesFolder, turretEgoProps, actualModInfos, research);
         File mdFolder = createAndGetFolder(new File(modFolder, "md"), Behavior.IGNORE);
-        generateBlueprintScriptFiles(mdFolder, actualModInfos, turretEgoProps);
+        generateBlueprintScriptFiles(mdFolder, actualModInfos, turretEgoProps, research);
         addNewTurretComponents(modFolder);
     }
 
@@ -120,16 +129,20 @@ public class ModService implements IModService {
         });
     }
 
-    private void generateBlueprintScriptFiles(File mdFolder, ModInfos actualModInfos, List<TurretEgoProps> turretEgoProps) {
+    private void generateBlueprintScriptFiles(File mdFolder, ModInfos actualModInfos, List<TurretEgoProps> turretEgoProps,
+                                              List<ResearchEgoProp> research) {
         File file = createAndGetFile(new File(mdFolder, "setup_blueprints.xml"), Behavior.THROW);
         String setupBlueprintsXml = setupBlueprintsTemplate
                 .data("version", actualModInfos.getVersion())
                 .data("turrets", turretEgoProps)
+                .data("research", research)
+                .data("researchNeeded", actualModInfos.getResearchMode().equals(ModInfos.ResearchMode.RESEARCH))
                 .render();
         writeInFile(file, setupBlueprintsXml);
     }
 
-    private void generateLanguages(File languagesFolder, List<TurretEgoProps> turretEgoProps, ModInfos actualModInfos) {
+    private void generateLanguages(File languagesFolder, List<TurretEgoProps> turretEgoProps, ModInfos actualModInfos,
+                                   List<ResearchEgoProp> research) {
         File file = createAndGetFile(new File(languagesFolder, "0001.xml"), Behavior.IGNORE);
         String languagesXml = languagesTemplate
                 .data("turrets", turretEgoProps)
@@ -137,6 +150,9 @@ public class ModService implements IModService {
                 .data("turretDescriptionSection", TurretService.EGO_TURRET_DESCRIPTION_SECTION)
                 .data("factionLabelSection", EGO_FACTION_SECTION)
                 .data("factionShortName", actualModInfos.getFactionTrigram())
+                .data("researchLabelSection", ResearchService.EGO_RESEARCH_LABEL_SECTION)
+                .data("researchDescriptionSection", ResearchService.EGO_RESEARCH_DESCRIPTION_SECTION)
+                .data("research", research)
                 .render();
         writeInFile(file, languagesXml);
     }
@@ -212,9 +228,12 @@ public class ModService implements IModService {
         writeInFile(file, macroXml);
     }
 
-    private void generateWaresXml(File modFolder, List<TurretEgoProps> turretEgoProps) {
+    private void generateWaresXml(File modFolder, List<TurretEgoProps> turretEgoProps, List<ResearchEgoProp> research) {
         File file = createAndGetFile(new File(modFolder, "wares.xml"), Behavior.THROW);
-        String waresXml = waresXmlTemplate.data("turrets", turretEgoProps).render();
+        String waresXml = waresXmlTemplate
+                .data("turrets", turretEgoProps)
+                .data("research", research)
+                .render();
         writeInFile(file, waresXml);
     }
 

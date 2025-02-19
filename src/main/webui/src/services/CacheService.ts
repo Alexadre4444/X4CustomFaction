@@ -1,6 +1,6 @@
 import Lock from "@/model/common/Lock";
 
-const locks = {};
+const locks: { [key: string]: Lock } = {};
 
 function _get(key: string): any {
     let data = localStorage.getItem(key);
@@ -22,7 +22,7 @@ export const CacheService = {
                     return Promise.resolve(data);
                 }
                 console.log('Fetching', key);
-                return fetch().then((data) => {
+                return fetch().then((data: any) => {
                     console.log('Caching', key, data);
                     localStorage.setItem(key, JSON.stringify(data));
                     return data;

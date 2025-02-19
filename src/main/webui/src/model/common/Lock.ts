@@ -18,8 +18,8 @@ export default class Lock {
         });
     }
     release() {
-        if (this.queue.length > 0) {
-            const resolve = this.queue.shift();
+        const resolve = this.queue.shift();
+        if (resolve) {
             resolve();
         } else {
             this.isLocked = false;

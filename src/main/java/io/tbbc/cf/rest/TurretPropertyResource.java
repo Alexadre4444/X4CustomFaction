@@ -1,6 +1,6 @@
 package io.tbbc.cf.rest;
 
-import io.tbbc.cf.common.property.PropertyDefinition;
+import io.tbbc.cf.property.PropertyDefinition;
 import io.tbbc.cf.turret.chassis.ITurretChassisService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;

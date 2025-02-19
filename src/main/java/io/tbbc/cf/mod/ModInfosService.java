@@ -51,11 +51,12 @@ public class ModInfosService implements IModInfosService {
 
     @Override
     @Transactional
-    public void setFactionTrigram(String factionTrigram) {
-        factionTrigram = factionTrigram.toUpperCase().trim();
+    public void updateInfos(ModInfosUpdate modInfosUpdate) {
+        String factionTrigram = modInfosUpdate.factionTrigram().toUpperCase().trim();
         validateFactionTrigram(factionTrigram);
         ModInfos actualModInfos = getActualModInfos();
         actualModInfos.setFactionTrigram(factionTrigram);
+        actualModInfos.setResearchMode(modInfosUpdate.researchMode());
         modInfosRepository.update(actualModInfos);
     }
 

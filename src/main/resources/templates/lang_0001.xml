@@ -18,6 +18,16 @@
         {/if}
         {/each}
     </page>
+    <page id="{researchLabelSection}" title="Research" descr="Names of research" voice="no">
+        {#each research}
+        <t id="{it.langEntryName.id}}">{it.langEntryName.value}</t>
+        {/each}
+    </page>
+    <page id="{researchDescriptionSection}" title="Research" descr="Description of research" voice="no">
+        {#each research}
+        <t id="{it.langEntryDescription.id}}">{it.langEntryDescription.value}</t>
+        {/each}
+    </page>
     <page id="{factionLabelSection}" title="Faction" descr="Names of faction" voice="no">
         <t id="0">Unknown</t>
         <t id="1">{factionShortName}</t>

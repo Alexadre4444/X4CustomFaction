@@ -64,7 +64,7 @@ public enum BulletEgoSkinProps {
             new BulletEffect("impact_gen_s_plasma_01_mk1_bigobject", "impact_gen_s_plasma_01_mk1_bigobject_inside"),
             new BulletEffect("muzzle_turret_gen_m_plasma_01_mk1", null)),
     // Gatling - M
-    CW_M_GATLING("bullet_gen_s_gatling_01_mk1", null,
+    CW_M_GATLING("bullet_gen_s_gatling_01_mk1", "turret_gatling_muzzle",
             new BulletEffect("impact_gen_s_gatling_01_mk1", "impact_gen_s_gatling_01_mk1_inside"),
             new BulletEffect("impact_gen_s_gatling_01_mk1_bigobject", "impact_gen_s_gatling_01_mk1_bigobject_inside"),
             new BulletEffect("muzzle_turret_gen_m_gatling_01_mk1", null)),
@@ -135,7 +135,19 @@ public enum BulletEgoSkinProps {
     TER_M_ELECTROMAGNETIC("bullet_ter_s_laser_02_mk1", null,
             new BulletEffect("impact_ter_s_laser_02_mk1", "impact_ter_s_laser_02_mk1_inside"),
             new BulletEffect("impact_ter_s_laser_02_mk1_bigobject", "impact_ter_s_laser_02_mk1_bigobject_inside"),
-            new BulletEffect("muzzle_ter_s_laser_02_mk1", null));
+            new BulletEffect("muzzle_ter_s_laser_02_mk1", null)),
+
+    // Flak - M
+    CW_M_FLAK("bullet_gen_m_flak_01_mk1", null,
+            new BulletEffect("impact_gen_m_flak_01_mk1", null),
+            null,
+            new BulletEffect("muzzle_turret_gen_m_flak_01_mk1", null)),
+
+    // Seismic - L
+    XEN_L_SEISMIC("bullet_xen_l_plasma_01_mk1", "turret_xen_l_plasma_01_mk1_flyby",
+            new BulletEffect("impact_xen_l_plasma_01_mk1", "impact_xen_l_plasma_01_mk1_inside"),
+            new BulletEffect("impact_xen_l_plasma_01_mk1_bigobject", "impact_xen_l_plasma_01_mk1_bigobject_inside"),
+            new BulletEffect("muzzle_xen_l_plasma_01_mk1", null));
 
     private final String componentName;
     private final String soundName;

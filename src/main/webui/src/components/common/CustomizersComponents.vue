@@ -14,7 +14,9 @@ const props = defineProps({
 });
 
 const changeValue = (category: CustomizerComponent, customizer: Customizer) => {
-    model.value.get(category)!.value = customizer;
+    if (model.value) {
+        model.value.get(category)!.value = customizer;
+    }
     emit('change', model.value);
 }
 

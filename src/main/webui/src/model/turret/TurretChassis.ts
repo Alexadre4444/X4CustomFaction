@@ -1,6 +1,6 @@
+import Properties from "../common/Properties";
+import Size from "../common/Size";
 import ChassisSkin from "./ChassisSkin";
-import Properties from "./common/Properties";
-import Size from "./common/Size";
 
 export default class ChassisTurret {
     name: string;

@@ -46,6 +46,11 @@ public enum ChassisEgoSkinProps {
     XEN_M_BEAM("turret_xen_m_laser_01_mk1", "turret_xen_m_laser_02_mk1"),
     SPL_M_BEAM("turret_spl_m_beam_01_mk1", "turret_spl_m_beam_02_mk1"),
     TER_M_BEAM("turret_ter_m_beam_01_mk1", "turret_ter_m_beam_02_mk1"),
+    // Flak - M
+    ARG_M_FLAK("turret_arg_m_flak_01_mk1", "turret_arg_m_flak_02_mk1"),
+    SPL_M_FLAK("turret_spl_m_flak_01_mk1", "turret_spl_m_flak_02_mk1"),
+    // Needler - M
+    XEN_M_NEEDLER("turret_cf_xen_m_gatling_01_mk1", "turret_cf_xen_m_gatling_02_mk1"),
     // Beam - L
     ARG_L_BEAM("turret_arg_l_beam_01_mk1", null),
     TEL_L_BEAM("turret_tel_l_beam_01_mk1", null),
@@ -54,7 +59,9 @@ public enum ChassisEgoSkinProps {
     SPL_L_BEAM("turret_spl_l_beam_01_mk1", null),
     TER_L_BEAM("turret_ter_l_beam_01_mk1", null),
     // Electromagnetic - M
-    TER_M_ELECTROMAGNETIC("turret_cf_ter_m_laser_01_mk1", "turret_cf_ter_m_laser_02_mk1");
+    TER_M_ELECTROMAGNETIC("turret_cf_ter_m_laser_01_mk1", "turret_cf_ter_m_laser_02_mk1"),
+    // Seismic - L
+    XEN_L_SEISMIC("turret_cf_xen_l_plasma_01_mk1", null);
 
     private final String egoComponentName;
     private final String egoComponentNameAlias;

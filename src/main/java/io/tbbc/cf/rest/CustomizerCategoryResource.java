@@ -1,7 +1,7 @@
 package io.tbbc.cf.rest;
 
-import io.tbbc.cf.common.customizer.CustomizerCategory;
-import io.tbbc.cf.common.customizer.ICustomizerCategoryService;
+import io.tbbc.cf.customizer.CustomizerCategory;
+import io.tbbc.cf.customizer.ICustomizerCategoryService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;

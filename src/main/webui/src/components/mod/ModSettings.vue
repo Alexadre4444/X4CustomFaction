@@ -11,7 +11,7 @@ const props = defineProps({
 const formError = ref();
 
 const callOnSave = async () => {
-    ModService.updateTrigram(formFactionTrigram.value)
+    ModService.updateInfos(formFactionTrigram.value, formResearchActivated.value)
     .then(() => {
         props.onSave();
     }).catch(error => {
@@ -21,8 +21,11 @@ const callOnSave = async () => {
 
 let modInfos = await ModService.getActual();
 
+const options = ref([{label:"Off", name:"NO_RESEARCH"}, {label:"On", name: "RESEARCH"}]);
+
 const formVersion = ref(modInfos.version);
 const formFactionTrigram = ref(modInfos.factionTrigram);
+const formResearchActivated = ref(modInfos.researchMode);
 
 </script>
 <template>
@@ -35,6 +38,10 @@ const formFactionTrigram = ref(modInfos.factionTrigram);
     <div class="flex flex-col gap-2">
         <label for="trigram">Faction trigram</label>
         <InputText id="trigram" v-model="formFactionTrigram"/>
+    </div>
+    <div class="flex flex-col gap-2">
+        <label for="research">Research needed for blueprints</label>
+        <SelectButton v-model="formResearchActivated" :options="options" optionLabel="label" optionValue="name" />
     </div>
 </div>
 <div class="flex flex-wrap items-start gap-4 justify-end">

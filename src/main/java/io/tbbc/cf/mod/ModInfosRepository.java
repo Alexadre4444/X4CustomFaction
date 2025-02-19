@@ -10,11 +10,22 @@ import java.util.Optional;
 public class ModInfosRepository implements IModInfosRepository, PanacheRepository<ModInfos> {
     @Override
     public List<ModInfos> getAll() {
-        return listAll();
+        List<ModInfos> allModInfos = listAll();
+        allModInfos.forEach(this::setDefaultResearchMode);
+        return allModInfos;
+    }
+
+    private void setDefaultResearchMode(ModInfos modInfos) {
+        if (modInfos.getResearchMode() == null) {
+            modInfos.setResearchMode(ModInfos.ResearchMode.NO_RESEARCH);
+        }
     }
 
     private Optional<ModInfos> get(long version) {
-        return find("version", version).firstResultOptional();
+        return find("version", version).firstResultOptional().map(modInfos -> {
+            setDefaultResearchMode(modInfos);
+            return modInfos;
+        });
     }
 
     @Override
@@ -23,6 +34,7 @@ public class ModInfosRepository implements IModInfosRepository, PanacheRepositor
                 .orElseThrow(() -> new IllegalArgumentException("Mod version not found"));
         modInfos.setFactionTrigram(infoToUpdate.getFactionTrigram());
         modInfos.setDeploymentTime(infoToUpdate.getDeploymentTime());
+        modInfos.setResearchMode(infoToUpdate.getResearchMode());
     }
 
     @Override

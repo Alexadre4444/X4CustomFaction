@@ -1,17 +1,17 @@
 package io.tbbc.cf.turret.chassis;
 
 import io.tbbc.cf.common.Size;
-import io.tbbc.cf.common.property.CategoryInstances;
-import io.tbbc.cf.common.property.PropertyDefinition;
-import io.tbbc.cf.common.property.PropertyName;
+import io.tbbc.cf.property.CategoryInstances;
+import io.tbbc.cf.property.PropertyDefinition;
+import io.tbbc.cf.property.PropertyName;
 import io.tbbc.cf.turret.chassis.skin.ChassisSkin;
 
 import java.util.Comparator;
 import java.util.stream.Stream;
 
-import static io.tbbc.cf.common.property.Accessibility.ADVANCED;
-import static io.tbbc.cf.common.property.Accessibility.BASIC;
-import static io.tbbc.cf.common.property.CategoryInstances.*;
+import static io.tbbc.cf.property.Accessibility.ADVANCED;
+import static io.tbbc.cf.property.Accessibility.BASIC;
+import static io.tbbc.cf.property.CategoryInstances.*;
 import static io.tbbc.cf.turret.chassis.skin.ChassisSkinInstances.*;
 
 public class TurretChassisInstances {
@@ -23,7 +23,7 @@ public class TurretChassisInstances {
                     0.019, 0.32, 1, 5, 10),
             Stream.of(ARG_M_PULSE, TEL_M_PULSE, PAR_M_PULSE, XEN_M_PULSE, SPL_M_PULSE, TER_M_PULSE)
                     .sorted(Comparator.comparing(ChassisSkin::label)).toList());
-    public static final TurretChassis M_GATLING = new TurretChassis("m_gatling", "Gatling",
+    public static final TurretChassis M_GATLING = new TurretChassis("m_gatling", "Bolt",
             Size.MEDIUM, ChassisType.RAFFLE,
             new ChassisPropsRaffle(120, 660, 2, 15,
                     1.3, 10, 895, 3.8, 11, 11, 2, 0.01,
@@ -37,7 +37,7 @@ public class TurretChassisInstances {
                     8, 10),
             Stream.of(ARG_M_PLASMA, TEL_M_PLASMA, PAR_M_PLASMA, SPL_M_PLASMA)
                     .sorted(Comparator.comparing(ChassisSkin::label)).toList());
-    public static final TurretChassis M_SHOTGUN = new TurretChassis("m_shotgun", "Shotgun",
+    public static final TurretChassis M_SHOTGUN = new TurretChassis("m_shotgun", "Shard",
             Size.MEDIUM, ChassisType.STANDARD,
             new ChassisPropsStandard(108, 660, 2, 5, 1.2,
                     1070, 2.2, 32, 32, 3, 0.5, 0.003, 1.10,
@@ -57,6 +57,22 @@ public class TurretChassisInstances {
                     10, 30),
             Stream.of(TER_M_ELECTROMAGNETIC)
                     .sorted(Comparator.comparing(ChassisSkin::label)).toList());
+    public static final TurretChassis M_FLAK = new TurretChassis("m_flak", "Flak",
+            Size.MEDIUM, ChassisType.RAFFLE,
+            new ChassisPropsRaffle(140, 660, 1, 3,
+                    0.3, 3, 1660, 2, 50, 50, 1, 0,
+                    0.005, 0.09, 5, 18, 21),
+            Stream.of(ARG_M_FLAK, SPL_M_FLAK)
+                    .sorted(Comparator.comparing(ChassisSkin::label)).toList());
+    public static final TurretChassis M_NEEDLER = new TurretChassis("m_needler", "Needler",
+            Size.MEDIUM, ChassisType.RAFFLE,
+            new ChassisPropsRaffle(60, 800, 1, 8,
+                    0.5, 4, 2500, 1.3, 50, 50, 1,
+                    0, 0.1,
+                    0.21, 10, 20, 33),
+            Stream.of(XEN_M_NEEDLER)
+                    .sorted(Comparator.comparing(ChassisSkin::label)).toList());
+
     // Large
     public static final TurretChassis L_PULSE = new TurretChassis("l_pulse", "Pulse",
             Size.LARGE, ChassisType.STANDARD,
@@ -65,7 +81,7 @@ public class TurretChassisInstances {
                     0.015, 0.025, 4, 10, 20),
             Stream.of(ARG_L_PULSE, TEL_L_PULSE, PAR_L_PULSE, XEN_L_PULSE, KHA_L_PULSE, SPL_L_PULSE, TER_L_PULSE)
                     .sorted(Comparator.comparing(ChassisSkin::label)).toList());
-    public static final TurretChassis L_GATLING = new TurretChassis("l_gatling", "Gatling",
+    public static final TurretChassis L_GATLING = new TurretChassis("l_gatling", "Bolt",
             Size.LARGE, ChassisType.RAFFLE,
             new ChassisPropsRaffle(30, 3000, 2, 4,
                     3, 2, 2500, 2.5, 250, 250, 1, 0,
@@ -90,6 +106,13 @@ public class TurretChassisInstances {
             new ChassisPropsBeam(26, 3000, 2, 0.75, 250, 250,
                     5000, 6, 10, 39),
             Stream.of(ARG_L_BEAM, TEL_L_BEAM, PAR_L_BEAM, KHA_L_BEAM, SPL_L_BEAM, TER_L_BEAM)
+                    .sorted(Comparator.comparing(ChassisSkin::label)).toList());
+    public static final TurretChassis L_SEISMIC = new TurretChassis("l_seismic", "Seismic",
+            Size.LARGE, ChassisType.STANDARD,
+            new ChassisPropsStandard(25, 3500, 1, 1, 4,
+                    1100, 5, 3500, 3500, 1, 0,
+                    0.001, 0.15, 20, 50, 33),
+            Stream.of(XEN_L_SEISMIC)
                     .sorted(Comparator.comparing(ChassisSkin::label)).toList());
 
 
@@ -217,6 +240,43 @@ public class TurretChassisInstances {
                 new PropertyDefinition(PropertyNames.COST_TER_CARBIDE, "Terran - Silicon Carbide",
                         "The silicon carbide cost of the turret.", true,
                         CategoryInstances.COST.name(), 0.0, null, null, 0, BASIC);
+        // Bullet effect
+        public static final PropertyDefinition SELF_DESTRUCT =
+                new PropertyDefinition(PropertyNames.SELF_DESTRUCT, "Self destruct",
+                        "The bullet self destruct", false,
+                        BULLET.name(), 0d, 1d, "boolean", 0, ADVANCED);
+        public static final PropertyDefinition AREA_DAMAGE_HULL =
+                new PropertyDefinition(PropertyNames.AREA_DAMAGE_HULL, "Area damage (hull)",
+                        "The amount of damage dealt to unshielded target in the area.", false,
+                        DAMAGE.name(), 0.0, null, "MJ", 0, BASIC);
+        public static final PropertyDefinition AREA_DAMAGE_SHIELD =
+                new PropertyDefinition(PropertyNames.AREA_DAMAGE_SHIELD, "Area damage (shield)",
+                        "The amount of damage dealt to shielded target in the area.", false,
+                        DAMAGE.name(), 0.0, null, "MJ", 0, BASIC);
+        public static final PropertyDefinition AREA_DAMAGE_BONUS_SHIELD =
+                new PropertyDefinition(PropertyNames.AREA_DAMAGE_BONUS_SHIELD, "Area damage bonus (shield)",
+                        "The bonus damage dealt to shielded target in the area.", false,
+                        DAMAGE.name(), 0.0, null, "MJ", 0, ADVANCED);
+        public static final PropertyDefinition AREA_TIME =
+                new PropertyDefinition(PropertyNames.AREA_TIME, "Area time",
+                        "The time the area effect last.", false,
+                        BULLET.name(), 0.1, null, "s", 2, ADVANCED);
+        public static final PropertyDefinition AREA_LIFE_TIME =
+                new PropertyDefinition(PropertyNames.AREA_LIFE_TIME, "Area life time",
+                        "The time the area effect last.", false,
+                        BULLET.name(), 0.1, null, "s", 2, ADVANCED);
+        public static final PropertyDefinition PLANNED_SELF_DESTRUCT =
+                new PropertyDefinition(PropertyNames.PLANNED_SELF_DESTRUCT, "Self destruct",
+                        "The bullet self destruct", false,
+                        BULLET.name(), 0d, 1d, "boolean", 0, ADVANCED);
+        public static final PropertyDefinition SELF_DESTRUCT_TIME_DIFF =
+                new PropertyDefinition(PropertyNames.SELF_DESTRUCT_TIME_DIFF, "Self destruct time diff",
+                        "Random time at self destruct time... Maybe?", false,
+                        BULLET.name(), 0.00001, null, "s", 2, ADVANCED);
+        public static final PropertyDefinition SELF_DESTRUCT_MIN_TIME =
+                new PropertyDefinition(PropertyNames.SELF_DESTRUCT_MIN_TIME, "Self destruct min time",
+                        "Minimum time between bullet explosion.", false,
+                        BULLET.name(), 0.1, null, "s", 2, ADVANCED);
 
         Properties() {
         }
@@ -259,7 +319,15 @@ public class TurretChassisInstances {
         public static PropertyName COST_TER_MICROLATICE = new PropertyName("costTerMicrolattice");
         public static PropertyName COST_TER_CARBIDE = new PropertyName("costTerCarbide");
 
-        PropertyNames() {
-        }
+        // Bullet effect
+        public static PropertyName SELF_DESTRUCT = new PropertyName("selfDestruct");
+        public static PropertyName AREA_DAMAGE_HULL = new PropertyName("areaDamageHull");
+        public static PropertyName AREA_DAMAGE_SHIELD = new PropertyName("areaDamageShield");
+        public static PropertyName AREA_DAMAGE_BONUS_SHIELD = new PropertyName("areaDamageBonusShield");
+        public static PropertyName AREA_TIME = new PropertyName("areaTime");
+        public static PropertyName AREA_LIFE_TIME = new PropertyName("areaLifeTime");
+        public static PropertyName PLANNED_SELF_DESTRUCT = new PropertyName("plannedSelfDestruct");
+        public static PropertyName SELF_DESTRUCT_TIME_DIFF = new PropertyName("selfdestructtimediff");
+        public static PropertyName SELF_DESTRUCT_MIN_TIME = new PropertyName("selfdestructmintime");
     }
 }

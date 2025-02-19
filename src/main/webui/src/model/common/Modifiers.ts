@@ -7,8 +7,12 @@ export default class Modifiers {
     }
     
     modifier(name: string): Modifier {
-        return this.modifiers.find((modifier) =>{
+        const foundModifier = this.modifiers.find((modifier) => {
             return modifier.name === name;
-        } );
+        });
+        if (!foundModifier) {
+            throw new Error(`Modifier with name ${name} not found`);
+        }
+        return foundModifier;
     }
 }

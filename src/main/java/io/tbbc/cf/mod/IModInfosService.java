@@ -5,5 +5,5 @@ public interface IModInfosService {
 
     ModInfos deployAndGenerateNewVersion();
 
-    void setFactionTrigram(String factionTrigram);
+    void updateInfos(ModInfosUpdate modInfosUpdate);
 }

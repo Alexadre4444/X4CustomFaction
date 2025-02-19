@@ -52,5 +52,28 @@
             <owner faction="player"/>
         </ware>
         {/each}
+        {#each research}
+        <ware id="research_{it.name}"
+              name="\{{it.labelSection},{it.langEntryName.id}\}"
+              description="\{{it.descriptionSection},{it.langEntryDescription.id}\}"
+              transport="research" volume="1"
+              tags="nocustomgamestart research" sortorder="701">
+            <price min="1" average="1" max="1"/>
+            <research time="{it.researchTime}">
+                <primary>
+                    {#for costEntry in it.costs}
+                    <ware ware="{costEntry.costWare.egoWareName}" amount="{costEntry.value}"/>
+                    {/for}
+                </primary>
+                {#if it.parents.size() > 0}
+                <research>
+                    {#for parent in it.parents}
+                    <ware ware="research_{parent.name}"/>
+                    {/for}
+                </research>
+                {/if}
+            </research>
+        </ware>
+        {/each}
     </add>
 </diff>

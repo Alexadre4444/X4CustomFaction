@@ -6,7 +6,7 @@ export default class State {
 
     label: string;
 
-    constructor(label) {
+    constructor(label: string) {
         this.label = label;
     }
 

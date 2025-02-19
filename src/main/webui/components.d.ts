@@ -27,6 +27,7 @@ declare module 'vue' {
     ModUpdate: typeof import('./src/components/mod/ModUpdate.vue')['default']
     ProductionMethodSelector: typeof import('./src/components/common/ProductionMethodSelector.vue')['default']
     ProgressSpinner: typeof import('primevue/progressspinner')['default']
+    ResearchTag: typeof import('./src/components/common/ResearchTag.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Select: typeof import('primevue/select')['default']
@@ -40,5 +41,8 @@ declare module 'vue' {
     TurretCreate: typeof import('./src/components/turret/TurretCreate.vue')['default']
     TurretsSummary: typeof import('./src/components/turret/TurretsSummary.vue')['default']
     TurretUpdate: typeof import('./src/components/turret/TurretUpdate.vue')['default']
+  }
+  export interface ComponentCustomProperties {
+    Tooltip: typeof import('primevue/tooltip')['default']
   }
 }

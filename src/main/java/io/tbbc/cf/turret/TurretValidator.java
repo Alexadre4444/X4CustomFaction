@@ -2,8 +2,8 @@ package io.tbbc.cf.turret;
 
 import io.tbbc.cf.bullet.Bullet;
 import io.tbbc.cf.common.BadArgumentException;
-import io.tbbc.cf.common.customizer.CustomizerComponent;
-import io.tbbc.cf.common.production.ProductionMethod;
+import io.tbbc.cf.customizer.CustomizerComponent;
+import io.tbbc.cf.production.ProductionMethod;
 import io.tbbc.cf.turret.chassis.TurretChassis;
 import jakarta.enterprise.context.ApplicationScoped;
 

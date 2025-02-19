@@ -1,16 +1,31 @@
 package io.tbbc.cf.turret;
 
-import io.tbbc.cf.common.modifier.Modifier;
-import io.tbbc.cf.common.property.*;
+import io.tbbc.cf.bullet.Bullet;
+import io.tbbc.cf.bullet.skin.BulletSkin;
+import io.tbbc.cf.customizer.Customizer;
+import io.tbbc.cf.modifier.Modifier;
+import io.tbbc.cf.production.ProductionMethod;
+import io.tbbc.cf.property.*;
+import io.tbbc.cf.research.Research;
 import io.tbbc.cf.turret.chassis.TurretChassis;
 import io.tbbc.cf.turret.chassis.TurretChassisInstances;
+import io.tbbc.cf.turret.chassis.skin.ChassisSkin;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static io.tbbc.cf.turret.chassis.TurretChassisInstances.PropertyNames.*;
 
 public class ComputationHelper {
     private ComputationHelper() {
+    }
+
+    public static FinalProperties computeBulletEffectProperties(FinalProperties properties, Bullet bullet) {
+        return bullet.effects().stream()
+                .reduce(new FinalProperties(List.of()),
+                        (finalProperties, effect) -> effect.getNewProperties(properties),
+                        FinalProperties::concat);
     }
 
     static FinalPropValue computeShootPerSecondForBeam(FinalProperties baseProperties) {
@@ -224,6 +239,17 @@ public class ComputationHelper {
         return new FinalPropValueComputed(TurretChassisInstances.Properties.DAMAGE_BONUS_SHIELD, baseValue, finalValue);
     }
 
+    public static FinalPropValue computeAreaDamageBonusShield(FinalProperties baseProperties) {
+        FinalPropValue areaDamageHull = baseProperties.property(AREA_DAMAGE_HULL);
+        FinalPropValue areaDamageShield = baseProperties.property(AREA_DAMAGE_SHIELD);
+        double baseValue = computeDamageBonusShield(areaDamageHull.getBaseDoubleValue(),
+                areaDamageShield.getBaseDoubleValue());
+        double finalValue = computeDamageBonusShield(areaDamageHull.getFinalDoubleValue(),
+                areaDamageShield.getFinalDoubleValue());
+        return new FinalPropValueComputed(TurretChassisInstances.Properties.AREA_DAMAGE_BONUS_SHIELD,
+                baseValue, finalValue);
+    }
+
     private static double computeDamageBonusShield(double damageHull, double damageShield) {
         return damageShield - damageHull;
     }
@@ -299,5 +325,29 @@ public class ComputationHelper {
         double baseValue = costEnergyCells.getBaseDoubleValue() * 10d;
         double finalValue = costEnergyCells.getFinalDoubleValue() * 10d;
         return new FinalPropValueComputed(TurretChassisInstances.Properties.COST_CL_ENERGY_CELLS, baseValue, finalValue);
+    }
+
+    public static List<Research> computeRequiredResearch(ChassisSkin chassisSkin, BulletSkin bulletSkin,
+                                                         List<ProductionMethod> productionMethods,
+                                                         List<Customizer> customizers) {
+        return Stream.of(chassisSkin.requiredResearch().stream(),
+                        bulletSkin.requiredResearch().stream(),
+                        productionMethods.stream()
+                                .flatMap(productionMethod -> productionMethod.requiredResearch().stream()),
+                        customizers.stream().map(Customizer::requiredResearch))
+                .reduce(Stream::concat)
+                .orElseGet(Stream::empty)
+                .flatMap(research -> getAllParentResearch(research).stream())
+                .distinct()
+                .toList();
+    }
+
+    public static List<Research> getAllParentResearch(Research research) {
+        List<Research> result = new ArrayList<>();
+        result.add(research);
+        for (Research parent : research.parents()) {
+            result.addAll(getAllParentResearch(parent));
+        }
+        return result;
     }
 }

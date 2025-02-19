@@ -7,5 +7,5 @@ const props = defineProps({
 
 </script>
 <template>
-    <Tag severity="Secondary" :value="size"></Tag>
+    <Tag severity="info" :value="size"></Tag>
 </template>

@@ -1,87 +1,98 @@
 package io.tbbc.cf.bullet.skin;
 
+import java.util.List;
+
 import static io.tbbc.cf.bullet.skin.BulletEgoSkinProps.*;
+import static io.tbbc.cf.research.ResearchInstances.*;
 
 public class BulletSkinInstances {
     // Pulse - M
     public static final BulletSkin M_PULSE_BLUE = new BulletSkin("pulse_m_blue", "Common wealth (blue)",
-            BLUE_M_PULSE);
+            BLUE_M_PULSE, List.of());
     public static final BulletSkin M_PULSE_ION_BLUE = new BulletSkin("pulse_ion_m_blue", "Argon ion (blue)",
-            BLUE_M_PULSE_ION);
+            BLUE_M_PULSE_ION, List.of(RESEARCH_ARGON));
     public static final BulletSkin M_PULSE_RED = new BulletSkin("pulse_m_red", "Xenon (red)",
-            RED_M_PULSE);
+            RED_M_PULSE, List.of(RESEARCH_XENON));
 
     // Pulse - L
     public static final BulletSkin L_PULSE_BLUE = new BulletSkin("pulse_l_blue", "Argon (blue)",
-            BLUE_L_PULSE);
+            BLUE_L_PULSE, List.of(RESEARCH_ARGON));
     public static final BulletSkin L_PULSE_YELLOW = new BulletSkin("pulse_l_yellow", "Teladi (yellow)",
-            YELLOW_L_PULSE);
+            YELLOW_L_PULSE, List.of(RESEARCH_TELADI));
     public static final BulletSkin L_PULSE_VIOLET = new BulletSkin("pulse_l_violet", "Paranid (violet)",
-            VIOLET_L_PULSE);
+            VIOLET_L_PULSE, List.of(RESEARCH_PARANID));
     public static final BulletSkin L_PULSE_RED = new BulletSkin("pulse_l_red", "Xenon (red)",
-            RED_L_PULSE);
+            RED_L_PULSE, List.of(RESEARCH_XENON));
     public static final BulletSkin L_PULSE_ORANGE = new BulletSkin("pulse_l_orange", "Split (orange)",
-            ORANGE_L_PULSE);
+            ORANGE_L_PULSE, List.of(RESEARCH_SPLIT));
     public static final BulletSkin L_PULSE_WHITE = new BulletSkin("pulse_l_white", "Terran (white)",
-            WHITE_L_PULSE);
+            WHITE_L_PULSE, List.of(RESEARCH_TERRAN_TECH));
 
     // Gatling - M
     public static final BulletSkin M_GATLING_CW = new BulletSkin("gatling_m_cw", "Common wealth (orange)",
-            CW_M_GATLING);
+            CW_M_GATLING, List.of());
     public static final BulletSkin M_GATLING_XEN = new BulletSkin("gatling_m_xen", "Xenon (orange)",
-            XEN_M_GATLING);
+            XEN_M_GATLING, List.of(RESEARCH_XENON));
     public static final BulletSkin M_GATLING_TER = new BulletSkin("gatling_m_ter", "Terran (blue)",
-            TER_M_GATLING);
+            TER_M_GATLING, List.of(RESEARCH_TERRAN_TECH));
 
     // Gatling - L
     public static final BulletSkin L_GATLING_TER = new BulletSkin("gatling_l_ter", "Terran (blue)",
-            TER_L_GATLING);
+            TER_L_GATLING, List.of(RESEARCH_TERRAN_TECH));
 
     // Plasma - M
     public static final BulletSkin M_PLASMA_CW = new BulletSkin("plasma_m_cw", "Common wealth (yellow)",
-            PLASMA_M_CW);
+            PLASMA_M_CW, List.of());
 
     // Plasma - L
     public static final BulletSkin L_PLASMA_BLUE = new BulletSkin("plasma_l_blue", "Argon (blue)",
-            BLUE_L_PLASMA);
+            BLUE_L_PLASMA, List.of(RESEARCH_ARGON));
     public static final BulletSkin L_PLASMA_YELLOW = new BulletSkin("plasma_l_yellow", "Teladi (yellow)",
-            YELLOW_L_PLASMA);
+            YELLOW_L_PLASMA, List.of(RESEARCH_TELADI));
     public static final BulletSkin L_PLASMA_VIOLET = new BulletSkin("plasma_l_violet", "Paranid (violet)",
-            VIOLET_L_PLASMA);
+            VIOLET_L_PLASMA, List.of(RESEARCH_PARANID));
     public static final BulletSkin L_PLASMA_ORANGE = new BulletSkin("plasma_l_orange", "Split (orange)",
-            ORANGE_L_PLASMA);
+            ORANGE_L_PLASMA, List.of(RESEARCH_SPLIT));
 
     // Shotgun - M
     public static final BulletSkin M_SHOTGUN_CW = new BulletSkin("shotgun_m_cw", "Common wealth (orange)",
-            CW_M_SHOTGUN);
+            CW_M_SHOTGUN, List.of());
 
     // Beam - M
     public static final BulletSkin M_BEAM_CW = new BulletSkin("beam_m_cw", "Common wealth (red)",
-            CW_M_BEAM);
+            CW_M_BEAM, List.of());
     public static final BulletSkin M_BEAM_CW_MINING = new BulletSkin("beam_m_cw_mining", "Common wealth (blue)",
-            CW_M_BEAM_MINING);
+            CW_M_BEAM_MINING, List.of());
     public static final BulletSkin M_BEAM_KHA = new BulletSkin("beam_m_kha", "Kha'ak (violet)",
-            KHA_M_BEAM);
+            KHA_M_BEAM, List.of(RESEARCH_KHAAK));
     public static final BulletSkin M_BEAM_TER = new BulletSkin("beam_m_ter", "Terran (white)",
-            TER_M_BEAM);
+            TER_M_BEAM, List.of(RESEARCH_TERRAN_TECH));
 
     // Beam - L
     public static final BulletSkin L_BEAM_BLUE = new BulletSkin("beam_l_blue", "Argon (blue)",
-            ARG_L_BEAM);
+            ARG_L_BEAM, List.of(RESEARCH_ARGON));
     public static final BulletSkin L_BEAM_YELLOW = new BulletSkin("beam_l_yellow", "Teladi (yellow)",
-            TEL_L_BEAM);
+            TEL_L_BEAM, List.of(RESEARCH_TELADI));
     public static final BulletSkin L_BEAM_VIOLET = new BulletSkin("beam_l_violet", "Paranid (violet)",
-            PAR_L_BEAM);
+            PAR_L_BEAM, List.of(RESEARCH_PARANID));
     public static final BulletSkin L_BEAM_VIOLET_KHA = new BulletSkin("beam_l_violet_kha", "Kha'ak (violet)",
-            KHA_L_BEAM);
+            KHA_L_BEAM, List.of(RESEARCH_KHAAK));
     public static final BulletSkin L_BEAM_ORANGE = new BulletSkin("beam_l_orange", "Split (orange)",
-            SPL_L_BEAM);
+            SPL_L_BEAM, List.of(RESEARCH_SPLIT));
     public static final BulletSkin L_BEAM_WHITE = new BulletSkin("beam_l_white", "Terran (white)",
-            TER_L_BEAM);
+            TER_L_BEAM, List.of(RESEARCH_TERRAN_TECH));
 
     // Electromagnetic - M
     public static final BulletSkin M_ELECTROMAGNETIC_TER = new BulletSkin("electromagnetic_m_ter", "Terran (blue)",
-            TER_M_ELECTROMAGNETIC);
+            TER_M_ELECTROMAGNETIC, List.of(RESEARCH_FRONTIER));
+
+    // Flak - M
+    public static final BulletSkin M_FLAK_CW = new BulletSkin("flak_m_cw", "Common wealth (orange)",
+            CW_M_FLAK, List.of());
+
+    // Seismic - L
+    public static final BulletSkin L_SEISMIC_XEN = new BulletSkin("seismic_l_xen", "Xenon (red)",
+            XEN_L_SEISMIC, List.of(RESEARCH_XENON));
 
 
     private BulletSkinInstances() {

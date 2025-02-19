@@ -5,6 +5,7 @@ import CustomizerComponent from '@/model/common/CustomizerComponent';
 import CustomizerValue from '@/model/common/CustomizerValue';
 import ModifiedValue from '@/model/common/ModifiedValue';
 import ProductionMethodName from '@/model/common/ProductionMethodName';
+import Research from '@/model/common/Research';
 import Bullet from '@/model/turret/Bullet';
 import BulletSkin from '@/model/turret/BulletSkin';
 import ChassisSkin from '@/model/turret/ChassisSkin';
@@ -72,6 +73,8 @@ const fixBulletSkinOnChange = () => {
     }
 }
 
+const requiredResearch = ref<Research[]>([]);
+
 const computedPropertiesByCategoryMap = computed(() => {
     let map = new Map<Category, ModifiedValue[]>();
     computedProperties.value?.sort((val1, val2) => val1.definition.category.label.localeCompare(val2.definition.category.label))
@@ -111,6 +114,7 @@ const availableBullets = computed<Bullet[]>(() => {
 });
 
 const iconUrl = computed(() => {
+    console.log(formChassisSkin.value);
     if(formChassisSkin.value == null) {
         return `/assets/turret/notfound.png`;
     }
@@ -144,21 +148,24 @@ const update = () => {
 }
 
 function computeProperties() {
-    if(formChassis.value != null && formBullet.value != null) {
+    if(formChassis.value != null && formBullet.value != null && formChassisSkin.value != null && formBulletSkin.value != null) {
         let customizers: Record<string, string> = {};
         formCustomizers.value.forEach((customizer, category) => {
             if(customizer != null) {
                 customizers[category.name] = customizer.value?.name;
             }
         });
-        ComputationService.computeTurretProperties(formChassis.value.name, formBullet.value.name, customizers, formProductionMethodsName.value)
-        .then(properties => {
-            computedProperties.value = properties;
+        ComputationService.computeTurretProperties(formChassis.value.name, formChassisSkin.value.name,
+             formBullet.value.name, formBulletSkin.value.name, customizers, formProductionMethodsName.value)
+        .then(computationResult => {
+            computedProperties.value = computationResult.finalProperties;
+            requiredResearch.value = computationResult.requiredResearch;
         }).catch(error => {
             NotificationService.error(error);
         });
     } else {
         computedProperties.value = [];
+        requiredResearch.value = [];
     }
 }
 
@@ -280,6 +287,7 @@ await refreshChassis()
                         <Select id="chassisSkin" 
                         v-model="formChassisSkin" 
                         :options="formChassis.availableSkins" 
+                        @change="computeProperties"
                         optionLabel="label" :filter="true" :showClear="true" />   
                     </div>
                 </div>
@@ -293,25 +301,31 @@ await refreshChassis()
         </div>
         <div v-if="loadedTurret" class="col-span-6 xl:col-span-3">
             <div class="card flex flex-col gap-2 w-full">
+                <div v-if="requiredResearch.length > 0" class="font-semibold text-xl">Required research</div>
+                <div class="flex flex-col gap-2">
+                    <ResearchTag v-for="research in requiredResearch" :key="research.name" :research="research"/>
+                </div>
+
                 <div class="font-semibold text-xl">Customization</div>
-                    <div class="flex flex-col gap-2">
-                        <label for="bullet">Bullet</label>
-                        <Select  id="bullet" v-model="formBullet" 
-                        :options="availableBullets" 
-                        optionLabel="label" 
-                        @change="bulletOnChange"
-                        :filter="true" :showClear="true" />
-                    </div>
-                    <ModifiersDisplay v-if="formBullet"
-                    :applicable-properties="applicableProperties" 
-                    :modifiers="formBullet.modifiers.modifiers"/>
-                    <div v-if="formBullet" class="flex flex-col gap-2">
-                        <label for="bulletSkin">Bullet skin</label>
-                        <Select id="bulletSkin" 
-                        v-model="formBulletSkin" 
-                        :options="formBullet.availableSkins" 
-                        optionLabel="label" :filter="true" :showClear="true" />   
-                    </div>
+                <div class="flex flex-col gap-2">
+                    <label for="bullet">Bullet</label>
+                    <Select  id="bullet" v-model="formBullet" 
+                    :options="availableBullets" 
+                    optionLabel="label" 
+                    @change="bulletOnChange"
+                    :filter="true" :showClear="true" />
+                </div>
+                <ModifiersDisplay v-if="formBullet"
+                :applicable-properties="applicableProperties" 
+                :modifiers="formBullet.modifiers.modifiers"/>
+                <div v-if="formBullet" class="flex flex-col gap-2">
+                    <label for="bulletSkin">Bullet skin</label>
+                    <Select id="bulletSkin" 
+                    v-model="formBulletSkin" 
+                    :options="formBullet.availableSkins" 
+                    @change="computeProperties"
+                    optionLabel="label" :filter="true" :showClear="true" />   
+                </div>
                 <CustomizersComponents v-model="formCustomizers" @change="computeProperties" 
                 :applicable-properties="applicableProperties" /> 
             </div>

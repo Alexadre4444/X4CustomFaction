@@ -1,6 +1,6 @@
-# X4 Foundation - Custom Faction - 0.1.1
+# X4 Foundation - Custom Faction - 0.1.2
 
-> **_NOTE:_**  The version 0.1.1 is compatible with the 0.1.0 version. See update section for more information.
+> **_NOTE:_**  The version 0.1.2 is compatible with the prvious 0.1.X versions. See update section for more information.
 
 ## Presentation
 
@@ -37,19 +37,19 @@ __The tool requires Java 21 or above to run.__
 
 ### First Installation
 
-* Download the latest .jar version in [release page](https://github.com/Alexadre4444/X4CustomFaction/releases)
+* Download the latest version in [release page](https://github.com/Alexadre4444/X4CustomFaction/releases)
 * Create a folder where you want to store the tool, data and generated mods
-* Launch a powershell or a terminal in the folder and run the following command:
+* Unzip the downloaded file in the folder
+* Execute the `start.ps1` with powershell.
 
-```shell
-java -jar X4CustomFaction-0.1.1.jar
-```
+> **_NOTE:_** If windows does not execute the script by default using powershell, you can right-click on the file and
+> choose "execute with powershell" .
 
 ### Update
 
 * Download the latest .jar version in [release page](https://github.com/Alexadre4444/X4CustomFaction/releases)
-* Replace the old .jar with the new one
-* Launch the tool with the same command as the first installation
+* Replace the old .jar and .ps1 files
+* Launch the tool with the .ps1 file
 
 ### Once started
 
@@ -66,6 +66,9 @@ If you create new turrets or modify existing ones, you must generate a new versi
 Install the new version and delete the old one. The save will then take the changes into account.
 
 > **_NOTE:_** The faction trigram can be changed in the mod settings next to the "Generate new version" button.
+
+By default, the generated turret does not require research to be unlocked in-game.
+This behavior can be changed in the mod settings.
 
 ## Issues and suggestions
 
@@ -86,6 +89,13 @@ the [issue page](https://github.com/Alexadre4444/X4CustomFaction/issues).
 * Adding production method for turrets
 * Add some Terran turrets
 
+### 0.1.2
+
+* Preview: Add required research for turrets blueprint in-game (optional, disabled by default)
+* Fix Common-Wealth bolt bullet sound
+* Change some chassis and bullet names
+* Add Xenon needler and seismic turret
+
 ## Roadmap
 
 Currently, this tool is a proof of concept. Depending on my availability, desires, and feedback, the project is expected
@@ -97,13 +107,13 @@ The "short-term" planned features are as follows:
 * Addition of turrets and projectiles from DLCs
 * Improvement of existing "customizers"
 * Addition of area damage and other special effects (notably Boron)
-* Addition of a system requiring turrets to be unlocked in-game (probably through research)
 
 The "medium-term" planned features are as follows:
 
 * Addition of weapons
 * Addition of shields
 * Addition of engines
+* Improve research mechanism
 
 ## Development
 

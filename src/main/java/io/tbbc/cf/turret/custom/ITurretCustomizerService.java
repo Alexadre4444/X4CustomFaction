@@ -1,6 +1,6 @@
 package io.tbbc.cf.turret.custom;
 
-import io.tbbc.cf.common.customizer.CustomizerComponent;
+import io.tbbc.cf.customizer.CustomizerComponent;
 
 import java.util.List;
 

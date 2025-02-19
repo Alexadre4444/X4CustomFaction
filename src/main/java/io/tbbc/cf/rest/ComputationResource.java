@@ -1,7 +1,7 @@
 package io.tbbc.cf.rest;
 
-import io.tbbc.cf.common.property.FinalProperties;
 import io.tbbc.cf.rest.model.TurretComputation;
+import io.tbbc.cf.turret.ComputationResult;
 import io.tbbc.cf.turret.ITurretService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.POST;
@@ -14,9 +14,10 @@ public class ComputationResource {
 
     @POST
     @Path("/turret")
-    public FinalProperties computeTurretStats(TurretComputation turretComputation) {
-        return turretService.computeFinalValues(turretComputation.getChassisName(),
-                turretComputation.getBulletName(), turretComputation.getCustomizers(),
+    public ComputationResult computeTurretStats(TurretComputation turretComputation) {
+        return turretService.computeFinalProperties(turretComputation.getChassisName(),
+                turretComputation.getChassisSkinName(), turretComputation.getBulletName(),
+                turretComputation.getBulletSkinName(), turretComputation.getCustomizers(),
                 turretComputation.getProductionMethodNames());
     }
 }

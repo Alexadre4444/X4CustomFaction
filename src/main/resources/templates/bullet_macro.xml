@@ -23,7 +23,20 @@
                     timeDiff="{turret.properties.property('timeDiff').getFinalValueString}"
                     scale="0"
                     attach="0"
-                    restitution="0.3"/>
+                    restitution="0.3"
+                    {#if turret.properties.hasProperty('selfDestruct')}
+                    selfdestruct="{turret.properties.property('selfDestruct').getFinalValueString}"
+                    {/if}
+                    {#if turret.properties.hasProperty('plannedselfdestruct')}
+                    plannedselfdestruct="{turret.properties.property('plannedselfdestruct').getFinalValueString}"
+                    {/if}
+                    {#if turret.properties.hasProperty('selfdestructtimediff')}
+                    selfdestructtimediff="{turret.properties.property('selfdestructtimediff').getFinalValueString}"
+                    {/if}
+                    {#if turret.properties.hasProperty('selfdestructmintime')}
+                    selfdestructmintime="{turret.properties.property('selfdestructmintime').getFinalValueString}"
+                    {/if}
+                    />
             {#else}
             <bullet speed="2.997925e+08"
                     lifetime="{turret.properties.property('lifeTime').getFinalValueString}"
@@ -34,7 +47,19 @@
                     maxhits="1"
                     ricochet="0"
                     scale="1"
-                    attach="1" />
+                    attach="1"
+                    />
+            {/if}
+            {#if turret.properties.hasProperty('areaDamageHull')}
+            <areadamage value="{turret.properties.property('areaDamageHull').getFinalValueString}"
+                        shield="{turret.properties.property('areaDamageBonusShield').getFinalValueString}"
+                        {#if turret.properties.hasProperty('areaTime')}
+                        time="{turret.properties.property('areaTime').getFinalValueString}"
+                        {/if}
+                        {#if turret.properties.hasProperty('areaLifeTime')}
+                        lifetime="{turret.properties.property('areaLifeTime').getFinalValueString}"
+                        {/if}
+                        />
             {/if}
             {#if turret.chassisType == ChassisType:RAFFLE}
             <reload rate="{turret.properties.property('fireRate').getFinalValueString}"/>
@@ -44,11 +69,23 @@
             <damage value="{turret.properties.property('damageHull').getFinalValueString}"
                     shield="{turret.properties.property('damageBonusShield').getFinalValueString}" repair="0"/>
             <effects>
+                {#if turret.bulletEgoSkinProps.impact != null}
                 <impact ref="{turret.bulletEgoSkinProps.impact.ref}"
-                        inside="{turret.bulletEgoSkinProps.impact.inside}"/>
+                        {#if turret.bulletEgoSkinProps.impact.inside != null}
+                        inside="{turret.bulletEgoSkinProps.impact.inside}"
+                        {/if}
+                        />
+                {/if}
+                {#if turret.bulletEgoSkinProps.bigObjectImpact != null}
                 <bigobjectimpact ref="{turret.bulletEgoSkinProps.bigObjectImpact.ref}"
-                                 inside="{turret.bulletEgoSkinProps.bigObjectImpact.inside}"/>
+                                 {#if turret.bulletEgoSkinProps.bigObjectImpact.inside != null}
+                                 inside="{turret.bulletEgoSkinProps.bigObjectImpact.inside}"
+                                 {/if}
+                                    />
+                {/if}
+                {#if turret.bulletEgoSkinProps.launch != null}
                 <launch ref="{turret.bulletEgoSkinProps.launch.ref}"/>
+                {/if}
             </effects>
             {#if turret.bulletEgoSkinProps.soundName != null}
             <sounds>

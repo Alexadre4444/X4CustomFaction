@@ -1,6 +1,6 @@
 package io.tbbc.cf.rest;
 
-import io.tbbc.cf.common.customizer.CustomizerComponent;
+import io.tbbc.cf.customizer.CustomizerComponent;
 import io.tbbc.cf.turret.custom.ITurretCustomizerService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;

@@ -1,6 +1,6 @@
 package io.tbbc.cf.turret.chassis;
 
-import io.tbbc.cf.common.property.PropertyDefinition;
+import io.tbbc.cf.property.PropertyDefinition;
 
 import java.util.List;
 import java.util.Optional;
