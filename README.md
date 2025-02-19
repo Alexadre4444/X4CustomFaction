@@ -1,6 +1,6 @@
 # X4 Foundation - Custom Faction - 0.1.2
 
-> **_NOTE:_**  The version 0.1.1 is compatible with the 0.1.0 version. See update section for more information.
+> **_NOTE:_**  The version 0.1.2 is compatible with the prvious 0.1.X versions. See update section for more information.
 
 ## Presentation
 

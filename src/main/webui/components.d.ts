@@ -11,7 +11,6 @@ declare module 'vue' {
     Button: typeof import('primevue/button')['default']
     Card: typeof import('primevue/card')['default']
     CategoryProperties: typeof import('./src/components/common/CategoryProperties.vue')['default']
-    copy: typeof import('./src/components/common/SizeTag copy.vue')['default']
     CustomizersComponents: typeof import('./src/components/common/CustomizersComponents.vue')['default']
     Dialog: typeof import('primevue/dialog')['default']
     IconField: typeof import('primevue/iconfield')['default']

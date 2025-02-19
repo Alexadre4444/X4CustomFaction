@@ -1,5 +1,5 @@
 # Define the jar file name
-$toolVersion = "0.1.1"
+$toolVersion = "0.1.2"
 $jarFileName = "X4CustomFaction-$toolVersion.jar"
 $requiredJavaVersion = 21
 

@@ -14,7 +14,7 @@ public class ModInfos {
 
     private ZonedDateTime deploymentTime;
 
-    private ResearchMode researchMode = ResearchMode.NO_RESEARCH;
+    private ResearchMode researchMode;
 
     public ModInfos() {
     }
