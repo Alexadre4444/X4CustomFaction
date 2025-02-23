@@ -16,7 +16,9 @@ const displayableModifiers = computed(() => {
 });
 
 const shouldDisplayModifier = (modifier: Modifier) => {
-    return props.applicableProperties && props.applicableProperties.includes(modifier.propertyDefinition);
+    return props.applicableProperties 
+        && (props.applicableProperties.some((property) => property.name === modifier.name)
+        || props.applicableProperties.some((property) => property.category?.name === modifier.name));
 };
 
 </script>

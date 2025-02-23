@@ -3,7 +3,9 @@ import Customizer from '@/model/common/Customizer';
 import CustomizerComponent from '@/model/common/CustomizerComponent';
 import CustomizerValue from '@/model/common/CustomizerValue';
 import FreeCustomizerValue from '@/model/common/FreeCustomizerValue';
+import ModifiedValue from '@/model/common/ModifiedValue';
 import ProductionMethodName from '@/model/common/ProductionMethodName';
+import PropertyDefinition from '@/model/common/PropertyDefinition';
 import Research from '@/model/common/Research';
 import Bullet from '@/model/turret/Bullet';
 import BulletSkin from '@/model/turret/BulletSkin';
@@ -39,6 +41,8 @@ const formAccessibility = ref<string>('BASIC');
 
 const customizerComponents = ref<CustomizerComponent[]>();
 
+const computedProperties = ref<ModifiedValue[]>([]);
+
 const freeCustomizerValues =  ref<FreeCustomizerValue[]>([]);
 
 const chassisOnChange = () => {
@@ -72,9 +76,7 @@ const fixBulletSkinOnChange = () => {
 
 const requiredResearch = ref<Research[]>([]);
 
-const applicableProperties = computed(() => {
-    return freeCustomizerValues.value.map(modifiedValue => modifiedValue.propertyDefinition);
-});
+const applicableProperties = ref<PropertyDefinition[]>([]);
 
 const availableBullets = computed<Bullet[]>(() => {
     if(formChassis.value == null) {
@@ -129,6 +131,7 @@ function computeProperties() {
                     if(freeCustomizerValue == null) {
                         freeCustomizerValue = new FreeCustomizerValue(property.baseValueString, property.finalValueString, property.definition);
                         freeCustomizerValues.value.push(freeCustomizerValue);
+                        applicableProperties.value.push(property.definition);
                     } else {
                         freeCustomizerValue.propertyBaseValue = property.baseValueString;
                         freeCustomizerValue.propertyFinalValue = property.finalValueString;
@@ -144,6 +147,7 @@ function computeProperties() {
             });
     } else {
         freeCustomizerValues.value = [];
+        applicableProperties.value = [];
     }
 }
 
