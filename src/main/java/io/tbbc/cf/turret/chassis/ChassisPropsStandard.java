@@ -4,6 +4,7 @@ import io.tbbc.cf.property.Properties;
 import io.tbbc.cf.property.Property;
 import io.tbbc.cf.property.PropertyName;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,10 +14,12 @@ public class ChassisPropsStandard implements IChassisProps {
 
     private final Properties properties;
 
-    public ChassisPropsStandard(long rotationSpeed, long hull, long barrelAmount, long amount, double reloadTime,
-                                long speed, double lifeTime, long damageHull, long damageShield, long maxHits, double ricochet, double timeDiff,
-                                double accuracy, long costAdvancedElectronics, long costEnergyCells,
-                                long costTurretsComps) {
+    public ChassisPropsStandard(BigDecimal rotationSpeed, BigDecimal hull, BigDecimal barrelAmount,
+                                BigDecimal amount, BigDecimal reloadTime, BigDecimal speed,
+                                BigDecimal lifeTime, BigDecimal damageHull, BigDecimal damageShield,
+                                BigDecimal maxHits, BigDecimal ricochet, BigDecimal timeDiff,
+                                BigDecimal accuracy, BigDecimal costAdvancedElectronics, BigDecimal costEnergyCells,
+                                BigDecimal costTurretsComps) {
         properties = new Properties(List.of(
                 new Property(ROTATION_SPEED, rotationSpeed),
                 new Property(HULL, hull),

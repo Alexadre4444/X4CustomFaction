@@ -307,7 +307,7 @@ public class TurretService implements ITurretService {
                         modifier = customizers.get(finalPropValue.getName().name());
                     }
                     return new FinalPropValueModifier(finalPropValue.definition(),
-                            finalPropValue.getFinalDoubleValue(), List.of(new Modifier(finalPropValue.definition().name(),
+                            finalPropValue.getFinalBigDecimalValue(), List.of(new Modifier(finalPropValue.definition().name(),
                             modifier)));
                 }).map(FinalPropValue.class::cast)
                 .toList();

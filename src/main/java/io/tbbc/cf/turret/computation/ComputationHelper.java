@@ -11,6 +11,8 @@ import io.tbbc.cf.turret.chassis.TurretChassis;
 import io.tbbc.cf.turret.chassis.TurretChassisInstances;
 import io.tbbc.cf.turret.chassis.skin.ChassisSkin;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -31,8 +33,8 @@ public class ComputationHelper {
     public static FinalPropValue computeShootPerSecondForBeam(FinalProperties baseProperties) {
         FinalPropValue reloadTime = baseProperties.property(RELOAD_TIME);
         FinalPropValue lifeTime = baseProperties.property(LIFE_TIME);
-        double baseValue = computeShootPerSecondForBeam(reloadTime.getBaseDoubleValue(), lifeTime.getBaseDoubleValue());
-        double finalValue = computeShootPerSecondForBeam(reloadTime.getFinalDoubleValue(), lifeTime.getFinalDoubleValue());
+        BigDecimal baseValue = computeShootPerSecondForBeam(reloadTime.getBaseBigDecimalValue(), lifeTime.getBaseBigDecimalValue());
+        BigDecimal finalValue = computeShootPerSecondForBeam(reloadTime.getFinalBigDecimalValue(), lifeTime.getFinalBigDecimalValue());
         int modifier = computeModifier(baseValue, finalValue);
         return new FinalPropValueBase(new Property(SHOOT_PER_SECOND, baseValue), TurretChassisInstances.Properties.SHOOT_PER_SECOND,
                 List.of(new Modifier(SHOOT_PER_SECOND, modifier)));
@@ -40,29 +42,29 @@ public class ComputationHelper {
 
     public static FinalPropValue computeAcceleration(FinalProperties baseProperties) {
         FinalPropValue rotationSpeed = baseProperties.property(ROTATION_SPEED);
-        double baseValue = computeAcceleration(rotationSpeed.getBaseDoubleValue());
-        double finalValue = computeAcceleration(rotationSpeed.getFinalDoubleValue());
+        BigDecimal baseValue = computeAcceleration(rotationSpeed.getBaseBigDecimalValue());
+        BigDecimal finalValue = computeAcceleration(rotationSpeed.getFinalBigDecimalValue());
         int modifier = computeModifier(baseValue, finalValue);
         return new FinalPropValueBase(new Property(ROTATION_ACCELERATION, baseValue), TurretChassisInstances.Properties.ROTATION_ACCELERATION,
                 List.of(new Modifier(ROTATION_ACCELERATION, modifier)));
     }
 
-    private static double computeAcceleration(double rotationSpeed) {
-        return rotationSpeed * 2;
+    private static BigDecimal computeAcceleration(BigDecimal rotationSpeed) {
+        return rotationSpeed.multiply(new BigDecimal(2));
     }
 
     public static FinalPropValue computeRange(FinalProperties baseProperties) {
         FinalPropValue speed = baseProperties.property(SPEED);
         FinalPropValue lifeTime = baseProperties.property(LIFE_TIME);
-        double baseValue = computeRange(speed.getBaseDoubleValue(), lifeTime.getBaseDoubleValue());
-        double finalValue = computeRange(speed.getFinalDoubleValue(), lifeTime.getFinalDoubleValue());
+        BigDecimal baseValue = computeRange(speed.getBaseBigDecimalValue(), lifeTime.getBaseBigDecimalValue());
+        BigDecimal finalValue = computeRange(speed.getFinalBigDecimalValue(), lifeTime.getFinalBigDecimalValue());
         int modifier = computeModifier(baseValue, finalValue);
         return new FinalPropValueBase(new Property(RANGE, baseValue), TurretChassisInstances.Properties.RANGE,
                 List.of(new Modifier(RANGE, modifier)));
     }
 
-    private static double computeRange(double speed, double lifeTime) {
-        return speed * lifeTime;
+    private static BigDecimal computeRange(BigDecimal speed, BigDecimal lifeTime) {
+        return speed.multiply(lifeTime);
     }
 
     public static FinalPropValue computeBurstTime(TurretChassis chassis, FinalProperties baseProperties) {
@@ -74,8 +76,8 @@ public class ComputationHelper {
 
     private static FinalPropValue computeBurstTimeForStandard(FinalProperties baseProperties) {
         FinalPropValue reloadTime = baseProperties.property(RELOAD_TIME);
-        double baseValue = reloadTime.getBaseDoubleValue();
-        double finalValue = reloadTime.getFinalDoubleValue();
+        BigDecimal baseValue = reloadTime.getBaseBigDecimalValue();
+        BigDecimal finalValue = reloadTime.getFinalBigDecimalValue();
         int modifier = computeModifier(baseValue, finalValue);
         return new FinalPropValueBase(new Property(BURST_TIME, baseValue), TurretChassisInstances.Properties.BURST_TIME,
                 List.of(new Modifier(BURST_TIME, modifier)));
@@ -85,21 +87,21 @@ public class ComputationHelper {
         FinalPropValue reloadTime = baseProperties.property(RELOAD_TIME);
         FinalPropValue amount = baseProperties.property(AMOUNT);
         FinalPropValue fireRate = baseProperties.property(FIRE_RATE);
-        double baseValue = computeBurstTimeForRaffle(reloadTime.getBaseDoubleValue(),
-                amount.getBaseDoubleValue(), fireRate.getBaseDoubleValue());
-        double finalValue = computeBurstTimeForRaffle(reloadTime.getFinalDoubleValue(),
-                amount.getFinalDoubleValue(), fireRate.getFinalDoubleValue());
+        BigDecimal baseValue = computeBurstTimeForRaffle(reloadTime.getBaseBigDecimalValue(),
+                amount.getBaseBigDecimalValue(), fireRate.getBaseBigDecimalValue());
+        BigDecimal finalValue = computeBurstTimeForRaffle(reloadTime.getFinalBigDecimalValue(),
+                amount.getFinalBigDecimalValue(), fireRate.getFinalBigDecimalValue());
         int modifier = computeModifier(baseValue, finalValue);
         return new FinalPropValueBase(new Property(BURST_TIME, baseValue), TurretChassisInstances.Properties.BURST_TIME,
                 List.of(new Modifier(BURST_TIME, modifier)));
     }
 
-    private static double computeBurstTimeForRaffle(double reloadTime, double amount, double fireRate) {
-        return reloadTime + (amount / fireRate);
+    private static BigDecimal computeBurstTimeForRaffle(BigDecimal reloadTime, BigDecimal amount, BigDecimal fireRate) {
+        return reloadTime.add(amount.divide(fireRate, RoundingMode.HALF_UP));
     }
 
-    private static int computeModifier(double baseValue, double finalValue) {
-        return (int) Math.round((finalValue - baseValue) / baseValue * 100);
+    private static int computeModifier(BigDecimal baseValue, BigDecimal finalValue) {
+        return (finalValue.subtract(baseValue)).divide(baseValue, RoundingMode.HALF_UP).multiply(new BigDecimal(100)).intValue();
     }
 
     public static FinalPropValue computeShootPerSecond(TurretChassis turretChassis, FinalProperties baseProperties, FinalPropValue burstTime) {
@@ -110,13 +112,13 @@ public class ComputationHelper {
         };
     }
 
-    private static double computeShootPerSecondForBeam(double reloadTime, double lifeTime) {
-        return lifeTime / reloadTime;
+    private static BigDecimal computeShootPerSecondForBeam(BigDecimal reloadTime, BigDecimal lifeTime) {
+        return lifeTime.divide(reloadTime, RoundingMode.HALF_UP);
     }
 
     private static FinalPropValue computeShootPerSecondForStandard(FinalPropValue burstTime) {
-        double baseValue = computeShootPerSecond(1, burstTime.getBaseDoubleValue());
-        double finalValue = computeShootPerSecond(1, burstTime.getFinalDoubleValue());
+        BigDecimal baseValue = computeShootPerSecond(new BigDecimal(1), burstTime.getBaseBigDecimalValue());
+        BigDecimal finalValue = computeShootPerSecond(new BigDecimal(1), burstTime.getFinalBigDecimalValue());
         int modifier = computeModifier(baseValue, finalValue);
         return new FinalPropValueBase(new Property(SHOOT_PER_SECOND, baseValue), TurretChassisInstances.Properties.SHOOT_PER_SECOND,
                 List.of(new Modifier(SHOOT_PER_SECOND, modifier)));
@@ -124,15 +126,15 @@ public class ComputationHelper {
 
     private static FinalPropValue computeShootPerSecondForRaffle(FinalProperties baseProperties, FinalPropValue burstTime) {
         FinalPropValue amount = baseProperties.property(AMOUNT);
-        double baseValue = computeShootPerSecond(amount.getBaseDoubleValue(), burstTime.getBaseDoubleValue());
-        double finalValue = computeShootPerSecond(amount.getFinalDoubleValue(), burstTime.getFinalDoubleValue());
+        BigDecimal baseValue = computeShootPerSecond(amount.getBaseBigDecimalValue(), burstTime.getBaseBigDecimalValue());
+        BigDecimal finalValue = computeShootPerSecond(amount.getFinalBigDecimalValue(), burstTime.getFinalBigDecimalValue());
         int modifier = computeModifier(baseValue, finalValue);
         return new FinalPropValueBase(new Property(SHOOT_PER_SECOND, baseValue), TurretChassisInstances.Properties.SHOOT_PER_SECOND,
                 List.of(new Modifier(SHOOT_PER_SECOND, modifier)));
     }
 
-    private static double computeShootPerSecond(double amount, double burstTime) {
-        return amount / burstTime;
+    private static BigDecimal computeShootPerSecond(BigDecimal amount, BigDecimal burstTime) {
+        return amount.divide(burstTime, RoundingMode.HALF_UP);
     }
 
     public static FinalPropValue computeDamageHullPerSecond(TurretChassis chassis, FinalProperties baseProperties, FinalPropValue shootPerSecond) {
@@ -153,8 +155,8 @@ public class ComputationHelper {
 
     private static FinalPropValue computeDamageShieldPerSecondForBeam(FinalProperties baseProperties, FinalPropValue shootPerSecond) {
         FinalPropValue damage = baseProperties.property(DAMAGE_SHIELD);
-        double baseValue = computeDamagePerSecond(damage.getBaseDoubleValue(), 1, shootPerSecond.getBaseDoubleValue());
-        double finalValue = computeDamagePerSecond(damage.getFinalDoubleValue(), 1, shootPerSecond.getFinalDoubleValue());
+        BigDecimal baseValue = computeDamagePerSecond(damage.getBaseBigDecimalValue(), new BigDecimal(1), shootPerSecond.getBaseBigDecimalValue());
+        BigDecimal finalValue = computeDamagePerSecond(damage.getBaseBigDecimalValue(), new BigDecimal(1), shootPerSecond.getBaseBigDecimalValue());
         int modifier = computeModifier(baseValue, finalValue);
         return new FinalPropValueBase(new Property(DAMAGE_PER_SECOND_SHIELD, baseValue), TurretChassisInstances.Properties.DAMAGE_PER_SECOND_SHIELD,
                 List.of(new Modifier(DAMAGE_PER_SECOND_SHIELD, modifier)));
@@ -162,10 +164,10 @@ public class ComputationHelper {
 
     private static FinalPropValue computeDamageHullPerSecondForBeam(FinalProperties baseProperties, FinalPropValue shootPerSecond) {
         FinalPropValue damage = baseProperties.property(DAMAGE_HULL);
-        double baseValue = computeDamagePerSecond(damage.getBaseDoubleValue(), 1,
-                shootPerSecond.getBaseDoubleValue());
-        double finalValue = computeDamagePerSecond(damage.getFinalDoubleValue(), 1,
-                shootPerSecond.getFinalDoubleValue());
+        BigDecimal baseValue = computeDamagePerSecond(damage.getBaseBigDecimalValue(), new BigDecimal(1),
+                shootPerSecond.getBaseBigDecimalValue());
+        BigDecimal finalValue = computeDamagePerSecond(damage.getFinalBigDecimalValue(), new BigDecimal(1),
+                shootPerSecond.getFinalBigDecimalValue());
         int modifier = computeModifier(baseValue, finalValue);
         return new FinalPropValueBase(new Property(DAMAGE_PER_SECOND_HULL, baseValue), TurretChassisInstances.Properties.DAMAGE_PER_SECOND_HULL,
                 List.of(new Modifier(DAMAGE_PER_SECOND_HULL, modifier)));
@@ -175,12 +177,12 @@ public class ComputationHelper {
         FinalPropValue damage = baseProperties.property(DAMAGE_HULL);
         FinalPropValue barrelAmount = baseProperties.property(BARREL_AMOUNT);
         FinalPropValue amount = baseProperties.property(AMOUNT);
-        double baseValue = computeDamagePerSecond(damage.getBaseDoubleValue(),
-                barrelAmount.getBaseDoubleValue() * amount.getBaseDoubleValue(),
-                shootPerSecond.getBaseDoubleValue());
-        double finalValue = computeDamagePerSecond(damage.getFinalDoubleValue(),
-                barrelAmount.getFinalDoubleValue() * amount.getFinalDoubleValue(),
-                shootPerSecond.getFinalDoubleValue());
+        BigDecimal baseValue = computeDamagePerSecond(damage.getBaseBigDecimalValue(),
+                barrelAmount.getBaseBigDecimalValue().multiply(amount.getBaseBigDecimalValue()),
+                shootPerSecond.getBaseBigDecimalValue());
+        BigDecimal finalValue = computeDamagePerSecond(damage.getFinalBigDecimalValue(),
+                barrelAmount.getFinalBigDecimalValue().multiply(amount.getFinalBigDecimalValue()),
+                shootPerSecond.getFinalBigDecimalValue());
         int modifier = computeModifier(baseValue, finalValue);
         return new FinalPropValueBase(new Property(DAMAGE_PER_SECOND_HULL, baseValue), TurretChassisInstances.Properties.DAMAGE_PER_SECOND_HULL,
                 List.of(new Modifier(DAMAGE_PER_SECOND_HULL, modifier)));
@@ -190,12 +192,12 @@ public class ComputationHelper {
         FinalPropValue damage = baseProperties.property(DAMAGE_SHIELD);
         FinalPropValue barrelAmount = baseProperties.property(BARREL_AMOUNT);
         FinalPropValue amount = baseProperties.property(AMOUNT);
-        double baseValue = computeDamagePerSecond(damage.getBaseDoubleValue(),
-                barrelAmount.getBaseDoubleValue() * amount.getBaseDoubleValue(),
-                shootPerSecond.getBaseDoubleValue());
-        double finalValue = computeDamagePerSecond(damage.getFinalDoubleValue(),
-                barrelAmount.getFinalDoubleValue() * amount.getFinalDoubleValue(),
-                shootPerSecond.getFinalDoubleValue());
+        BigDecimal baseValue = computeDamagePerSecond(damage.getBaseBigDecimalValue(),
+                barrelAmount.getBaseBigDecimalValue().multiply(amount.getBaseBigDecimalValue()),
+                shootPerSecond.getBaseBigDecimalValue());
+        BigDecimal finalValue = computeDamagePerSecond(damage.getFinalBigDecimalValue(),
+                barrelAmount.getFinalBigDecimalValue().multiply(amount.getFinalBigDecimalValue()),
+                shootPerSecond.getFinalBigDecimalValue());
         int modifier = computeModifier(baseValue, finalValue);
         return new FinalPropValueBase(new Property(DAMAGE_PER_SECOND_SHIELD, baseValue), TurretChassisInstances.Properties.DAMAGE_PER_SECOND_SHIELD,
                 List.of(new Modifier(DAMAGE_PER_SECOND_SHIELD, modifier)));
@@ -204,10 +206,10 @@ public class ComputationHelper {
     private static FinalPropValue computeDamageHullPerSecondForRaffle(FinalProperties baseProperties, FinalPropValue shootPerSecond) {
         FinalPropValue damage = baseProperties.property(DAMAGE_HULL);
         FinalPropValue barrelAmount = baseProperties.property(BARREL_AMOUNT);
-        double baseValue = computeDamagePerSecond(damage.getBaseDoubleValue(), barrelAmount.getBaseDoubleValue(),
-                shootPerSecond.getBaseDoubleValue());
-        double finalValue = computeDamagePerSecond(damage.getFinalDoubleValue(), barrelAmount.getFinalDoubleValue(),
-                shootPerSecond.getFinalDoubleValue());
+        BigDecimal baseValue = computeDamagePerSecond(damage.getBaseBigDecimalValue(), barrelAmount.getBaseBigDecimalValue(),
+                shootPerSecond.getBaseBigDecimalValue());
+        BigDecimal finalValue = computeDamagePerSecond(damage.getFinalBigDecimalValue(), barrelAmount.getFinalBigDecimalValue(),
+                shootPerSecond.getFinalBigDecimalValue());
         int modifier = computeModifier(baseValue, finalValue);
         return new FinalPropValueBase(new Property(DAMAGE_PER_SECOND_HULL, baseValue), TurretChassisInstances.Properties.DAMAGE_PER_SECOND_HULL,
                 List.of(new Modifier(DAMAGE_PER_SECOND_HULL, modifier)));
@@ -216,42 +218,42 @@ public class ComputationHelper {
     private static FinalPropValue computeDamageShieldPerSecondForRaffle(FinalProperties baseProperties, FinalPropValue shootPerSecond) {
         FinalPropValue damage = baseProperties.property(DAMAGE_SHIELD);
         FinalPropValue barrelAmount = baseProperties.property(BARREL_AMOUNT);
-        double baseValue = computeDamagePerSecond(damage.getBaseDoubleValue(), barrelAmount.getBaseDoubleValue(),
-                shootPerSecond.getBaseDoubleValue());
-        double finalValue = computeDamagePerSecond(damage.getFinalDoubleValue(), barrelAmount.getFinalDoubleValue(),
-                shootPerSecond.getFinalDoubleValue());
+        BigDecimal baseValue = computeDamagePerSecond(damage.getBaseBigDecimalValue(), barrelAmount.getBaseBigDecimalValue(),
+                shootPerSecond.getBaseBigDecimalValue());
+        BigDecimal finalValue = computeDamagePerSecond(damage.getFinalBigDecimalValue(), barrelAmount.getFinalBigDecimalValue(),
+                shootPerSecond.getFinalBigDecimalValue());
         int modifier = computeModifier(baseValue, finalValue);
         return new FinalPropValueBase(new Property(DAMAGE_PER_SECOND_SHIELD, baseValue), TurretChassisInstances.Properties.DAMAGE_PER_SECOND_SHIELD,
                 List.of(new Modifier(DAMAGE_PER_SECOND_SHIELD, modifier)));
     }
 
-    private static double computeDamagePerSecond(double damage, double barrelAmount, double shootPerSecond) {
-        return damage * barrelAmount * shootPerSecond;
+    private static BigDecimal computeDamagePerSecond(BigDecimal damage, BigDecimal barrelAmount, BigDecimal shootPerSecond) {
+        return damage.multiply(barrelAmount).multiply(shootPerSecond);
     }
 
     public static FinalPropValue computeDamageBonusShield(FinalProperties baseProperties) {
         FinalPropValue damageHull = baseProperties.property(DAMAGE_HULL);
         FinalPropValue damageShield = baseProperties.property(DAMAGE_SHIELD);
-        double baseValue = computeDamageBonusShield(damageHull.getBaseDoubleValue(),
-                damageShield.getBaseDoubleValue());
-        double finalValue = computeDamageBonusShield(damageHull.getFinalDoubleValue(),
-                damageShield.getFinalDoubleValue());
+        BigDecimal baseValue = computeDamageBonusShield(damageHull.getBaseBigDecimalValue(),
+                damageShield.getBaseBigDecimalValue());
+        BigDecimal finalValue = computeDamageBonusShield(damageHull.getFinalBigDecimalValue(),
+                damageShield.getFinalBigDecimalValue());
         return new FinalPropValueComputed(TurretChassisInstances.Properties.DAMAGE_BONUS_SHIELD, baseValue, finalValue);
     }
 
     public static FinalPropValue computeAreaDamageBonusShield(FinalProperties baseProperties) {
         FinalPropValue areaDamageHull = baseProperties.property(AREA_DAMAGE_HULL);
         FinalPropValue areaDamageShield = baseProperties.property(AREA_DAMAGE_SHIELD);
-        double baseValue = computeDamageBonusShield(areaDamageHull.getBaseDoubleValue(),
-                areaDamageShield.getBaseDoubleValue());
-        double finalValue = computeDamageBonusShield(areaDamageHull.getFinalDoubleValue(),
-                areaDamageShield.getFinalDoubleValue());
+        BigDecimal baseValue = computeDamageBonusShield(areaDamageHull.getBaseBigDecimalValue(),
+                areaDamageShield.getBaseBigDecimalValue());
+        BigDecimal finalValue = computeDamageBonusShield(areaDamageHull.getFinalBigDecimalValue(),
+                areaDamageShield.getFinalBigDecimalValue());
         return new FinalPropValueComputed(TurretChassisInstances.Properties.AREA_DAMAGE_BONUS_SHIELD,
                 baseValue, finalValue);
     }
 
-    private static double computeDamageBonusShield(double damageHull, double damageShield) {
-        return damageShield - damageHull;
+    private static BigDecimal computeDamageBonusShield(BigDecimal damageHull, BigDecimal damageShield) {
+        return damageShield.subtract(damageHull);
     }
 
     public static List<FinalPropValue> computeCLCost(FinalProperties baseProperties) {
@@ -274,56 +276,60 @@ public class ComputationHelper {
     private static FinalPropValue computeTerCarbideCost(FinalProperties baseProperties) {
         FinalPropValue costTurretComps = baseProperties.property(COST_CW_TURRET_COMPS);
 
-        double baseValue = costTurretComps.getBaseDoubleValue() / 10d * 0.2d;
-        double finalValue = costTurretComps.getFinalDoubleValue() / 10d * 0.2d;
+        BigDecimal baseValue = costTurretComps.getBaseBigDecimalValue()
+                .divide(new BigDecimal("10"), RoundingMode.HALF_UP).multiply(new BigDecimal("0.2"));
+        BigDecimal finalValue = costTurretComps.getFinalBigDecimalValue()
+                .divide(new BigDecimal("10"), RoundingMode.HALF_UP).multiply(new BigDecimal("0.2"));
         return new FinalPropValueComputed(TurretChassisInstances.Properties.COST_TER_CARBIDE, baseValue, finalValue);
     }
 
     private static FinalPropValue computeTerMicrolatticeCost(FinalProperties baseProperties) {
         FinalPropValue costTurretComps = baseProperties.property(COST_CW_TURRET_COMPS);
 
-        double baseValue = costTurretComps.getBaseDoubleValue() / 10d * 0.8d;
-        double finalValue = costTurretComps.getFinalDoubleValue() / 10d * 0.8d;
+        BigDecimal baseValue = costTurretComps.getBaseBigDecimalValue()
+                .divide(new BigDecimal("10"), RoundingMode.HALF_UP).multiply(new BigDecimal("0.8"));
+        BigDecimal finalValue = costTurretComps.getFinalBigDecimalValue()
+                .divide(new BigDecimal("10"), RoundingMode.HALF_UP).multiply(new BigDecimal("0.8"));
         return new FinalPropValueComputed(TurretChassisInstances.Properties.COST_TER_MICROLATICE, baseValue, finalValue);
     }
 
     private static FinalPropValue computeTerComputronicCost(FinalProperties baseProperties) {
         FinalPropValue costAdvancedElectronics = baseProperties.property(COST_CW_ADVANCED_ELECTRONICS);
 
-        double baseValue = costAdvancedElectronics.getBaseDoubleValue();
-        double finalValue = costAdvancedElectronics.getFinalDoubleValue();
+        BigDecimal baseValue = costAdvancedElectronics.getBaseBigDecimalValue();
+        BigDecimal finalValue = costAdvancedElectronics.getFinalBigDecimalValue();
         return new FinalPropValueComputed(TurretChassisInstances.Properties.COST_TER_COMPUTRONIC, baseValue, finalValue);
     }
 
     private static FinalPropValue computeTerEcCost(FinalProperties baseProperties) {
         FinalPropValue costEnergyCells = baseProperties.property(COST_CW_ENERGY_CELLS);
 
-        double baseValue = costEnergyCells.getBaseDoubleValue() * 7d;
-        double finalValue = costEnergyCells.getFinalDoubleValue() * 7d;
+        BigDecimal baseValue = costEnergyCells.getBaseBigDecimalValue().multiply(new BigDecimal(7));
+        BigDecimal finalValue = costEnergyCells.getFinalBigDecimalValue().multiply(new BigDecimal(7));
         return new FinalPropValueComputed(TurretChassisInstances.Properties.COST_TER_ENERGY_CELLS, baseValue, finalValue);
     }
 
     private static FinalPropValue computeCLHullPartCost(FinalProperties baseProperties) {
         FinalPropValue costTurretComps = baseProperties.property(COST_CW_TURRET_COMPS);
 
-        double baseValue = costTurretComps.getBaseDoubleValue();
-        double finalValue = costTurretComps.getFinalDoubleValue();
+        BigDecimal baseValue = costTurretComps.getBaseBigDecimalValue();
+        BigDecimal finalValue = costTurretComps.getFinalBigDecimalValue();
         return new FinalPropValueComputed(TurretChassisInstances.Properties.COST_CL_HULL_PART, baseValue, finalValue);
     }
 
     private static FinalPropValue computeCLClaytronicsCost(FinalProperties baseProperties) {
         FinalPropValue costAdvancedElectronics = baseProperties.property(COST_CW_ADVANCED_ELECTRONICS);
 
-        double baseValue = costAdvancedElectronics.getBaseDoubleValue() / 3d;
-        double finalValue = costAdvancedElectronics.getFinalDoubleValue() / 3d;
+        BigDecimal baseValue = costAdvancedElectronics.getBaseBigDecimalValue().multiply(new BigDecimal(3));
+        BigDecimal finalValue = costAdvancedElectronics.getFinalBigDecimalValue().multiply(new BigDecimal(3));
         return new FinalPropValueComputed(TurretChassisInstances.Properties.COST_CL_CLAYTRONICS, baseValue, finalValue);
     }
 
     private static FinalPropValue computeCLEcCost(FinalProperties baseProperties) {
         FinalPropValue costEnergyCells = baseProperties.property(COST_CW_ENERGY_CELLS);
 
-        double baseValue = costEnergyCells.getBaseDoubleValue() * 10d;
-        double finalValue = costEnergyCells.getFinalDoubleValue() * 10d;
+        BigDecimal baseValue = costEnergyCells.getBaseBigDecimalValue().multiply(new BigDecimal(10));
+        BigDecimal finalValue = costEnergyCells.getFinalBigDecimalValue().multiply(new BigDecimal(10));
         return new FinalPropValueComputed(TurretChassisInstances.Properties.COST_CL_ENERGY_CELLS, baseValue, finalValue);
     }
 

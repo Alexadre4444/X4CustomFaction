@@ -2,6 +2,7 @@ package io.tbbc.cf.property;
 
 import io.tbbc.cf.modifier.Modifier;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Locale;
 
@@ -31,6 +32,10 @@ public interface FinalPropValue {
         String format = "%." + definition().decimal() + "f";
         return String.format(Locale.US, format, value);
     }
+
+    BigDecimal getFinalBigDecimalValue();
+
+    BigDecimal getBaseBigDecimalValue();
 
     double getFinalDoubleValue();
 

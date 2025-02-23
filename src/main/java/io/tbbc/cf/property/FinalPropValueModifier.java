@@ -2,9 +2,10 @@ package io.tbbc.cf.property;
 
 import io.tbbc.cf.modifier.Modifier;
 
+import java.math.BigDecimal;
 import java.util.List;
 
-public record FinalPropValueModifier(PropertyDefinition definition, double baseValue, List<Modifier> modifiers)
+public record FinalPropValueModifier(PropertyDefinition definition, BigDecimal baseValue, List<Modifier> modifiers)
         implements FinalPropValue {
 
     @Override
@@ -13,13 +14,23 @@ public record FinalPropValueModifier(PropertyDefinition definition, double baseV
     }
 
     @Override
+    public BigDecimal getFinalBigDecimalValue() {
+        return baseValue.add(baseValue.multiply(new BigDecimal(sumModifiers())).multiply(new BigDecimal("0.01")));
+    }
+
+    @Override
+    public BigDecimal getBaseBigDecimalValue() {
+        return baseValue;
+    }
+
+    @Override
     public double getFinalDoubleValue() {
-        return baseValue + baseValue * sumModifiers() / 100;
+        return baseValue.doubleValue() + baseValue.doubleValue() * sumModifiers() / 100;
     }
 
     @Override
     public double getBaseDoubleValue() {
-        return baseValue;
+        return baseValue.doubleValue();
     }
 
     private long sumModifiers() {
