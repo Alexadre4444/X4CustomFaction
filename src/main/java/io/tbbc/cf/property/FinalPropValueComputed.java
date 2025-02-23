@@ -11,16 +11,6 @@ public record FinalPropValueComputed(PropertyDefinition definition, BigDecimal b
         implements FinalPropValue {
 
     @Override
-    public double getFinalDoubleValue() {
-        return finalValue.doubleValue();
-    }
-
-    @Override
-    public double getBaseDoubleValue() {
-        return baseValue.doubleValue();
-    }
-
-    @Override
     public List<Modifier> getModifiers() {
         if (!hasModifiers()) {
             return List.of();

@@ -23,16 +23,6 @@ public record FinalPropValueModifier(PropertyDefinition definition, BigDecimal b
         return baseValue;
     }
 
-    @Override
-    public double getFinalDoubleValue() {
-        return baseValue.doubleValue() + baseValue.doubleValue() * sumModifiers() / 100;
-    }
-
-    @Override
-    public double getBaseDoubleValue() {
-        return baseValue.doubleValue();
-    }
-
     private long sumModifiers() {
         return modifiers.stream().mapToLong(Modifier::value).sum();
     }

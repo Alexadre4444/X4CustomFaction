@@ -3,7 +3,6 @@ import Customizer from '@/model/common/Customizer';
 import CustomizerComponent from '@/model/common/CustomizerComponent';
 import CustomizerValue from '@/model/common/CustomizerValue';
 import FreeCustomizerValue from '@/model/common/FreeCustomizerValue';
-import ModifiedValue from '@/model/common/ModifiedValue';
 import ProductionMethodName from '@/model/common/ProductionMethodName';
 import PropertyDefinition from '@/model/common/PropertyDefinition';
 import Research from '@/model/common/Research';
@@ -40,8 +39,6 @@ const formProductionMethodsName = ref<ProductionMethodName[]>([]);
 const formAccessibility = ref<string>('BASIC');
 
 const customizerComponents = ref<CustomizerComponent[]>();
-
-const computedProperties = ref<ModifiedValue[]>([]);
 
 const freeCustomizerValues =  ref<FreeCustomizerValue[]>([]);
 
@@ -128,6 +125,7 @@ function computeProperties() {
             .then(computationResult => {
                 computationResult.finalProperties.forEach(property => {
                     let freeCustomizerValue = freeCustomizerValues.value.find(freeCustomizerValue => freeCustomizerValue.propertyDefinition.name == property.definition.name);
+                    requiredResearch.value = computationResult.requiredResearch;
                     if(freeCustomizerValue == null) {
                         freeCustomizerValue = new FreeCustomizerValue(property.baseValueString, property.finalValueString, property.definition);
                         freeCustomizerValues.value.push(freeCustomizerValue);
@@ -148,6 +146,7 @@ function computeProperties() {
     } else {
         freeCustomizerValues.value = [];
         applicableProperties.value = [];
+        requiredResearch.value = [];
     }
 }
 

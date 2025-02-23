@@ -24,17 +24,6 @@ public record FinalPropValueBase(Property property, PropertyDefinition definitio
         return BigDecimal.valueOf(property.value().doubleValue());
     }
 
-    @Override
-    public double getFinalDoubleValue() {
-        return property.value().doubleValue() +
-                property.value().doubleValue() * sumModifiers() / 100;
-    }
-
-    @Override
-    public double getBaseDoubleValue() {
-        return property.value().doubleValue();
-    }
-
     private long sumModifiers() {
         return modifiers.stream().mapToLong(Modifier::value).sum();
     }

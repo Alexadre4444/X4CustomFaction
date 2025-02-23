@@ -37,10 +37,6 @@ public interface FinalPropValue {
 
     BigDecimal getBaseBigDecimalValue();
 
-    double getFinalDoubleValue();
-
-    double getBaseDoubleValue();
-
     PropertyName getName();
 
     PropertyDefinition definition();
