@@ -141,63 +141,63 @@ public class TurretChassisInstances {
     public static class Properties {
         public static final PropertyDefinition DAMAGE_HULL = new PropertyDefinition(PropertyNames.DAMAGE_HULL, "Damage (hull)",
                 "The amount of damage each bullet deals to unshielded target.", false,
-                DAMAGE.name(), 0.0, null, "MJ", 0, ADVANCED, true);
+                DAMAGE.name(), new BigDecimal(0), null, "MJ", 0, ADVANCED, true);
         public static final PropertyDefinition DAMAGE_SHIELD = new PropertyDefinition(PropertyNames.DAMAGE_SHIELD, "Damage (shield)",
                 "The amount of damage each bullet deals to shielded target.", false,
-                DAMAGE.name(), 0.0, null, "MJ", 0, ADVANCED, true);
+                DAMAGE.name(), new BigDecimal(0), null, "MJ", 0, ADVANCED, true);
         public static final PropertyDefinition MAX_HITS = new PropertyDefinition(PropertyNames.MAX_HITS, "Max hits",
                 "The amount of target if the bullet ricochets.", false,
-                BULLET.name(), 1.0, null, null, 0, ADVANCED, false);
+                BULLET.name(), new BigDecimal(1), null, null, 0, ADVANCED, false);
         public static final PropertyDefinition RICOCHET = new PropertyDefinition(PropertyNames.RICOCHET, "Ricochet chance",
                 "The ricochet chance when a target is hit.", false,
-                BULLET.name(), 0.0, 1.0, null, 2, ADVANCED, false);
+                BULLET.name(), new BigDecimal(0), new BigDecimal(1), null, 2, ADVANCED, false);
         public static final PropertyDefinition LIFE_TIME = new PropertyDefinition(PropertyNames.LIFE_TIME, "Life Time",
                 "The amount of time each bullet exists before disappearing.", false,
-                BULLET.name(), 0.1, null, "s", 2, ADVANCED, true);
+                BULLET.name(), new BigDecimal("0.1"), null, "s", 2, ADVANCED, true);
         public static final PropertyDefinition SPEED = new PropertyDefinition(PropertyNames.SPEED, "Speed",
                 "The speed of the bullet.", false,
-                BULLET.name(), 1.0, null, "m/s", 0, ADVANCED, true);
+                BULLET.name(), new BigDecimal("1.0"), null, "m/s", 0, ADVANCED, true);
         public static final PropertyDefinition FIRE_RATE = new PropertyDefinition(PropertyNames.FIRE_RATE, "Fire Rate",
                 "The rate at which the turret fires bullets.", false,
-                TURRET.name(), 0.01, null, "shot/s", 2, ADVANCED, true);
+                TURRET.name(), new BigDecimal("0.01"), null, "shot/s", 2, ADVANCED, true);
         public static final PropertyDefinition RELOAD_TIME = new PropertyDefinition(PropertyNames.RELOAD_TIME, "Reload Time",
                 "The time it takes to reload the turret.", true,
-                TURRET.name(), 0.1, null, "s", 2, ADVANCED, true);
+                TURRET.name(), new BigDecimal("0.1"), null, "s", 2, ADVANCED, true);
         public static final PropertyDefinition AMOUNT = new PropertyDefinition(PropertyNames.AMOUNT, "Amount",
                 "The amount of bullets fired per shot.", false,
-                TURRET.name(), 1.0, null, "bullet/s", 0, ADVANCED, true);
+                TURRET.name(), new BigDecimal("1.0"), null, "bullet/s", 0, ADVANCED, true);
         public static final PropertyDefinition BARREL_AMOUNT = new PropertyDefinition(PropertyNames.BARREL_AMOUNT, "Barrel Amount",
                 "The amount of barrels the turret has.", false,
-                TURRET.name(), 1.0, null, "bullet/shot", 0, ADVANCED, false);
+                TURRET.name(), new BigDecimal("1.0"), null, "bullet/shot", 0, ADVANCED, false);
         public static final PropertyDefinition HULL =
                 new PropertyDefinition(PropertyNames.HULL, "Hull",
                         "The amount of health the turret has.", false,
-                        TURRET.name(), 1.0, null, null, 0, BASIC, true);
+                        TURRET.name(), new BigDecimal("1.0"), null, null, 0, BASIC, true);
         public static final PropertyDefinition ROTATION_SPEED =
                 new PropertyDefinition(PropertyNames.ROTATION_SPEED, "Rotation Speed",
                         "The speed at which the turret rotates.", false,
-                        TURRET.name(), 1.0, null, "°/s", 0, BASIC, true);
+                        TURRET.name(), new BigDecimal("1.0"), null, "°/s", 0, BASIC, true);
         public static final PropertyDefinition ROTATION_ACCELERATION =
                 new PropertyDefinition(PropertyNames.ROTATION_ACCELERATION, "Rotation Acceleration",
                         "The acceleration at which the turret rotates.", false,
-                        TURRET.name(), 1.0, null, "°/s²", 0, ADVANCED, false);
+                        TURRET.name(), new BigDecimal("1.0"), null, "°/s²", 0, ADVANCED, false);
         public static final PropertyDefinition ACCURACY =
                 new PropertyDefinition(PropertyNames.ACCURACY, "Accuracy",
                         "The accuracy of the turret.", true,
-                        TURRET.name(), 0.01, 3.0, "°", 2, BASIC, true);
+                        TURRET.name(), new BigDecimal("0.01"), new BigDecimal("3.0"), "°", 2, BASIC, true);
 
         public static final PropertyDefinition RANGE =
                 new PropertyDefinition(PropertyNames.RANGE, "Range",
                         "The bullet range.", false,
-                        BULLET.name(), 1.0, null, "m", 0, BASIC, false);
+                        BULLET.name(), new BigDecimal("1.0"), null, "m", 0, BASIC, false);
         public static final PropertyDefinition BEAM_RANGE =
                 new PropertyDefinition(PropertyNames.BEAM_RANGE, "Range",
                         "The beam range.", false,
-                        BULLET.name(), 1.0, null, "m", 0, BASIC, true);
+                        BULLET.name(), new BigDecimal("1.0"), null, "m", 0, BASIC, true);
         public static final PropertyDefinition BURST_TIME =
                 new PropertyDefinition(PropertyNames.BURST_TIME, "Burst Time",
                         "Time between two burst.", true,
-                        TURRET.name(), 0.1, null, "s", 2, ADVANCED, false);
+                        TURRET.name(), new BigDecimal("0.1"), null, "s", 2, ADVANCED, false);
         public static final PropertyDefinition SHOOT_PER_SECOND =
                 new PropertyDefinition(PropertyNames.SHOOT_PER_SECOND, "Shoot Per Second",
                         "The amount of shoot fired per second.", false,
@@ -213,89 +213,89 @@ public class TurretChassisInstances {
         public static final PropertyDefinition TIME_DIFF =
                 new PropertyDefinition(PropertyNames.TIME_DIFF, "Time between bullet",
                         "Time between two bullet", true,
-                        TURRET.name(), 0.00001, null, "s", 2, ADVANCED, false);
+                        TURRET.name(), new BigDecimal("0.00001"), null, "s", 2, ADVANCED, false);
         public static final PropertyDefinition DAMAGE_BONUS_SHIELD =
                 new PropertyDefinition(PropertyNames.DAMAGE_BONUS_SHIELD, "Damage Bonus (shield)",
                         "The bonus damage dealt to shielded target.", false,
-                        DAMAGE.name(), 0.0, null, "MJ", 0, ADVANCED, false);
+                        DAMAGE.name(), new BigDecimal("0.0"), null, "MJ", 0, ADVANCED, false);
         // Cost
         public static final PropertyDefinition COST_CW_ADVANCED_ELECTRONICS =
                 new PropertyDefinition(PropertyNames.COST_CW_ADVANCED_ELECTRONICS, "Common-wealth - Advanced Electronics",
                         "The advanced electronics cost of the turret.", true,
-                        CategoryInstances.COST.name(), 0.0, null, null, 0, BASIC, false);
+                        CategoryInstances.COST.name(), new BigDecimal("0.0"), null, null, 0, BASIC, false);
         public static final PropertyDefinition COST_CW_ENERGY_CELLS =
                 new PropertyDefinition(PropertyNames.COST_CW_ENERGY_CELLS, "Common-wealth - Energy Cells",
                         "The energy cells cost of the turret.", true,
-                        CategoryInstances.COST.name(), 0.0, null, null, 0, BASIC, false);
+                        CategoryInstances.COST.name(), new BigDecimal("0.0"), null, null, 0, BASIC, false);
         public static final PropertyDefinition COST_CW_TURRET_COMPS =
                 new PropertyDefinition(PropertyNames.COST_CW_TURRET_COMPS, "Common-wealth - Turret Comps",
                         "The turret comps cost of the turret.", true,
-                        CategoryInstances.COST.name(), 0.0, null, null, 0, BASIC, false);
+                        CategoryInstances.COST.name(), new BigDecimal("0.0"), null, null, 0, BASIC, false);
         public static final PropertyDefinition COST_CL_ENERGY_CELLS =
                 new PropertyDefinition(PropertyNames.COST_CL_ENERGY_CELLS, "Closed loop - Energy Cells",
                         "The energy cells cost of the turret.", true,
-                        CategoryInstances.COST.name(), 0.0, null, null, 0, BASIC, false);
+                        CategoryInstances.COST.name(), new BigDecimal("0.0"), null, null, 0, BASIC, false);
         public static final PropertyDefinition COST_CL_CLAYTRONICS =
                 new PropertyDefinition(PropertyNames.COST_CL_CLAYTRONICS, "Closed loop - Claytronics",
                         "The claytronics cost of the turret.", true,
-                        CategoryInstances.COST.name(), 0.0, null, null, 0, BASIC, false);
+                        CategoryInstances.COST.name(), new BigDecimal("0.0"), null, null, 0, BASIC, false);
         public static final PropertyDefinition COST_CL_HULL_PART =
                 new PropertyDefinition(PropertyNames.COST_CL_HULL_PART, "Closed loop - Hull part",
                         "The hull part cost of the turret.", true,
-                        CategoryInstances.COST.name(), 0.0, null, null, 0, BASIC, false);
+                        CategoryInstances.COST.name(), new BigDecimal("0.0"), null, null, 0, BASIC, false);
         public static final PropertyDefinition COST_TER_ENERGY_CELLS =
                 new PropertyDefinition(PropertyNames.COST_TER_ENERGY_CELLS, "Terran - Energy Cells",
                         "The energy cells cost of the turret.", true,
-                        CategoryInstances.COST.name(), 0.0, null, null, 0, BASIC, false);
+                        CategoryInstances.COST.name(), new BigDecimal("0.0"), null, null, 0, BASIC, false);
         public static final PropertyDefinition COST_TER_COMPUTRONIC =
                 new PropertyDefinition(PropertyNames.COST_TER_COMPUTRONIC, "Terran - Computronic Substrate",
                         "The computronic substrate cost of the turret.", true,
-                        CategoryInstances.COST.name(), 0.0, null, null, 0, BASIC, false);
+                        CategoryInstances.COST.name(), new BigDecimal("0.0"), null, null, 0, BASIC, false);
         public static final PropertyDefinition COST_TER_MICROLATICE =
                 new PropertyDefinition(PropertyNames.COST_TER_MICROLATICE, "Terran - Metallic Micro lattice",
                         "The metallic micro lattice cost of the turret.", true,
-                        CategoryInstances.COST.name(), 0.0, null, null, 0, BASIC, false);
+                        CategoryInstances.COST.name(), new BigDecimal("0.0"), null, null, 0, BASIC, false);
         public static final PropertyDefinition COST_TER_CARBIDE =
                 new PropertyDefinition(PropertyNames.COST_TER_CARBIDE, "Terran - Silicon Carbide",
                         "The silicon carbide cost of the turret.", true,
-                        CategoryInstances.COST.name(), 0.0, null, null, 0, BASIC, false);
+                        CategoryInstances.COST.name(), new BigDecimal("0.0"), null, null, 0, BASIC, false);
         // Bullet effect
         public static final PropertyDefinition SELF_DESTRUCT =
                 new PropertyDefinition(PropertyNames.SELF_DESTRUCT, "Self destruct",
                         "The bullet self destruct", false,
-                        BULLET.name(), 0d, 1d, "boolean", 0, ADVANCED, false);
+                        BULLET.name(), new BigDecimal(0), new BigDecimal(1), "boolean", 0, ADVANCED, false);
         public static final PropertyDefinition AREA_DAMAGE_HULL =
                 new PropertyDefinition(PropertyNames.AREA_DAMAGE_HULL, "Area damage (hull)",
                         "The amount of damage dealt to unshielded target in the area.", false,
-                        DAMAGE.name(), 0.0, null, "MJ", 0, BASIC, false);
+                        DAMAGE.name(), new BigDecimal(0), null, "MJ", 0, BASIC, false);
         public static final PropertyDefinition AREA_DAMAGE_SHIELD =
                 new PropertyDefinition(PropertyNames.AREA_DAMAGE_SHIELD, "Area damage (shield)",
                         "The amount of damage dealt to shielded target in the area.", false,
-                        DAMAGE.name(), 0.0, null, "MJ", 0, BASIC, false);
+                        DAMAGE.name(), new BigDecimal(0), null, "MJ", 0, BASIC, false);
         public static final PropertyDefinition AREA_DAMAGE_BONUS_SHIELD =
                 new PropertyDefinition(PropertyNames.AREA_DAMAGE_BONUS_SHIELD, "Area damage bonus (shield)",
                         "The bonus damage dealt to shielded target in the area.", false,
-                        DAMAGE.name(), 0.0, null, "MJ", 0, ADVANCED, false);
+                        DAMAGE.name(), new BigDecimal(0), null, "MJ", 0, ADVANCED, false);
         public static final PropertyDefinition AREA_TIME =
                 new PropertyDefinition(PropertyNames.AREA_TIME, "Area time",
                         "The time the area effect last.", false,
-                        BULLET.name(), 0.1, null, "s", 2, ADVANCED, false);
+                        BULLET.name(), new BigDecimal("0.1"), null, "s", 2, ADVANCED, false);
         public static final PropertyDefinition AREA_LIFE_TIME =
                 new PropertyDefinition(PropertyNames.AREA_LIFE_TIME, "Area life time",
                         "The time the area effect last.", false,
-                        BULLET.name(), 0.1, null, "s", 2, ADVANCED, false);
+                        BULLET.name(), new BigDecimal("0.1"), null, "s", 2, ADVANCED, false);
         public static final PropertyDefinition PLANNED_SELF_DESTRUCT =
                 new PropertyDefinition(PropertyNames.PLANNED_SELF_DESTRUCT, "Self destruct",
                         "The bullet self destruct", false,
-                        BULLET.name(), 0d, 1d, "boolean", 0, ADVANCED, false);
+                        BULLET.name(), new BigDecimal(0), new BigDecimal(1), "boolean", 0, ADVANCED, false);
         public static final PropertyDefinition SELF_DESTRUCT_TIME_DIFF =
                 new PropertyDefinition(PropertyNames.SELF_DESTRUCT_TIME_DIFF, "Self destruct time diff",
                         "Random time at self destruct time... Maybe?", false,
-                        BULLET.name(), 0.00001, null, "s", 2, ADVANCED, false);
+                        BULLET.name(), new BigDecimal("0.00001"), null, "s", 2, ADVANCED, false);
         public static final PropertyDefinition SELF_DESTRUCT_MIN_TIME =
                 new PropertyDefinition(PropertyNames.SELF_DESTRUCT_MIN_TIME, "Self destruct min time",
                         "Minimum time between bullet explosion.", false,
-                        BULLET.name(), 0.1, null, "s", 2, ADVANCED, false);
+                        BULLET.name(), new BigDecimal("0.1"), null, "s", 2, ADVANCED, false);
 
         Properties() {
         }

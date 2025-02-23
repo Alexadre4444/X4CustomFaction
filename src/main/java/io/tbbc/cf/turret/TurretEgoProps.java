@@ -7,6 +7,7 @@ import io.tbbc.cf.property.FinalProperties;
 import io.tbbc.cf.research.Research;
 import io.tbbc.cf.turret.chassis.ChassisType;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public record TurretEgoProps(String name, int labelSection, int descriptionSection, int index, String size,
@@ -24,8 +25,8 @@ public record TurretEgoProps(String name, int labelSection, int descriptionSecti
         } else {
             range = properties.property("beamRange");
         }
-        return range.getFinalDoubleValue() < 2500 ? TurretRange.SHORT :
-                range.getFinalDoubleValue() < 5000 ? TurretRange.MID : TurretRange.LONG;
+        return range.getFinalBigDecimalValue().compareTo(new BigDecimal(2500)) < 0 ? TurretRange.SHORT :
+                range.getFinalBigDecimalValue().compareTo(new BigDecimal(5000)) < 0 ? TurretRange.MID : TurretRange.LONG;
     }
 
     public enum TurretRange {

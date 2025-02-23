@@ -9,26 +9,26 @@ import java.util.Locale;
 public interface FinalPropValue {
 
     default String getBaseValueString() {
-        return format(limitValue(getBaseDoubleValue()));
+        return format(limitValue(getBaseBigDecimalValue()));
     }
 
     default String getFinalValueString() {
-        return format(limitValue(getFinalDoubleValue()));
+        return format(limitValue(getFinalBigDecimalValue()));
     }
 
     List<Modifier> getModifiers();
 
-    private double limitValue(double value) {
-        if (definition().minValue() != null && value < definition().minValue()) {
+    private BigDecimal limitValue(BigDecimal value) {
+        if (definition().minValue() != null && value.compareTo(definition().minValue()) < 0) {
             return definition().minValue();
         }
-        if (definition().maxValue() != null && value > definition().maxValue()) {
+        if (definition().maxValue() != null && value.compareTo(definition().maxValue()) > 0) {
             return definition().maxValue();
         }
         return value;
     }
 
-    private String format(double value) {
+    private String format(BigDecimal value) {
         String format = "%." + definition().decimal() + "f";
         return String.format(Locale.US, format, value);
     }
