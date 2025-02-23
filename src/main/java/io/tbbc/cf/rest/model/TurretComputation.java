@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 public class TurretComputation {
-    String chassisName;
-    String bulletName;
-    String chassisSkinName;
-    String bulletSkinName;
-    Map<String, String> customizers;
-    List<ProductionMethodName> productionMethodNames;
+    private String chassisName;
+    private String bulletName;
+    private String chassisSkinName;
+    private String bulletSkinName;
+    private Map<String, String> customizers;
+    private List<ProductionMethodName> productionMethodNames;
 
     public TurretComputation() {
     }

@@ -18,6 +18,10 @@ export default class ModifiedValue {
         this.finalDoubleValue = finalDoubleValue;
     }
 
+    hasModifiers(): boolean {
+        return this.modifierList.length > 0;
+    }
+
     modifierSum(): number {
         return this.modifierList.reduce((sum, modifier) => sum + modifier.value, 0);
     }

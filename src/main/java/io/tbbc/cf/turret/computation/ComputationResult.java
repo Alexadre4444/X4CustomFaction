@@ -1,4 +1,4 @@
-package io.tbbc.cf.turret;
+package io.tbbc.cf.turret.computation;
 
 import io.tbbc.cf.property.FinalProperties;
 import io.tbbc.cf.research.Research;

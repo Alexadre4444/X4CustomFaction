@@ -15,9 +15,7 @@ public interface FinalPropValue {
         return format(limitValue(getFinalDoubleValue()));
     }
 
-    default List<Modifier> getModifiers() {
-        return List.of();
-    }
+    List<Modifier> getModifiers();
 
     private double limitValue(double value) {
         if (definition().minValue() != null && value < definition().minValue()) {

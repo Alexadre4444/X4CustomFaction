@@ -1,4 +1,4 @@
-package io.tbbc.cf.turret;
+package io.tbbc.cf.turret.computation;
 
 import io.tbbc.cf.bullet.Bullet;
 import io.tbbc.cf.bullet.skin.BulletSkin;
@@ -28,7 +28,7 @@ public class ComputationHelper {
                         FinalProperties::concat);
     }
 
-    static FinalPropValue computeShootPerSecondForBeam(FinalProperties baseProperties) {
+    public static FinalPropValue computeShootPerSecondForBeam(FinalProperties baseProperties) {
         FinalPropValue reloadTime = baseProperties.property(RELOAD_TIME);
         FinalPropValue lifeTime = baseProperties.property(LIFE_TIME);
         double baseValue = computeShootPerSecondForBeam(reloadTime.getBaseDoubleValue(), lifeTime.getBaseDoubleValue());
@@ -38,7 +38,7 @@ public class ComputationHelper {
                 List.of(new Modifier(SHOOT_PER_SECOND, modifier)));
     }
 
-    static FinalPropValue computeAcceleration(FinalProperties baseProperties) {
+    public static FinalPropValue computeAcceleration(FinalProperties baseProperties) {
         FinalPropValue rotationSpeed = baseProperties.property(ROTATION_SPEED);
         double baseValue = computeAcceleration(rotationSpeed.getBaseDoubleValue());
         double finalValue = computeAcceleration(rotationSpeed.getFinalDoubleValue());
@@ -51,7 +51,7 @@ public class ComputationHelper {
         return rotationSpeed * 2;
     }
 
-    static FinalPropValue computeRange(FinalProperties baseProperties) {
+    public static FinalPropValue computeRange(FinalProperties baseProperties) {
         FinalPropValue speed = baseProperties.property(SPEED);
         FinalPropValue lifeTime = baseProperties.property(LIFE_TIME);
         double baseValue = computeRange(speed.getBaseDoubleValue(), lifeTime.getBaseDoubleValue());
@@ -65,7 +65,7 @@ public class ComputationHelper {
         return speed * lifeTime;
     }
 
-    static FinalPropValue computeBurstTime(TurretChassis chassis, FinalProperties baseProperties) {
+    public static FinalPropValue computeBurstTime(TurretChassis chassis, FinalProperties baseProperties) {
         return switch (chassis.type()) {
             case STANDARD, BEAM -> computeBurstTimeForStandard(baseProperties);
             case RAFFLE -> computeBurstTimeForRaffle(baseProperties);
@@ -135,7 +135,7 @@ public class ComputationHelper {
         return amount / burstTime;
     }
 
-    static FinalPropValue computeDamageHullPerSecond(TurretChassis chassis, FinalProperties baseProperties, FinalPropValue shootPerSecond) {
+    public static FinalPropValue computeDamageHullPerSecond(TurretChassis chassis, FinalProperties baseProperties, FinalPropValue shootPerSecond) {
         return switch (chassis.type()) {
             case STANDARD -> computeDamageHullPerSecondForStandard(baseProperties, shootPerSecond);
             case RAFFLE -> computeDamageHullPerSecondForRaffle(baseProperties, shootPerSecond);
@@ -143,7 +143,7 @@ public class ComputationHelper {
         };
     }
 
-    static FinalPropValue computeDamageShieldPerSecond(TurretChassis chassis, FinalProperties baseProperties, FinalPropValue shootPerSecond) {
+    public static FinalPropValue computeDamageShieldPerSecond(TurretChassis chassis, FinalProperties baseProperties, FinalPropValue shootPerSecond) {
         return switch (chassis.type()) {
             case STANDARD -> computeDamageShieldPerSecondForStandard(baseProperties, shootPerSecond);
             case RAFFLE -> computeDamageShieldPerSecondForRaffle(baseProperties, shootPerSecond);

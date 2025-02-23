@@ -1,5 +1,6 @@
 import Category from '@/model/common/Category';
 import ComputationResult from '@/model/common/ComputationResult';
+import ComputationResultFree from '@/model/common/ComputationResultFree';
 import ModifiedValue from '@/model/common/ModifiedValue';
 import Modifier from '@/model/common/Modifier';
 import ProductionMethodName from '@/model/common/ProductionMethodName';
@@ -16,6 +17,16 @@ function dataToComputationResult(data: any): Promise<ComputationResult> {
         return Promise.all<Research>(data.requiredResearch.map((data: any) => dataToResearch(data)))
         .then((requiredResearch) => {
             return new ComputationResult(properties, requiredResearch);
+        });
+    });
+}
+
+function dataToComputationResultFree(data: any): Promise<ComputationResultFree> {
+    return Promise.all<ModifiedValue>(data.finalProperties.properties.map((data: any) => dataToModifiedValue(data)))
+    .then((properties) => {
+        return Promise.all<Research>(data.requiredResearch.map((data: any) => dataToResearch(data)))
+        .then((requiredResearch) => {
+            return new ComputationResultFree(properties, requiredResearch, data.computationCost, data.computationMaxCost);
         });
     });
 }
@@ -78,9 +89,29 @@ function _computeTurretProperties(chassisName: String, chassisSkinName: String, 
     });
 }
 
+function _computeTurretPropertiesFree(chassisName: String, chassisSkinName: String, bulletName: String, bulletSkinName: String,
+    customizers: Record<string, number>, productionMethodNames: ProductionMethodName[]): Promise<ComputationResultFree> {
+    let body = {
+        chassisName: chassisName,
+        bulletName: bulletName,
+        customizers: customizers,
+        productionMethodNames: productionMethodNames,
+        chassisSkinName: chassisSkinName,
+        bulletSkinName: bulletSkinName
+    };
+    return axios.post('/api/v1/computation/turret_free', body)
+    .then((response) => {
+        return dataToComputationResultFree(response.data);
+    });
+}
+
 export const ComputationService = {
     computeTurretProperties(chassisName: String, chassisSkinName: String, bulletName: String, bulletSkinName: String,
         customizers: Record<string, string>, productionMethodNames: ProductionMethodName[]) : Promise<ComputationResult> {
         return _computeTurretProperties(chassisName, chassisSkinName, bulletName, bulletSkinName, customizers, productionMethodNames);
+    },
+    computeTurretPropertiesFree(chassisName: String, chassisSkinName: String, bulletName: String, bulletSkinName: String,
+        customizers: Record<string, number>, productionMethodNames: ProductionMethodName[]) : Promise<ComputationResultFree> {
+        return _computeTurretPropertiesFree(chassisName, chassisSkinName, bulletName, bulletSkinName, customizers, productionMethodNames);
     }
 }

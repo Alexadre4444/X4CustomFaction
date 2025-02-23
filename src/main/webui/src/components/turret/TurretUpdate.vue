@@ -3,6 +3,7 @@ import Category from '@/model/common/Category';
 import Customizer from '@/model/common/Customizer';
 import CustomizerComponent from '@/model/common/CustomizerComponent';
 import CustomizerValue from '@/model/common/CustomizerValue';
+import FreeCustomizerValue from '@/model/common/FreeCustomizerValue';
 import ModifiedValue from '@/model/common/ModifiedValue';
 import ProductionMethodName from '@/model/common/ProductionMethodName';
 import Research from '@/model/common/Research';
@@ -39,10 +40,13 @@ const formCustomizers = ref<Map<CustomizerComponent, Ref<Customizer>>>();
 const formProductionMethodsName = ref<ProductionMethodName[]>([]);
 
 const formAccessibility = ref<string>('BASIC');
+    const formCustomMode= ref<string>('MODIFIER');
 
 const customizerComponents = ref<CustomizerComponent[]>();
 
 const computedProperties = ref<ModifiedValue[]>([]);
+
+const freeCustomizerValues =  ref<FreeCustomizerValue[]>([]);
 
 const chassisOnChange = () => {
     fixChassisSkinOnChange();
@@ -114,7 +118,6 @@ const availableBullets = computed<Bullet[]>(() => {
 });
 
 const iconUrl = computed(() => {
-    console.log(formChassisSkin.value);
     if(formChassisSkin.value == null) {
         return `/assets/turret/notfound.png`;
     }
@@ -147,7 +150,52 @@ const update = () => {
     });
 }
 
+function computePropertiesFree() {
+    if(formChassis.value != null && formBullet.value != null && formChassisSkin.value != null && formBulletSkin.value != null) {
+        ComputationService.computeTurretPropertiesFree(formChassis.value.name, formChassisSkin.value.name,
+            formBullet.value.name, formBulletSkin.value.name, freeCustomizerRecord.value, formProductionMethodsName.value)
+            .then(computationResult => {
+                computationResult.finalProperties.forEach(property => {
+                    let freeCustomizerValue = freeCustomizerValues.value.find(freeCustomizerValue => freeCustomizerValue.propertyDefinition.name == property.definition.name);
+                    if(freeCustomizerValue == null) {
+                        freeCustomizerValue = new FreeCustomizerValue(property.baseValueString, property.finalValueString, property.definition);
+                        freeCustomizerValues.value.push(freeCustomizerValue);
+                    } else {
+                        freeCustomizerValue.propertyBaseValue = property.baseValueString;
+                        freeCustomizerValue.propertyFinalValue = property.finalValueString;
+                        if(property.hasModifiers()) {
+                            freeCustomizerValue.modifierValue = property.modifierSum();
+                        } else {
+                            freeCustomizerValue.modifierValue = undefined;
+                        }
+                    }
+                });
+            }).catch(error => {
+                NotificationService.error(error);
+            });
+    } else {
+        freeCustomizerValues.value = [];
+    }
+}
+
+const freeCustomizerRecord = computed<Record<string,number>>(() => {
+    let record: Record<string,number> = {};
+    freeCustomizerValues.value.forEach(freeCustomizerValue => {
+        record[freeCustomizerValue.propertyDefinition.name] = freeCustomizerValue.modifierValue;
+    });
+    return record;
+});
+
+const freeCustomizerValuesModifable = computed(() => {
+    return freeCustomizerValues.value.filter(freeCustomizerValue => freeCustomizerValue.propertyDefinition.isFree);
+});
+
+const freeCustomizerValuesNotModifable = computed(() => {
+    return freeCustomizerValues.value.filter(freeCustomizerValue => !freeCustomizerValue.propertyDefinition.isFree);
+});
+
 function computeProperties() {
+    computePropertiesFree();
     if(formChassis.value != null && formBullet.value != null && formChassisSkin.value != null && formBulletSkin.value != null) {
         let customizers: Record<string, string> = {};
         formCustomizers.value.forEach((customizer, category) => {
@@ -243,6 +291,7 @@ await refreshChassis()
     <div class="mb-4">
         <Menubar :model="menu" breakpoint="500px">
             <template #end>
+                <CustomMode v-model="formCustomMode" class="pr-2"/>
                 <Accessibility v-model="formAccessibility"/>
             </template>
         </Menubar>
@@ -326,21 +375,29 @@ await refreshChassis()
                     @change="computeProperties"
                     optionLabel="label" :filter="true" :showClear="true" />   
                 </div>
-                <CustomizersComponents v-model="formCustomizers" @change="computeProperties" 
+                <CustomizersComponents v-if="formCustomMode == 'MODIFIER'" v-model="formCustomizers" @change="computeProperties" 
                 :applicable-properties="applicableProperties" /> 
             </div>
         </div>
-        <CategoryProperties v-if="formAccessibility == 'ADVANCED'" v-for="categoryPropertiesEntry in computedPropertiesByCategoryMap" 
-        :category="categoryPropertiesEntry[0]" :modifiedValues="categoryPropertiesEntry[1]"
-        :key="categoryPropertiesEntry[0].name"/>
-        <div v-if="formAccessibility == 'BASIC'" class="col-span-6 xl:col-span-6">
-            <div class="font-semibold text-xl">Basic properties</div>
-            <div v-for="categoryPropertiesEntry in computedPropertiesByCategoryMap">
-                <div class="font-semibold text-xl">{{ categoryPropertiesEntry[0].label }}</div>
-                <div v-for="modifiedValue in categoryPropertiesEntry[1]" :key="modifiedValue.definition.name">
-                <ModifiedValueDisplay v-if="modifiedValue.definition.accessibility == 'BASIC'" :modifiedValue="modifiedValue" />
+            <CategoryProperties v-if="formAccessibility == 'ADVANCED' && formCustomMode == 'MODIFIER'" v-for="categoryPropertiesEntry in computedPropertiesByCategoryMap" 
+            :category="categoryPropertiesEntry[0]" :modifiedValues="categoryPropertiesEntry[1]"
+            :key="categoryPropertiesEntry[0].name"/>
+            <div v-if="formAccessibility == 'BASIC' && formCustomMode == 'MODIFIER'" class="col-span-6 xl:col-span-6">
+                <div class="font-semibold text-xl">Basic properties</div>
+                <div v-for="categoryPropertiesEntry in computedPropertiesByCategoryMap">
+                    <div class="font-semibold text-xl">{{ categoryPropertiesEntry[0].label }}</div>
+                    <div v-for="modifiedValue in categoryPropertiesEntry[1]" :key="modifiedValue.definition.name">
+                    <ModifiedValueDisplay v-if="modifiedValue.definition.accessibility == 'BASIC'" :modifiedValue="modifiedValue" />
+                    </div>
                 </div>
             </div>
-        </div>
+            <div v-if="formCustomMode == 'FREE'" class="col-span-3 xl:col-span-3">
+                <div class="font-semibold text-xl">Updatable properties</div>
+                <FreeCustomizersComponents @change="computeProperties()" v-model="freeCustomizerValuesModifable"/>
+            </div>
+            <div v-if="formCustomMode == 'FREE'" class="col-span-3 xl:col-span-3">
+                <div class="font-semibold text-xl">Other properties</div>
+                <FreeCustomizersComponents v-model="freeCustomizerValuesNotModifable"/>
+            </div>
     </div>
 </template>
