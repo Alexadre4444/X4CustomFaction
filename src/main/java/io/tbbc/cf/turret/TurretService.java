@@ -291,13 +291,26 @@ public class TurretService implements ITurretService {
                                                        List<PropertyDefinition> propertyDefinitions,
                                                        Map<String, Integer> customizers,
                                                        List<ProductionMethodName> productionMethodNames) {
-        Modifiers modifiers = new Modifiers(customizers.entrySet().stream()
-                .map(entry -> new Modifier(new PropertyName(entry.getKey()), entry.getValue()))
-                .toList());
-        FinalProperties baseProps = PropsHelper.computeFinalProps(chassis.props().getProperties(),
-                propertyDefinitions, List.of(modifiers));
-        FinalProperties computedProps = computeFinalValuesWithComputed(chassis, productionMethodNames, baseProps);
-        return baseProps.concat(computedProps);
+        Modifiers bulletModifiers = bullet.modifiers();
+        FinalProperties baseProperties = PropsHelper.computeFinalProps(chassis.props().getProperties(),
+                propertyDefinitions, List.of(bulletModifiers));
+        List<FinalPropValue> baseFinalProps = getBasePropertiesFree(baseProperties.properties(), customizers);
+        FinalProperties basePropsWithEffect = new FinalProperties(baseFinalProps);
+        basePropsWithEffect = basePropsWithEffect.concat(ComputationHelper.computeBulletEffectProperties(basePropsWithEffect, bullet));
+        return computeFinalValuesWithComputed(chassis, productionMethodNames, basePropsWithEffect);
+    }
+
+    private List<FinalPropValue> getBasePropertiesFree(List<FinalPropValue> baseProperties, Map<String, Integer> customizers) {
+        return baseProperties.stream().map(finalPropValue -> {
+                    long modifier = 0;
+                    if (customizers.containsKey(finalPropValue.getName().name())) {
+                        modifier = customizers.get(finalPropValue.getName().name());
+                    }
+                    return new FinalPropValueModifier(finalPropValue.definition(),
+                            finalPropValue.getFinalDoubleValue(), List.of(new Modifier(finalPropValue.definition().name(),
+                            modifier)));
+                }).map(FinalPropValue.class::cast)
+                .toList();
     }
 
     private FinalProperties computeFinalProperties(TurretChassis turretChassis, Bullet bullet,
