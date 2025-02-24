@@ -1,24 +1,23 @@
 package io.tbbc.cf.property;
 
-import io.tbbc.cf.modifier.Modifier;
-
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Locale;
+import java.math.RoundingMode;
 
 public interface FinalPropValue {
 
     default String getBaseValueString() {
-        return format(limitValue(getBaseBigDecimalValue()));
+        return getBaseValue().toString();
     }
 
     default String getFinalValueString() {
-        return format(limitValue(getFinalBigDecimalValue()));
+        return getFinalValue().toString();
     }
 
-    List<Modifier> getModifiers();
-
     private BigDecimal limitValue(BigDecimal value) {
+        return rangeLimit(limitScale(value));
+    }
+
+    private BigDecimal rangeLimit(BigDecimal value) {
         if (definition().minValue() != null && value.compareTo(definition().minValue()) < 0) {
             return definition().minValue();
         }
@@ -28,16 +27,30 @@ public interface FinalPropValue {
         return value;
     }
 
-    private String format(BigDecimal value) {
-        String format = "%." + definition().decimal() + "f";
-        return String.format(Locale.US, format, value);
+    private BigDecimal limitScale(BigDecimal value) {
+        return value.setScale(definition().decimal(), RoundingMode.HALF_UP);
     }
 
-    BigDecimal getFinalBigDecimalValue();
+    default BigDecimal getFinalValue() {
+        return limitValue(getFinalValueWithoutLimit());
+    }
 
-    BigDecimal getBaseBigDecimalValue();
+    BigDecimal getBaseValue();
 
     PropertyName getName();
 
     PropertyDefinition definition();
+
+    BigDecimal getFinalValueWithoutLimit();
+
+    default Integer getModifier() {
+        BigDecimal baseValue = getBaseValue();
+        if (baseValue.compareTo(BigDecimal.ZERO) == 0) {
+            return null;
+        }
+        BigDecimal limitedFinalValue = getFinalValue();
+        BigDecimal diff = limitedFinalValue.subtract(baseValue);
+        BigDecimal diffPercent = diff.divide(baseValue, 2, RoundingMode.HALF_UP);
+        return diffPercent.multiply(new BigDecimal("100")).intValue();
+    }
 }

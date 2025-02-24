@@ -6,10 +6,10 @@ const props = defineProps<{
     configuration: FreeCustomizerValue
 }>();
 
-const model = ref<number>(props.configuration.modifierValue);
+const model = ref<number>(props.configuration.realModifierValue);
 
 const valueToTest = computed<number>(() => {
-    let value = props.configuration.modifierValue;
+    let value = props.configuration.realModifierValue;
     if(value == undefined) {
         value = Number.parseFloat(props.configuration.propertyFinalValue) - Number.parseFloat(props.configuration.propertyBaseValue);
     }
@@ -28,9 +28,13 @@ const computeSeverity = () => {
     }
 }
 
+const displayedModifier = computed(() => {
+    return props.configuration.propertyDefinition.isFree ? props.configuration.desiredModifierValue : props.configuration.realModifierValue;
+});
+
 const displayedValue = computed(() => {
     return props.configuration.propertyBaseValue + " → " + props.configuration.propertyFinalValue +
-         (props.configuration.modifierValue != undefined ? " (" + props.configuration.modifierValue + "%)" : "");
+         (displayedModifier.value != undefined ? " (" + displayedModifier.value + "%)" : "");
 });
 
 const displayedLabel = computed<string>(() => {
@@ -39,7 +43,7 @@ const displayedLabel = computed<string>(() => {
 });
 
 const onChange = () => {
-    props.configuration.modifierValue = model.value;
+    props.configuration.desiredModifierValue = model.value;
     emit('change', model.value);
 }
 
@@ -48,6 +52,8 @@ const onChange = () => {
 <template>
     <label> {{ displayedLabel }}</label>
     <Tag :severity="computeSeverity()" :value="displayedValue"/>
-    <FreeCustomizersSlider v-if="props.configuration.propertyDefinition.isFree && props.configuration.modifierValue != undefined" v-model="model"
-     :reversed="props.configuration.propertyDefinition.reverse" @change="onChange" />
+    <FreeCustomizersSlider v-if="props.configuration.propertyDefinition.isFree && props.configuration.realModifierValue != undefined" v-model="model"
+     :reversed="props.configuration.propertyDefinition.reverse"
+     :real-modifier="props.configuration.realModifierValue"
+     @change="onChange" />
 </template>

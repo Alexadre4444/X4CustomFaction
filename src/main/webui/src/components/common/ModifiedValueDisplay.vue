@@ -6,30 +6,20 @@ const props = defineProps({
     modifiedValue: ModifiedValue
 });
 
-const computeSeverity = () => {
-    if(props.modifiedValue.definition.reverse) {
-        return computeSeverityReverse(props.modifiedValue);
-    } else {
-        return computeSeverityNormal(props.modifiedValue);
+const valueToTest = computed<number>(() => {
+    let value = props.modifiedValue.modfier;
+    if(value == undefined) {
+        value = props.modifiedValue.finalDoubleValue - props.modifiedValue.baseDoubleValue;
     }
-}
-const computeSeverityNormal = (modifier: ModifiedValue) => {
-    let valueToCompare = modifier.modifierList.length > 0 ? modifier.modifierSum() : modifier.finalDoubleValue - modifier.baseDoubleValue;
-    if (valueToCompare > 0) {
-        return "success";
-    } else if (valueToCompare < 0) {
-        return "danger";
-    } else {
-        return "secondary";
-    }
-}
+    return props.modifiedValue.definition.reverse ? -value: value;
+});
 
-const computeSeverityReverse = (modifier: ModifiedValue) => {
-    let valueToCompare = modifier.modifierList.length > 0 ? modifier.modifierSum() : modifier.finalDoubleValue - modifier.baseDoubleValue;
-    if (valueToCompare > 0) {
-        return "danger";
-    } else if (valueToCompare < 0) {
+
+const computeSeverity = () => {
+    if (valueToTest.value > 0) {
         return "success";
+    } else if (valueToTest.value < 0) {
+        return "danger";
     } else {
         return "secondary";
     }

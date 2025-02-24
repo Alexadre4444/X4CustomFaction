@@ -18,9 +18,9 @@ public class FlakEffect implements IBulletEffect {
         FinalPropValue damageHull = properties.property(DAMAGE_HULL.name());
         FinalPropValue damageShield = properties.property(DAMAGE_SHIELD.name());
         FinalPropValue areaDamageHull = new FinalPropValueComputed(AREA_DAMAGE_HULL,
-                damageHull.getBaseBigDecimalValue(), damageHull.getFinalBigDecimalValue());
+                damageHull.getBaseValue(), damageHull.getFinalValue());
         FinalPropValue areaDamageShield = new FinalPropValueComputed(AREA_DAMAGE_SHIELD,
-                damageShield.getBaseBigDecimalValue(), damageShield.getFinalBigDecimalValue());
+                damageShield.getBaseValue(), damageShield.getFinalValue());
         FinalPropValue selfDestruct = new FinalPropValueComputed(SELF_DESTRUCT, new BigDecimal(1), new BigDecimal(1));
         FinalPropValue areaTime = new FinalPropValueComputed(AREA_TIME, new BigDecimal(1), new BigDecimal(1));
         FinalPropValue areaLifeTime = new FinalPropValueComputed(AREA_LIFE_TIME, new BigDecimal(1), new BigDecimal(1));

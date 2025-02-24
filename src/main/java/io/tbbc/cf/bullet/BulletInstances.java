@@ -23,31 +23,31 @@ public class BulletInstances {
     public static final Bullet M_PULSE_ION = new Bullet("m_cw_pulse_ion", "Ionic pulse",
             Size.MEDIUM, List.of(ChassisType.STANDARD, ChassisType.RAFFLE),
             new Modifiers(List.of(
-                    new Modifier(DAMAGE_SHIELD, 80),
-                    new Modifier(DAMAGE_HULL, -60)
+                    new Modifier(DAMAGE_SHIELD_NAME, 80),
+                    new Modifier(DAMAGE_HULL_NAME, -60)
             )), List.of(M_PULSE_ION_BLUE),
             List.of());
     public static final Bullet M_PLASMA = new Bullet("m_plasma", "Plasma",
             Size.MEDIUM, List.of(ChassisType.STANDARD, ChassisType.RAFFLE),
             new Modifiers(List.of(
-                    new Modifier(ROTATION_SPEED, -20),
-                    new Modifier(RELOAD_TIME, 10),
-                    new Modifier(SPEED, -10),
-                    new Modifier(LIFE_TIME, 30),
-                    new Modifier(DAMAGE_HULL, 30),
-                    new Modifier(DAMAGE_SHIELD, 30),
+                    new Modifier(ROTATION_SPEED_NAME, -20),
+                    new Modifier(RELOAD_TIME_NAME, 10),
+                    new Modifier(SPEED_NAME, -10),
+                    new Modifier(LIFE_TIME_NAME, 30),
+                    new Modifier(DAMAGE_HULL_NAME, 30),
+                    new Modifier(DAMAGE_SHIELD_NAME, 30),
                     new Modifier(COST.name(), 20))),
             List.of(M_PLASMA_CW),
             List.of());
     public static final Bullet M_GATLING = new Bullet("m_cw_gatling", "Bolt",
             Size.MEDIUM, List.of(ChassisType.STANDARD, ChassisType.RAFFLE),
             new Modifiers(List.of(
-                    new Modifier(RELOAD_TIME, -25),
-                    new Modifier(SPEED, 20),
-                    new Modifier(LIFE_TIME, -20),
-                    new Modifier(ACCURACY, 10),
-                    new Modifier(DAMAGE_HULL, -20),
-                    new Modifier(DAMAGE_SHIELD, -20),
+                    new Modifier(RELOAD_TIME_NAME, -25),
+                    new Modifier(SPEED_NAME, 20),
+                    new Modifier(LIFE_TIME_NAME, -20),
+                    new Modifier(ACCURACY_NAME, 10),
+                    new Modifier(DAMAGE_HULL_NAME, -20),
+                    new Modifier(DAMAGE_SHIELD_NAME, -20),
                     new Modifier(COST.name(), -10))),
             Stream.of(M_GATLING_CW, M_GATLING_XEN, M_GATLING_TER)
                     .sorted(Comparator.comparing(BulletSkin::label)).toList(),
@@ -55,11 +55,11 @@ public class BulletInstances {
     public static final Bullet M_SHOTGUN = new Bullet("m_cw_shotgun", "Shard",
             Size.MEDIUM, List.of(ChassisType.STANDARD, ChassisType.RAFFLE),
             new Modifiers(List.of(
-                    new Modifier(SPEED, 20),
-                    new Modifier(LIFE_TIME, -10),
-                    new Modifier(ACCURACY, 10),
-                    new Modifier(DAMAGE_HULL, -10),
-                    new Modifier(DAMAGE_SHIELD, -10),
+                    new Modifier(SPEED_NAME, 20),
+                    new Modifier(LIFE_TIME_NAME, -10),
+                    new Modifier(ACCURACY_NAME, 10),
+                    new Modifier(DAMAGE_HULL_NAME, -10),
+                    new Modifier(DAMAGE_SHIELD_NAME, -10),
                     new Modifier(COST.name(), -10)
             )),
             List.of(M_SHOTGUN_CW),
@@ -73,12 +73,12 @@ public class BulletInstances {
     public static final Bullet M_ELECTROMAGNETIC = new Bullet("m_ter_electromagnetic", "Electromagnetic",
             Size.MEDIUM, List.of(ChassisType.STANDARD, ChassisType.RAFFLE),
             new Modifiers(List.of(
-                    new Modifier(ROTATION_SPEED, -10),
-                    new Modifier(DAMAGE_SHIELD, 20),
-                    new Modifier(DAMAGE_HULL, 20),
-                    new Modifier(LIFE_TIME, 20),
-                    new Modifier(SPEED, -10),
-                    new Modifier(RELOAD_TIME, 10)
+                    new Modifier(ROTATION_SPEED_NAME, -10),
+                    new Modifier(DAMAGE_SHIELD_NAME, 20),
+                    new Modifier(DAMAGE_HULL_NAME, 20),
+                    new Modifier(LIFE_TIME_NAME, 20),
+                    new Modifier(SPEED_NAME, -10),
+                    new Modifier(RELOAD_TIME_NAME, 10)
             )),
             List.of(M_ELECTROMAGNETIC_TER),
             List.of());
@@ -86,9 +86,9 @@ public class BulletInstances {
     public static final Bullet M_FLAK = new Bullet("m_cw_flak", "Flak",
             Size.MEDIUM, List.of(ChassisType.STANDARD, ChassisType.RAFFLE),
             new Modifiers(List.of(
-                    new Modifier(SPEED, -10),
-                    new Modifier(DAMAGE_HULL, 10),
-                    new Modifier(DAMAGE_SHIELD, 10)
+                    new Modifier(SPEED_NAME, -10),
+                    new Modifier(DAMAGE_HULL_NAME, 10),
+                    new Modifier(DAMAGE_SHIELD_NAME, 10)
             )),
             List.of(M_FLAK_CW),
             List.of(new FlakEffect()));
@@ -103,10 +103,10 @@ public class BulletInstances {
     public static final Bullet L_GATLING = new Bullet("l_gatling", "Bolt",
             Size.LARGE, List.of(ChassisType.STANDARD, ChassisType.RAFFLE),
             new Modifiers(List.of(
-                    new Modifier(DAMAGE_HULL, 20),
-                    new Modifier(DAMAGE_SHIELD, 20),
-                    new Modifier(LIFE_TIME, 20),
-                    new Modifier(SPEED, -20)
+                    new Modifier(DAMAGE_HULL_NAME, 20),
+                    new Modifier(DAMAGE_SHIELD_NAME, 20),
+                    new Modifier(LIFE_TIME_NAME, 20),
+                    new Modifier(SPEED_NAME, -20)
             )),
             Stream.of(L_GATLING_TER)
                     .sorted(Comparator.comparing(BulletSkin::label)).toList(),
@@ -114,12 +114,12 @@ public class BulletInstances {
     public static final Bullet L_PLASMA = new Bullet("l_plasma", "Plasma",
             Size.LARGE, List.of(ChassisType.STANDARD, ChassisType.RAFFLE),
             new Modifiers(List.of(
-                    new Modifier(ROTATION_SPEED, -20),
-                    new Modifier(RELOAD_TIME, 10),
-                    new Modifier(SPEED, -10),
-                    new Modifier(LIFE_TIME, 30),
-                    new Modifier(DAMAGE_HULL, 30),
-                    new Modifier(DAMAGE_SHIELD, 30),
+                    new Modifier(ROTATION_SPEED_NAME, -20),
+                    new Modifier(RELOAD_TIME_NAME, 10),
+                    new Modifier(SPEED_NAME, -10),
+                    new Modifier(LIFE_TIME_NAME, 30),
+                    new Modifier(DAMAGE_HULL_NAME, 30),
+                    new Modifier(DAMAGE_SHIELD_NAME, 30),
                     new Modifier(COST.name(), 20))),
             Stream.of(L_PLASMA_BLUE, L_PLASMA_YELLOW, L_PLASMA_VIOLET, L_PLASMA_ORANGE)
                     .sorted(Comparator.comparing(BulletSkin::label)).toList(),

@@ -25,8 +25,8 @@ public record TurretEgoProps(String name, int labelSection, int descriptionSecti
         } else {
             range = properties.property("beamRange");
         }
-        return range.getFinalBigDecimalValue().compareTo(new BigDecimal(2500)) < 0 ? TurretRange.SHORT :
-                range.getFinalBigDecimalValue().compareTo(new BigDecimal(5000)) < 0 ? TurretRange.MID : TurretRange.LONG;
+        return range.getFinalValue().compareTo(new BigDecimal(2500)) < 0 ? TurretRange.SHORT :
+                range.getFinalValue().compareTo(new BigDecimal(5000)) < 0 ? TurretRange.MID : TurretRange.LONG;
     }
 
     public enum TurretRange {

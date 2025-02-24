@@ -9,17 +9,7 @@ public record FinalPropValueModifier(PropertyDefinition definition, BigDecimal b
         implements FinalPropValue {
 
     @Override
-    public List<Modifier> getModifiers() {
-        return modifiers.stream().toList();
-    }
-
-    @Override
-    public BigDecimal getFinalBigDecimalValue() {
-        return baseValue.add(baseValue.multiply(new BigDecimal(sumModifiers())).multiply(new BigDecimal("0.01")));
-    }
-
-    @Override
-    public BigDecimal getBaseBigDecimalValue() {
+    public BigDecimal getBaseValue() {
         return baseValue;
     }
 
@@ -30,5 +20,10 @@ public record FinalPropValueModifier(PropertyDefinition definition, BigDecimal b
     @Override
     public PropertyName getName() {
         return definition.name();
+    }
+
+    @Override
+    public BigDecimal getFinalValueWithoutLimit() {
+        return baseValue.add(baseValue.multiply(new BigDecimal(sumModifiers())).multiply(new BigDecimal("0.01")));
     }
 }

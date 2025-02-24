@@ -1,28 +1,14 @@
-import Modifier from "./Modifier";
 import PropertyDefinition from "./PropertyDefinition";
 
 export default class ModifiedValue {
     definition: PropertyDefinition;
-    modifierList: Modifier[];
     baseValueString: string;
     finalValueString: string;
-    baseDoubleValue: number;
-    finalDoubleValue: number;
-    constructor(definition: PropertyDefinition, modifierList: Modifier[], baseValueString: string, finalValueString: string,
-        baseDoubleValue: number, finalDoubleValue: number) {
+    modfier?: number;
+    constructor(definition: PropertyDefinition, baseValueString: string, finalValueString: string, modifier?: number) {
         this.definition = definition;
-        this.modifierList = modifierList;
+        this.modfier = modifier;
         this.baseValueString = baseValueString;
         this.finalValueString = finalValueString;
-        this.baseDoubleValue = baseDoubleValue;
-        this.finalDoubleValue = finalDoubleValue;
-    }
-
-    hasModifiers(): boolean {
-        return this.modifierList.length > 0;
-    }
-
-    modifierSum(): number {
-        return this.modifierList.reduce((sum, modifier) => sum + modifier.value, 0);
     }
 }

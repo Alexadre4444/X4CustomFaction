@@ -19,16 +19,16 @@ public class ChassisPropsBeam implements IChassisProps {
                             BigDecimal range, BigDecimal costAdvancedElectronics, BigDecimal costEnergyCells,
                             BigDecimal costTurretsComps) {
         properties = new Properties(List.of(
-                new Property(ROTATION_SPEED, rotationSpeed),
-                new Property(HULL, hull),
-                new Property(RELOAD_TIME, reloadTime),
-                new Property(LIFE_TIME, lifeTime),
-                new Property(DAMAGE_HULL, damageHull),
-                new Property(DAMAGE_SHIELD, damageShield),
-                new Property(COST_CW_ADVANCED_ELECTRONICS, costAdvancedElectronics),
-                new Property(COST_CW_ENERGY_CELLS, costEnergyCells),
-                new Property(COST_CW_TURRET_COMPS, costTurretsComps),
-                new Property(BEAM_RANGE, range)
+                new Property(ROTATION_SPEED_NAME, rotationSpeed),
+                new Property(HULL_NAME, hull),
+                new Property(RELOAD_TIME_NAME, reloadTime),
+                new Property(LIFE_TIME_NAME, lifeTime),
+                new Property(DAMAGE_HULL_NAME, damageHull),
+                new Property(DAMAGE_SHIELD_NAME, damageShield),
+                new Property(COST_CW_ADVANCED_ELECTRONICS_NAME, costAdvancedElectronics),
+                new Property(COST_CW_ENERGY_CELLS_NAME, costEnergyCells),
+                new Property(COST_CW_TURRET_COMPS_NAME, costTurretsComps),
+                new Property(BEAM_RANGE_NAME, range)
         ));
     }
 

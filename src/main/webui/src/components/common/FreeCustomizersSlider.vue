@@ -2,7 +2,8 @@
 import { computed } from 'vue';
 
 const props = defineProps<{
-    reversed: boolean
+    reversed: boolean,
+    realModifier: number
 }>();
 
 const model = defineModel({
@@ -12,7 +13,7 @@ const model = defineModel({
 const emit = defineEmits(['change']);
 
 const valueToTest = computed<number>(() => {
-    return props.reversed ? -model.value : model.value;
+    return props.reversed ? -props.realModifier : props.realModifier;
 });
 
 const isNerfed = computed(() => {

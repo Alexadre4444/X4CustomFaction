@@ -42,6 +42,8 @@ const customizerComponents = ref<CustomizerComponent[]>();
 
 const freeCustomizerValues =  ref<FreeCustomizerValue[]>([]);
 
+const computeUuid = ref<number>(0);
+
 const chassisOnChange = () => {
     fixChassisSkinOnChange();
     fixBulletOnChange();
@@ -119,47 +121,57 @@ const update = () => {
 }
 
 function computeProperties() {
+    const newUuid = computeUuid.value + 1;
+    computeUuid.value = newUuid;
     if(formChassis.value != null && formBullet.value != null && formChassisSkin.value != null && formBulletSkin.value != null) {
         ComputationService.computeTurretPropertiesFree(formChassis.value.name, formChassisSkin.value.name,
-            formBullet.value.name, formBulletSkin.value.name, freeCustomizerRecord.value, formProductionMethodsName.value)
+            formBullet.value.name, formBulletSkin.value.name, freeCustomizerValuesModifableRecord.value, formProductionMethodsName.value)
             .then(computationResult => {
-                computationResult.finalProperties.forEach(property => {
-                    let freeCustomizerValue = freeCustomizerValues.value.find(freeCustomizerValue => freeCustomizerValue.propertyDefinition.name == property.definition.name);
+                if(computeUuid.value == newUuid) {
                     requiredResearch.value = computationResult.requiredResearch;
-                    if(freeCustomizerValue == null) {
-                        freeCustomizerValue = new FreeCustomizerValue(property.baseValueString, property.finalValueString, property.definition);
-                        freeCustomizerValues.value.push(freeCustomizerValue);
-                        applicableProperties.value.push(property.definition);
-                    } else {
-                        freeCustomizerValue.propertyBaseValue = property.baseValueString;
-                        freeCustomizerValue.propertyFinalValue = property.finalValueString;
-                        if(property.hasModifiers()) {
-                            freeCustomizerValue.modifierValue = property.modifierSum();
+                    computationResult.finalProperties.forEach(property => {
+                        let freeCustomizerValue = freeCustomizerValues.value.find(freeCustomizerValue => freeCustomizerValue.propertyDefinition.name == property.definition.name);
+                        if(freeCustomizerValue == null) {
+                            freeCustomizerValue = new FreeCustomizerValue(property.baseValueString, property.finalValueString, property.definition, property.modfier, property.modfier);
+                            freeCustomizerValues.value.push(freeCustomizerValue);
+                            applicableProperties.value.push(property.definition);
                         } else {
-                            freeCustomizerValue.modifierValue = undefined;
+                            freeCustomizerValue.propertyBaseValue = property.baseValueString;
+                            freeCustomizerValue.propertyFinalValue = property.finalValueString;
+                            freeCustomizerValue.realModifierValue = property.modfier;
                         }
-                    }
-                });
+                    });
+                }
             }).catch(error => {
                 NotificationService.error(error);
             });
     } else {
-        freeCustomizerValues.value = [];
-        applicableProperties.value = [];
-        requiredResearch.value = [];
+        if(computeUuid.value == newUuid) {
+            freeCustomizerValues.value = [];
+            applicableProperties.value = [];
+            requiredResearch.value = [];
+        }
     }
 }
 
 const freeCustomizerRecord = computed<Record<string,number>>(() => {
     let record: Record<string,number> = {};
     freeCustomizerValues.value.forEach(freeCustomizerValue => {
-        record[freeCustomizerValue.propertyDefinition.name] = freeCustomizerValue.modifierValue;
+        record[freeCustomizerValue.propertyDefinition.name] = freeCustomizerValue.realModifierValue;
     });
     return record;
 });
 
 const freeCustomizerValuesModifable = computed(() => {
     return freeCustomizerValues.value.filter(freeCustomizerValue => freeCustomizerValue.propertyDefinition.isFree);
+});
+
+const freeCustomizerValuesModifableRecord = computed(() => {
+    let record: Record<string,number> = {};
+    freeCustomizerValuesModifable.value.forEach(freeCustomizerValue => {
+        record[freeCustomizerValue.propertyDefinition.name] = freeCustomizerValue.desiredModifierValue;
+    });
+    return record;
 });
 
 const freeCustomizerValuesNotModifable = computed(() => {

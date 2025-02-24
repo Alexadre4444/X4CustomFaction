@@ -19,23 +19,23 @@ public class ChassisPropsRaffle implements IChassisProps {
                               BigDecimal damageHull, BigDecimal damageShield, BigDecimal maxHits, BigDecimal ricochet, BigDecimal timeDiff,
                               BigDecimal accuracy, BigDecimal costAdvancedElectronics, BigDecimal costEnergyCells, BigDecimal costTurretsComps) {
         properties = new Properties(List.of(
-                new Property(ROTATION_SPEED, rotationSpeed),
-                new Property(HULL, hull),
-                new Property(BARREL_AMOUNT, barrelAmount),
-                new Property(AMOUNT, amount),
-                new Property(RELOAD_TIME, reloadTime),
-                new Property(FIRE_RATE, fireRate),
-                new Property(SPEED, speed),
-                new Property(LIFE_TIME, lifeTime),
-                new Property(DAMAGE_HULL, damageHull),
-                new Property(DAMAGE_SHIELD, damageShield),
-                new Property(MAX_HITS, maxHits),
-                new Property(RICOCHET, ricochet),
-                new Property(ACCURACY, accuracy),
-                new Property(COST_CW_ADVANCED_ELECTRONICS, costAdvancedElectronics),
-                new Property(COST_CW_ENERGY_CELLS, costEnergyCells),
-                new Property(COST_CW_TURRET_COMPS, costTurretsComps),
-                new Property(TIME_DIFF, timeDiff)
+                new Property(ROTATION_SPEED_NAME, rotationSpeed),
+                new Property(HULL_NAME, hull),
+                new Property(BARREL_AMOUNT_NAME, barrelAmount),
+                new Property(AMOUNT_NAME, amount),
+                new Property(RELOAD_TIME_NAME, reloadTime),
+                new Property(FIRE_RATE_NAME, fireRate),
+                new Property(SPEED_NAME, speed),
+                new Property(LIFE_TIME_NAME, lifeTime),
+                new Property(DAMAGE_HULL_NAME, damageHull),
+                new Property(DAMAGE_SHIELD_NAME, damageShield),
+                new Property(MAX_HITS_NAME, maxHits),
+                new Property(RICOCHET_NAME, ricochet),
+                new Property(ACCURACY_NAME, accuracy),
+                new Property(COST_CW_ADVANCED_ELECTRONICS_NAME, costAdvancedElectronics),
+                new Property(COST_CW_ENERGY_CELLS_NAME, costEnergyCells),
+                new Property(COST_CW_TURRET_COMPS_NAME, costTurretsComps),
+                new Property(TIME_DIFF_NAME, timeDiff)
         ));
     }
 

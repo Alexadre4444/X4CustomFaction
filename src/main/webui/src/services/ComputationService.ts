@@ -1,13 +1,10 @@
-import Category from '@/model/common/Category';
 import ComputationResult from '@/model/common/ComputationResult';
 import ComputationResultFree from '@/model/common/ComputationResultFree';
 import ModifiedValue from '@/model/common/ModifiedValue';
-import Modifier from '@/model/common/Modifier';
 import ProductionMethodName from '@/model/common/ProductionMethodName';
 import PropertyDefinition from '@/model/common/PropertyDefinition';
 import Research from '@/model/common/Research';
 import axios from 'axios';
-import { CategoryService } from './CategoryService';
 import { ResearchService } from './ResearchService';
 import { TurretChassisService } from './TurretChassisService';
 
@@ -44,29 +41,10 @@ function dataToResearch(data : any) : Promise<Research> {
 
 function dataToModifiedValue(data : any): Promise<ModifiedValue> {
     return getPropertyDefinition(data.name.name).then((definition) => {
-        return Promise.all<Modifier>(data.modifiers.map((data: any) => dataToModifier(data)))
-        .then((modifiers) => {
-            return new ModifiedValue(definition, modifiers, data.baseValueString, data.finalValueString, data.baseDoubleValue, data.finalDoubleValue);
-        });
+        return new ModifiedValue(definition, data.baseValueString, data.finalValueString, data.modifier);
     });
 }
 
-function dataToModifier(data: any) : Promise<Modifier> {
-    return getPropertyDefinition(data.name.name).then((definition) => {
-            return new Modifier(data.name.name, data.value, definition, undefined);
-    })
-    .then((modifier) => {
-        return getCategory(data.name.name).then((category) => {
-            return new Modifier(modifier.name, modifier.value, modifier.propertyDefinition, category);
-        });
-    });
-}
-
-function getCategory(name: string): Promise<Category | undefined> {
-    return CategoryService.getAll().then((categories) => {
-        return categories.find((category) => category.name === name);;
-    });
-}
 function getPropertyDefinition(name: string): Promise<PropertyDefinition> {
     return TurretChassisService.getProperties().then((properties) => {
         return properties.find((property) => property.name === name);;

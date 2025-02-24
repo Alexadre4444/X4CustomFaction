@@ -19,11 +19,11 @@ public class SeismicEffect implements IBulletEffect {
         FinalPropValue damageHull = properties.property(DAMAGE_HULL.name());
         FinalPropValue damageShield = properties.property(DAMAGE_SHIELD.name());
         FinalPropValue areaDamageHull = new FinalPropValueComputed(AREA_DAMAGE_HULL,
-                damageHull.getBaseBigDecimalValue().divide(new BigDecimal(3), RoundingMode.HALF_UP),
-                damageHull.getFinalBigDecimalValue().divide(new BigDecimal(3), RoundingMode.HALF_UP));
+                damageHull.getBaseValue().divide(new BigDecimal(3), RoundingMode.HALF_UP),
+                damageHull.getFinalValue().divide(new BigDecimal(3), RoundingMode.HALF_UP));
         FinalPropValue areaDamageShield = new FinalPropValueComputed(AREA_DAMAGE_SHIELD,
-                damageShield.getBaseBigDecimalValue().divide(new BigDecimal("3"), RoundingMode.HALF_UP),
-                damageShield.getFinalBigDecimalValue().divide(new BigDecimal("3"), RoundingMode.HALF_UP));
+                damageShield.getBaseValue().divide(new BigDecimal("3"), RoundingMode.HALF_UP),
+                damageShield.getFinalValue().divide(new BigDecimal("3"), RoundingMode.HALF_UP));
         FinalPropValue selfDestruct = new FinalPropValueComputed(SELF_DESTRUCT, new BigDecimal("1"), new BigDecimal("1"));
         FinalPropValue plannedSelfDestruct = new FinalPropValueComputed(PLANNED_SELF_DESTRUCT,
                 new BigDecimal(1), new BigDecimal(1));

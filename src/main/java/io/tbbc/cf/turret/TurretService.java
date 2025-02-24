@@ -35,7 +35,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static io.tbbc.cf.turret.chassis.TurretChassisInstances.PropertyNames.AREA_DAMAGE_HULL;
+import static io.tbbc.cf.turret.chassis.TurretChassisInstances.PropertyNames.AREA_DAMAGE_HULL_NAME;
 
 @ApplicationScoped
 public class TurretService implements ITurretService {
@@ -207,7 +207,7 @@ public class TurretService implements ITurretService {
         FinalPropValue damageShieldPerSecond = ComputationHelper.computeDamageShieldPerSecond(chassis, baseProperties, shootPerSecond);
         FinalPropValue rotationAcceleration = ComputationHelper.computeAcceleration(baseProperties);
         FinalPropValue damageBonusShield = ComputationHelper.computeDamageBonusShield(baseProperties);
-        if (baseProperties.hasProperty(AREA_DAMAGE_HULL.name())) {
+        if (baseProperties.hasProperty(AREA_DAMAGE_HULL_NAME.name())) {
             FinalPropValue areaDamageBonusShield = ComputationHelper.computeAreaDamageBonusShield(baseProperties);
             computedProps.add(areaDamageBonusShield);
         }
@@ -307,7 +307,7 @@ public class TurretService implements ITurretService {
                         modifier = customizers.get(finalPropValue.getName().name());
                     }
                     return new FinalPropValueModifier(finalPropValue.definition(),
-                            finalPropValue.getFinalBigDecimalValue(), List.of(new Modifier(finalPropValue.definition().name(),
+                            finalPropValue.getFinalValue(), List.of(new Modifier(finalPropValue.definition().name(),
                             modifier)));
                 }).map(FinalPropValue.class::cast)
                 .toList();

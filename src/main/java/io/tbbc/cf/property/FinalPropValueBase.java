@@ -9,18 +9,7 @@ public record FinalPropValueBase(Property property, PropertyDefinition definitio
         implements FinalPropValue {
 
     @Override
-    public List<Modifier> getModifiers() {
-        return modifiers.stream().toList();
-    }
-
-    @Override
-    public BigDecimal getFinalBigDecimalValue() {
-        return getBaseBigDecimalValue().add(getBaseBigDecimalValue()
-                .multiply(new BigDecimal(sumModifiers())).multiply(new BigDecimal("0.01")));
-    }
-
-    @Override
-    public BigDecimal getBaseBigDecimalValue() {
+    public BigDecimal getBaseValue() {
         return BigDecimal.valueOf(property.value().doubleValue());
     }
 
@@ -31,5 +20,11 @@ public record FinalPropValueBase(Property property, PropertyDefinition definitio
     @Override
     public PropertyName getName() {
         return property.name();
+    }
+
+    @Override
+    public BigDecimal getFinalValueWithoutLimit() {
+        return getBaseValue().add(getBaseValue()
+                .multiply(new BigDecimal(sumModifiers())).multiply(new BigDecimal("0.01")));
     }
 }
