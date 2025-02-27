@@ -6,5 +6,5 @@ import io.tbbc.cf.research.Research;
 import java.util.List;
 
 public record ComputationResultFree(FinalProperties finalProperties, List<Research> requiredResearch,
-                                    int computationCost, int computationMaxCost) {
+                                    int customizationPoint, int customisationBasePoint) {
 }

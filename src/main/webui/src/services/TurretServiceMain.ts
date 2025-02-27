@@ -2,10 +2,10 @@ import Category from '@/model/common/Category';
 import Customizer from '@/model/common/Customizer';
 import CustomizerCategory from '@/model/common/CustomizerCategory';
 import CustomizerComponent from '@/model/common/CustomizerComponent';
-import CustomizerValue from '@/model/common/CustomizerValue';
 import Modifier from '@/model/common/Modifier';
 import Modifiers from '@/model/common/Modifiers';
 import ProductionMethodName from '@/model/common/ProductionMethodName';
+import PropertyCustomizerValue from '@/model/common/PropertyCustomizerValue';
 import PropertyDefinition from '@/model/common/PropertyDefinition';
 import Size from '@/model/common/Size';
 import Turret from '@/model/turret/Turret.ts';
@@ -20,12 +20,12 @@ const CUSTOMIZER = 'turrets_categories';
 
 function dataToTurret(data : any) : Turret {
     return new Turret(data.id, data.label, Size.fromKey(data.size), data.description, data.chassisName,
-        data.chassisSkinName, data.bulletName, data.bulletSkinName, data.customizers.map((data: any) => dataToCustomzerValue(data)), data.state,
-    data.methods?.map((data: any) => new ProductionMethodName(data.name)));
+        data.chassisSkinName, data.bulletName, data.bulletSkinName, data.state,
+    data.methods?.map((data: any) => new ProductionMethodName(data.name)), data.propertyCustomizers.map((data: any) => dataToPropertyCustomizers(data)));
 }
 
-function dataToCustomzerValue(data: any) : CustomizerValue {
-    return new CustomizerValue(data.categoryName, data.customizerName);
+function dataToPropertyCustomizers(data: any) : PropertyCustomizerValue {
+    return new PropertyCustomizerValue(data.propertyName, data.propertyModifier);
 }
 
 function getPropertyDefinition(name: string): Promise<PropertyDefinition | undefined> {

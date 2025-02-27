@@ -25,6 +25,13 @@ public class ComputationHelper {
     private ComputationHelper() {
     }
 
+    public static int computeUsedPoint(FinalProperties finalProperties) {
+        return finalProperties.getProperties().stream()
+                .filter(finalPropValue -> finalPropValue.definition().isFree())
+                .map(FinalPropValue::computeCost)
+                .reduce(0, Integer::sum);
+    }
+
     public static FinalProperties computeBulletEffectProperties(FinalProperties properties, Bullet bullet) {
         return bullet.effects().stream()
                 .reduce(new FinalProperties(List.of()),

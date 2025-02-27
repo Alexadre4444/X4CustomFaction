@@ -14,6 +14,7 @@ import io.tbbc.cf.production.ProductionMethodInstances;
 import io.tbbc.cf.production.ProductionMethodName;
 import io.tbbc.cf.property.*;
 import io.tbbc.cf.research.Research;
+import io.tbbc.cf.research.ResearchInstances;
 import io.tbbc.cf.turret.chassis.ChassisType;
 import io.tbbc.cf.turret.chassis.ITurretChassisService;
 import io.tbbc.cf.turret.chassis.TurretChassis;
@@ -41,7 +42,9 @@ import static io.tbbc.cf.turret.chassis.TurretChassisInstances.PropertyNames.ARE
 public class TurretService implements ITurretService {
     public static final int EGO_TURRET_LABEL_SECTION = 142000;
     public static final int EGO_TURRET_DESCRIPTION_SECTION = 142001;
-    public static final int COMPUTATION_MAX_COST = 100;
+    public static final int CUSTOMIZATION_BASE_POINT = 150;
+    public static final int CUSTOMIZATION_ADVANCED_LIMIT_POINT = 50;
+    public static final int CUSTOMIZATION_EXPERT_LIMIT_POINT = 100;
 
     @Inject
     ITurretRepository turretRepository;
@@ -72,6 +75,46 @@ public class TurretService implements ITurretService {
                 .orElseThrow(() -> new BadArgumentException("Skin %s not found for turret %s".formatted(chassisSkinName, chassisName)));
     }
 
+    private static List<FinalPropValue> handleCostProperties(List<ProductionMethodName> productionMethodNameList,
+                                                             FinalProperties baseProperties,
+                                                             int usedPoint, int basePoint) {
+        List<FinalPropValue> computedProps = new ArrayList<>();
+        // Get base cost properties
+        List<FinalPropValue> costProperties = baseProperties.properties().stream()
+                .filter(prop -> prop.definition().categoryName().equals(CategoryInstances.COST.name()))
+                .map(prop ->
+                        new FinalPropValueModifier(prop.definition(), prop.getFinalValue(),
+                                List.of(new Modifier(prop.definition().name(), usedPoint))))
+                .map(FinalPropValue.class::cast)
+                .toList();
+
+        // Generate cost properties for production methods
+        if (productionMethodNameList.stream().map(ProductionMethodName::getName).toList()
+                .contains(ProductionMethodInstances.CLOSED_LOOP.name())) {
+            computedProps.addAll(ComputationHelper.computeCLCost(new FinalProperties(costProperties)));
+        }
+        if (productionMethodNameList.stream().map(ProductionMethodName::getName).toList()
+                .contains(ProductionMethodInstances.TERRAN.name())) {
+            computedProps.addAll(ComputationHelper.computeTerCost(new FinalProperties(costProperties)));
+        }
+        if (productionMethodNameList.stream().map(ProductionMethodName::getName).toList()
+                .contains(ProductionMethodInstances.CW.name())) {
+            computedProps.addAll(costProperties);
+        }
+        return computedProps;
+    }
+
+    private List<FinalPropValue> removeCWCostProperties(List<FinalPropValue> baseProperties) {
+        List<FinalPropValue> finalBaseProperties = new ArrayList<>(baseProperties);
+        finalBaseProperties.removeIf(prop -> prop.getName()
+                .equals(TurretChassisInstances.Properties.COST_CW_ADVANCED_ELECTRONICS.name()));
+        finalBaseProperties.removeIf(prop -> prop.getName()
+                .equals(TurretChassisInstances.Properties.COST_CW_TURRET_COMPS.name()));
+        finalBaseProperties.removeIf(prop -> prop.getName()
+                .equals(TurretChassisInstances.Properties.COST_CW_ENERGY_CELLS.name()));
+        return finalBaseProperties;
+    }
+
     @Override
     public List<Turret> getAll() {
         return turretRepository.getAll();
@@ -97,7 +140,8 @@ public class TurretService implements ITurretService {
         turret.setDescription(StringUtil.normalizeDescription(turret.getDescription()));
 
         turretValidator.validateUpdate(turret, this::getById, turretChassisService::getByName,
-                bulletService::getByName, turretCustomizerService::getByName, productionMethodService::getByName);
+                bulletService::getByName, productionMethodService::getByName, turretChassisService::getProperties,
+                this::computeTurretPoint, () -> CUSTOMIZATION_BASE_POINT);
         turret.setState(State.VALID);
         turretRepository.update(turret);
     }
@@ -187,11 +231,11 @@ public class TurretService implements ITurretService {
         if (bullet != null) {
             basePropsWithEffect = baseProps.concat(ComputationHelper.computeBulletEffectProperties(baseProps, bullet));
         }
-        return computeFinalValuesWithComputed(chassis, productionMethodNames, basePropsWithEffect);
+        return computeFinalValuesWithComputed(chassis, productionMethodNames, basePropsWithEffect, 100, 100);
     }
 
     private FinalProperties computeFinalValuesWithComputed(TurretChassis chassis, List<ProductionMethodName> productionMethodNameList,
-                                                           FinalProperties baseProperties) {
+                                                           FinalProperties baseProperties, int usedPoint, int basePoint) {
         List<FinalPropValue> computedProps = new ArrayList<>();
         FinalPropValue shootPerSecond;
         if (chassis.type() != ChassisType.BEAM) {
@@ -216,25 +260,13 @@ public class TurretService implements ITurretService {
         computedProps.add(damageShieldPerSecond);
         computedProps.add(rotationAcceleration);
         computedProps.add(damageBonusShield);
-        if (productionMethodNameList.stream().map(ProductionMethodName::getName).toList()
-                .contains(ProductionMethodInstances.CLOSED_LOOP.name())) {
-            computedProps.addAll(ComputationHelper.computeCLCost(baseProperties));
-        }
-        if (productionMethodNameList.stream().map(ProductionMethodName::getName).toList()
-                .contains(ProductionMethodInstances.TERRAN.name())) {
-            computedProps.addAll(ComputationHelper.computeTerCost(baseProperties));
-        }
-        List<FinalPropValue> finalBaseProperties = new ArrayList<>(baseProperties.properties());
-        if (!productionMethodNameList.stream().map(ProductionMethodName::getName).toList()
-                .contains(ProductionMethodInstances.CW.name())) {
-            finalBaseProperties.removeIf(prop -> prop.getName().equals(TurretChassisInstances.Properties.COST_CW_ADVANCED_ELECTRONICS.name()));
-            finalBaseProperties.removeIf(prop -> prop.getName().equals(TurretChassisInstances.Properties.COST_CW_TURRET_COMPS.name()));
-            finalBaseProperties.removeIf(prop -> prop.getName().equals(TurretChassisInstances.Properties.COST_CW_ENERGY_CELLS.name()));
-        }
+        List<FinalPropValue> costProperties = handleCostProperties(productionMethodNameList, baseProperties, usedPoint, basePoint);
+        List<FinalPropValue> basePropertiesWithoutCost = removeCWCostProperties(baseProperties.properties());
         return new FinalProperties(
                 Stream.concat(
-                                finalBaseProperties.stream(),
-                                computedProps.stream())
+                                basePropertiesWithoutCost.stream(),
+                                Stream.concat(costProperties.stream(),
+                                        computedProps.stream()))
                         .toList());
     }
 
@@ -281,23 +313,49 @@ public class TurretService implements ITurretService {
         Bullet bullet = getBulletOrThrow(bulletName);
         BulletSkin bulletSkin = getBulletSkinOrThrow(bulletName, bulletSkinName, bullet);
         List<ProductionMethod> productionMethods = getProductionMethodOrThrow(productionMethodNames);
-        FinalProperties finalProperties = computeFinalPropertiesFree(chassis, bullet, turretChassisService.getProperties(),
-                customizers, productionMethodNames);
-        List<Research> requiredResearches = ComputationHelper.computeRequiredResearch(chassisSkin, bulletSkin, productionMethods, List.of());
-        return new ComputationResultFree(finalProperties, requiredResearches, 0, COMPUTATION_MAX_COST);
+        FinalProperties baseProperties = computeBaseProperties(chassis, bullet, turretChassisService.getProperties(), customizers);
+        int usedPoint = ComputationHelper.computeUsedPoint(baseProperties);
+        FinalProperties finalProperties = computeFinalPropertiesFree(baseProperties, chassis, bullet, productionMethodNames,
+                usedPoint, CUSTOMIZATION_BASE_POINT);
+        List<Research> requiredResearches =
+                Stream.concat(ComputationHelper.computeRequiredResearch(chassisSkin, bulletSkin, productionMethods, List.of()).stream(),
+                                computeCustomizationPointResearch(usedPoint).stream())
+                        .toList();
+        return new ComputationResultFree(finalProperties, requiredResearches,
+                usedPoint, CUSTOMIZATION_BASE_POINT);
     }
 
-    private FinalProperties computeFinalPropertiesFree(TurretChassis chassis, Bullet bullet,
-                                                       List<PropertyDefinition> propertyDefinitions,
-                                                       Map<String, Integer> customizers,
-                                                       List<ProductionMethodName> productionMethodNames) {
+    private List<Research> computeCustomizationPointResearch(int usedPoint) {
+        List<Research> research = new ArrayList<>();
+        if (usedPoint > CUSTOMIZATION_EXPERT_LIMIT_POINT) {
+            research.add(ResearchInstances.RESEARCH_MOD_EXPERT);
+        } else if (usedPoint > CUSTOMIZATION_ADVANCED_LIMIT_POINT) {
+            research.add(ResearchInstances.RESEARCH_MOD_ADVANCED);
+        } else if (usedPoint > 0) {
+            research.add(ResearchInstances.RESEARCH_MOD_BASIC);
+        }
+        return research;
+    }
+
+    private int computeTurretPoint(TurretChassis chassis, Bullet bullet,
+                                   List<PropertyDefinition> propertyDefinitions,
+                                   Map<String, Integer> customizers) {
+        return ComputationHelper.computeUsedPoint(computeBaseProperties(chassis, bullet, propertyDefinitions, customizers));
+    }
+
+    private FinalProperties computeBaseProperties(TurretChassis chassis, Bullet bullet,
+                                                  List<PropertyDefinition> propertyDefinitions,
+                                                  Map<String, Integer> customizers) {
         Modifiers bulletModifiers = bullet.modifiers();
         FinalProperties baseProperties = PropsHelper.computeFinalProps(chassis.props().getProperties(),
                 propertyDefinitions, List.of(bulletModifiers));
-        List<FinalPropValue> baseFinalProps = getBasePropertiesFree(baseProperties.properties(), customizers);
-        FinalProperties basePropsWithEffect = new FinalProperties(baseFinalProps);
-        basePropsWithEffect = basePropsWithEffect.concat(ComputationHelper.computeBulletEffectProperties(basePropsWithEffect, bullet));
-        return computeFinalValuesWithComputed(chassis, productionMethodNames, basePropsWithEffect);
+        return new FinalProperties(getBasePropertiesFree(baseProperties.properties(), customizers));
+    }
+
+    private FinalProperties computeFinalPropertiesFree(FinalProperties baseProperties, TurretChassis chassis, Bullet bullet,
+                                                       List<ProductionMethodName> productionMethodNames, int usedPoint, int basePoint) {
+        FinalProperties basePropsWithEffect = baseProperties.concat(ComputationHelper.computeBulletEffectProperties(baseProperties, bullet));
+        return computeFinalValuesWithComputed(chassis, productionMethodNames, basePropsWithEffect, usedPoint, basePoint);
     }
 
     private List<FinalPropValue> getBasePropertiesFree(List<FinalPropValue> baseProperties, Map<String, Integer> customizers) {

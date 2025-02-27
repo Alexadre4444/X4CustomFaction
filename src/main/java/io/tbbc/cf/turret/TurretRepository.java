@@ -11,23 +11,23 @@ import java.util.Optional;
 
 @ApplicationScoped
 public class TurretRepository implements ITurretRepository, PanacheRepository<Turret> {
-    private static void updateCustomizers(Turret turret, Turret existingTurret) {
-        // Add new customizers
-        turret.getCustomizers().stream()
-                .filter(customizer -> existingTurret.getCustomizers().stream()
-                        .noneMatch(existingCustomizer -> existingCustomizer.getCategoryName()
-                                .equals(customizer.getCategoryName())))
-                .forEach(customizerValue -> existingTurret.getCustomizers().add(customizerValue));
+    private void updatePropertyCustomizerValue(Turret turret, Turret existingTurret) {
+        // Add new values
+        turret.getPropertyCustomizers().stream()
+                .filter(value -> existingTurret.getPropertyCustomizers().stream()
+                        .noneMatch(existingValue -> existingValue.getPropertyName().equals(value.getPropertyName())))
+                .forEach(customizerValue -> existingTurret.getPropertyCustomizers().add(customizerValue));
         // Update existing
-        existingTurret.getCustomizers().forEach(existingCustomizer -> turret.getCustomizers().stream()
-                .filter(customizer -> customizer.getCategoryName().equals(existingCustomizer.getCategoryName()))
+        existingTurret.getPropertyCustomizers().forEach(existingValue -> turret.getPropertyCustomizers().stream()
+                .filter(value -> value.getPropertyName().equals(existingValue.getPropertyName()))
                 .findFirst()
                 .ifPresent(customizerValue -> {
-                    existingCustomizer.setCustomizerName(customizerValue.getCustomizerName());
+                    existingValue.setPropertyModifier(customizerValue.getPropertyModifier());
                 }));
+
         // Remove deleted
-        existingTurret.getCustomizers().removeIf(existingCustomizer -> turret.getCustomizers().stream()
-                .noneMatch(customizer -> customizer.getCategoryName().equals(existingCustomizer.getCategoryName())));
+        existingTurret.getPropertyCustomizers().removeIf(existingValue -> turret.getPropertyCustomizers().stream()
+                .noneMatch(value -> value.getPropertyName().equals(existingValue.getPropertyName())));
     }
 
     @Override
@@ -52,8 +52,8 @@ public class TurretRepository implements ITurretRepository, PanacheRepository<Tu
             existingTurret.setBulletName(turret.getBulletName());
             existingTurret.setBulletSkinName(turret.getBulletSkinName());
             existingTurret.setState(turret.getState());
-            updateCustomizers(turret, existingTurret);
             updateMethods(turret, existingTurret);
+            updatePropertyCustomizerValue(turret, existingTurret);
             existingTurret.setSize(turret.getSize());
         });
     }
@@ -63,7 +63,9 @@ public class TurretRepository implements ITurretRepository, PanacheRepository<Tu
         turret.getMethods().stream()
                 .filter(method -> existingTurret.getMethods().stream()
                         .noneMatch(existingMethod -> existingMethod.getName().equals(method.getName())))
-                .forEach(productionMethod -> existingTurret.getMethods().add(productionMethod));
+                .forEach(productionMethod -> {
+                    existingTurret.getMethods().add(productionMethod);
+                });
         // Remove deleted
         existingTurret.getMethods().removeIf(existingMethod -> turret.getMethods().stream()
                 .noneMatch(method -> method.getName().equals(existingMethod.getName())));
@@ -82,9 +84,11 @@ public class TurretRepository implements ITurretRepository, PanacheRepository<Tu
     }
 
     private Turret addDefaultMethods(Turret turret) {
-        ProductionMethodName defaultMethod = new ProductionMethodName();
-        defaultMethod.setName(ProductionMethodInstances.CW.name());
-        turret.getMethods().add(defaultMethod);
+        if (turret.getMethods().isEmpty()) {
+            ProductionMethodName defaultMethod = new ProductionMethodName();
+            defaultMethod.setName(ProductionMethodInstances.CW.name());
+            turret.getMethods().add(defaultMethod);
+        }
         return turret;
     }
 }

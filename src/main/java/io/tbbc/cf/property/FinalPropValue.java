@@ -53,4 +53,18 @@ public interface FinalPropValue {
         BigDecimal diffPercent = diff.divide(baseValue, 2, RoundingMode.HALF_UP);
         return diffPercent.multiply(new BigDecimal("100")).intValue();
     }
+
+    default int computeCost() {
+        int cost = 0;
+        Integer modifier = getModifier();
+        if (modifier != null) {
+            modifier = definition().costFactor().multiply(new BigDecimal(modifier)).intValue();
+            if (definition().reverse()) {
+                cost = modifier < 0 ? -modifier * 2 : -modifier;
+            } else {
+                cost = modifier;
+            }
+        }
+        return cost;
+    }
 }

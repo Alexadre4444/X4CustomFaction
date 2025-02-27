@@ -2,13 +2,17 @@ package io.tbbc.cf.turret;
 
 import io.tbbc.cf.bullet.Bullet;
 import io.tbbc.cf.common.BadArgumentException;
-import io.tbbc.cf.customizer.CustomizerComponent;
 import io.tbbc.cf.production.ProductionMethod;
+import io.tbbc.cf.property.PropertyDefinition;
 import io.tbbc.cf.turret.chassis.TurretChassis;
 import jakarta.enterprise.context.ApplicationScoped;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import static io.tbbc.cf.common.State.DEPLOYED;
 
@@ -38,16 +42,40 @@ public class TurretValidator {
     public void validateUpdate(Turret turret, Function<Long, Optional<Turret>> getTurretByIdFunction,
                                Function<String, Optional<TurretChassis>> getChassisByNameFunction,
                                Function<String, Optional<Bullet>> getBulletByNameFunction,
-                               Function<String, CustomizerComponent> getCustomizerCategoryByNameFunction,
-                               Function<String, Optional<ProductionMethod>> getProductionMethodByNameFunction) {
+                               Function<String, Optional<ProductionMethod>> getProductionMethodByNameFunction,
+                               Supplier<List<PropertyDefinition>> getPropertyDefinitions,
+                               FunctionalComputeTurretPoints functionalComputeTurretPoints,
+                               Supplier<Integer> getTurretPointsLimit) {
         validateLabel(turret);
         validateDescription(turret);
         validateUpdateSize(turret, getTurretByIdFunction);
         validateLabel(turret);
         validateChassis(turret, getChassisByNameFunction);
         validateBullet(turret, getBulletByNameFunction, getChassisByNameFunction);
-        validateCustomizers(turret, getCustomizerCategoryByNameFunction);
+        validateCustomizers(turret);
+        validatePropertyCustomizers(turret, getPropertyDefinitions, getChassisByNameFunction, getBulletByNameFunction,
+                functionalComputeTurretPoints, getTurretPointsLimit);
         validateProductionMethods(turret, getProductionMethodByNameFunction);
+    }
+
+    private void validatePropertyCustomizers(Turret turret, Supplier<List<PropertyDefinition>> getPropertyDefinitions,
+                                             Function<String, Optional<TurretChassis>> getChassisByNameFunction,
+                                             Function<String, Optional<Bullet>> getBulletByNameFunction,
+                                             FunctionalComputeTurretPoints functionalComputeTurretPoints,
+                                             Supplier<Integer> getTurretPointsLimit) {
+        turret.getPropertyCustomizers()
+                .forEach(propertyCustomizerValue -> getPropertyDefinitions.get().stream()
+                        .filter(propertyDefinition -> propertyDefinition.name().name().equals(propertyCustomizerValue.getPropertyName()))
+                        .findFirst()
+                        .orElseThrow(() -> new BadArgumentException("Property with name %s does not exist.".formatted(propertyCustomizerValue.getPropertyName()))));
+        Map<String, Integer> propertiesValue = turret.getPropertyCustomizers().stream()
+                .collect(Collectors.toMap(PropertyCustomizerValue::getPropertyName, PropertyCustomizerValue::getPropertyModifier));
+        int turretPoints = functionalComputeTurretPoints.computeCost(getChassisByNameFunction.apply(turret.getChassisName()).orElseThrow(),
+                getBulletByNameFunction.apply(turret.getBulletName()).orElseThrow(),
+                getPropertyDefinitions.get(), propertiesValue);
+        if (turretPoints > getTurretPointsLimit.get()) {
+            throw new BadArgumentException("Turret points %s exceed the limit %s.".formatted(turretPoints, getTurretPointsLimit.get()));
+        }
     }
 
     private void validateProductionMethods(Turret turret, Function<String, Optional<ProductionMethod>> getProductionMethodByNameFunction) {
@@ -76,25 +104,10 @@ public class TurretValidator {
         }
     }
 
-    private void validateCustomizers(Turret turret, Function<String, CustomizerComponent> getCustomizerCategoryByNameFunction) {
-        if (turret.getCustomizers().stream().map(CustomizerValue::getCategoryName).distinct().count() != turret.getCustomizers().size()) {
-            throw new BadArgumentException("Customizer categories must be unique.");
+    private void validateCustomizers(Turret turret) {
+        if (!turret.getCustomizers().isEmpty()) {
+            throw new BadArgumentException("Turret customizers cannot be updated.");
         }
-
-        turret.getCustomizers().forEach(customizer -> {
-            CustomizerComponent customizerComponent = getCustomizerCategoryByNameFunction.apply(customizer.getCategoryName());
-            if (customizerComponent == null) {
-                throw new BadArgumentException("Customizer category with name %s does not exist.".formatted(customizer.getCategoryName()));
-            }
-            if (customizer.getCustomizerName() == null) {
-                throw new BadArgumentException("Customizer value is required.");
-            }
-            customizerComponent.customizers().stream()
-                    .filter(customizerValue -> customizerValue.name().equals(customizer.getCustomizerName()))
-                    .findAny()
-                    .orElseThrow(() -> new BadArgumentException("Customizer with name %s does not exist for category %s."
-                            .formatted(customizer.getCustomizerName(), customizer.getCategoryName())));
-        });
     }
 
     private void validateBullet(Turret turret, Function<String, Optional<Bullet>> getBulletByNameFunction,
