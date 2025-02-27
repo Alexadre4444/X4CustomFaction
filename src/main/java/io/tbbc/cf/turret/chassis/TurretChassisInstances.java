@@ -171,9 +171,13 @@ public class TurretChassisInstances {
                 "The time it takes to reload the turret.", true,
                 TURRET.name(), new BigDecimal("0.1"), null, "s", 2, ADVANCED, true,
                 new BigDecimal(1));
-        public static final PropertyDefinition AMOUNT = new PropertyDefinition(PropertyNames.AMOUNT_NAME, "Amount",
+        public static final PropertyDefinition AMOUNT_STANDARD = new PropertyDefinition(PropertyNames.AMOUNT_STANDARD_NAME, "Amount",
                 "The amount of bullets fired per shot.", false,
-                TURRET.name(), new BigDecimal("1.0"), null, "bullet/s", 0, ADVANCED, true,
+                TURRET.name(), new BigDecimal("1.0"), null, "bullet/shot", 0, ADVANCED, false,
+                new BigDecimal(1));
+        public static final PropertyDefinition AMOUNT_RAFFLE = new PropertyDefinition(PropertyNames.AMOUNT_RAFFLE_NAME, "Amount",
+                "The amount of bullets fired per shot.", false,
+                TURRET.name(), new BigDecimal("1.0"), null, "bullet/shot", 0, ADVANCED, true,
                 new BigDecimal(1));
         public static final PropertyDefinition BARREL_AMOUNT = new PropertyDefinition(PropertyNames.BARREL_AMOUNT_NAME, "Barrel Amount",
                 "The amount of barrels the turret has.", false,
@@ -238,6 +242,16 @@ public class TurretChassisInstances {
         public static final PropertyDefinition DAMAGE_BONUS_SHIELD =
                 new PropertyDefinition(PropertyNames.DAMAGE_BONUS_SHIELD_NAME, "Damage Bonus (shield)",
                         "The bonus damage dealt to shielded target.", false,
+                        DAMAGE.name(), new BigDecimal("0.0"), null, "MJ", 0, ADVANCED, false,
+                        new BigDecimal(1));
+        public static final PropertyDefinition DAMAGE_BONUS_HULL =
+                new PropertyDefinition(PropertyNames.DAMAGE_BONUS_HULL_NAME, "Damage Bonus (hull)",
+                        "The bonus damage dealt to unshielded target.", false,
+                        DAMAGE.name(), new BigDecimal("0.0"), null, "MJ", 0, ADVANCED, false,
+                        new BigDecimal(1));
+        public static final PropertyDefinition DAMAGE_BASE =
+                new PropertyDefinition(PropertyNames.DAMAGE_BASE_NAME, "Damage (hull and shield)",
+                        "The damage dealt to target.", false,
                         DAMAGE.name(), new BigDecimal("0.0"), null, "MJ", 0, ADVANCED, false,
                         new BigDecimal(1));
         // Cost
@@ -307,9 +321,19 @@ public class TurretChassisInstances {
                         "The amount of damage dealt to shielded target in the area.", false,
                         DAMAGE.name(), new BigDecimal(0), null, "MJ", 0, BASIC, false,
                         new BigDecimal(1));
+        public static final PropertyDefinition AREA_DAMAGE_BASE =
+                new PropertyDefinition(PropertyNames.AREA_DAMAGE_BASE_NAME, "Area damage (hull and shield)",
+                        "The amount of damage dealt to target in the area.", false,
+                        DAMAGE.name(), new BigDecimal(0), null, "MJ", 0, BASIC, false,
+                        new BigDecimal(1));
         public static final PropertyDefinition AREA_DAMAGE_BONUS_SHIELD =
                 new PropertyDefinition(PropertyNames.AREA_DAMAGE_BONUS_SHIELD_NAME, "Area damage bonus (shield)",
                         "The bonus damage dealt to shielded target in the area.", false,
+                        DAMAGE.name(), new BigDecimal(0), null, "MJ", 0, ADVANCED, false,
+                        new BigDecimal(1));
+        public static final PropertyDefinition AREA_DAMAGE_BONUS_HULL =
+                new PropertyDefinition(PropertyNames.AREA_DAMAGE_BONUS_HULL_NAME, "Area damage bonus (hull)",
+                        "The bonus damage dealt to unshielded target in the area.", false,
                         DAMAGE.name(), new BigDecimal(0), null, "MJ", 0, ADVANCED, false,
                         new BigDecimal(1));
         public static final PropertyDefinition AREA_TIME =
@@ -347,7 +371,8 @@ public class TurretChassisInstances {
         public static PropertyName ROTATION_SPEED_NAME = new PropertyName("rotationSpeed");
         public static PropertyName HULL_NAME = new PropertyName("hull");
         public static PropertyName BARREL_AMOUNT_NAME = new PropertyName("barrelAmount");
-        public static PropertyName AMOUNT_NAME = new PropertyName("amount");
+        public static PropertyName AMOUNT_STANDARD_NAME = new PropertyName("amountStandard");
+        public static PropertyName AMOUNT_RAFFLE_NAME = new PropertyName("amountRaffle");
         public static PropertyName RELOAD_TIME_NAME = new PropertyName("reloadTime");
         public static PropertyName FIRE_RATE_NAME = new PropertyName("fireRate");
         public static PropertyName SPEED_NAME = new PropertyName("speed");
@@ -369,6 +394,8 @@ public class TurretChassisInstances {
         public static PropertyName DAMAGE_PER_SECOND_HULL_NAME = new PropertyName("damagePerSecondHull");
         public static PropertyName DAMAGE_PER_SECOND_SHIELD_NAME = new PropertyName("damagePerSecondShield");
         public static PropertyName DAMAGE_BONUS_SHIELD_NAME = new PropertyName("damageBonusShield");
+        public static PropertyName DAMAGE_BONUS_HULL_NAME = new PropertyName("damageBonusHull");
+        public static PropertyName DAMAGE_BASE_NAME = new PropertyName("damageBase");
         public static PropertyName ROTATION_ACCELERATION_NAME = new PropertyName("rotationAcceleration");
         // Computed cost
         public static PropertyName COST_CL_ENERGY_CELLS_NAME = new PropertyName("costClEnergyCells");
@@ -381,9 +408,11 @@ public class TurretChassisInstances {
 
         // Bullet effect
         public static PropertyName SELF_DESTRUCT_NAME = new PropertyName("selfDestruct");
+        public static PropertyName AREA_DAMAGE_BASE_NAME = new PropertyName("areaDamageBase");
         public static PropertyName AREA_DAMAGE_HULL_NAME = new PropertyName("areaDamageHull");
         public static PropertyName AREA_DAMAGE_SHIELD_NAME = new PropertyName("areaDamageShield");
         public static PropertyName AREA_DAMAGE_BONUS_SHIELD_NAME = new PropertyName("areaDamageBonusShield");
+        public static PropertyName AREA_DAMAGE_BONUS_HULL_NAME = new PropertyName("areaDamageBonusHull");
         public static PropertyName AREA_TIME_NAME = new PropertyName("areaTime");
         public static PropertyName AREA_LIFE_TIME_NAME = new PropertyName("areaLifeTime");
         public static PropertyName PLANNED_SELF_DESTRUCT_NAME = new PropertyName("plannedSelfDestruct");

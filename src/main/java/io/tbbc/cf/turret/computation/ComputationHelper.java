@@ -86,7 +86,7 @@ public class ComputationHelper {
 
     private static FinalPropValue computeBurstTimeForRaffle(FinalProperties baseProperties) {
         FinalPropValue reloadTime = baseProperties.property(RELOAD_TIME_NAME);
-        FinalPropValue amount = baseProperties.property(AMOUNT_NAME);
+        FinalPropValue amount = baseProperties.property(AMOUNT_RAFFLE_NAME);
         FinalPropValue fireRate = baseProperties.property(FIRE_RATE_NAME);
         BigDecimal baseValue = computeBurstTimeForRaffle(reloadTime.getBaseValue(),
                 amount.getBaseValue(), fireRate.getBaseValue());
@@ -118,7 +118,7 @@ public class ComputationHelper {
     }
 
     private static FinalPropValue computeShootPerSecondForRaffle(FinalProperties baseProperties, FinalPropValue burstTime) {
-        FinalPropValue amount = baseProperties.property(AMOUNT_NAME);
+        FinalPropValue amount = baseProperties.property(AMOUNT_RAFFLE_NAME);
         BigDecimal baseValue = computeShootPerSecond(amount.getBaseValue(), burstTime.getBaseValue());
         BigDecimal finalValue = computeShootPerSecond(amount.getFinalValue(), burstTime.getFinalValue());
         return new FinalPropValueComputed(SHOOT_PER_SECOND, baseValue, finalValue);
@@ -163,7 +163,7 @@ public class ComputationHelper {
     private static FinalPropValue computeDamageHullPerSecondForStandard(FinalProperties baseProperties, FinalPropValue shootPerSecond) {
         FinalPropValue damage = baseProperties.property(DAMAGE_HULL_NAME);
         FinalPropValue barrelAmount = baseProperties.property(BARREL_AMOUNT_NAME);
-        FinalPropValue amount = baseProperties.property(AMOUNT_NAME);
+        FinalPropValue amount = baseProperties.property(AMOUNT_STANDARD_NAME);
         BigDecimal baseValue = computeDamagePerSecond(damage.getBaseValue(),
                 barrelAmount.getBaseValue().multiply(amount.getBaseValue()),
                 shootPerSecond.getBaseValue());
@@ -176,7 +176,7 @@ public class ComputationHelper {
     private static FinalPropValue computeDamageShieldPerSecondForStandard(FinalProperties baseProperties, FinalPropValue shootPerSecond) {
         FinalPropValue damage = baseProperties.property(DAMAGE_SHIELD_NAME);
         FinalPropValue barrelAmount = baseProperties.property(BARREL_AMOUNT_NAME);
-        FinalPropValue amount = baseProperties.property(AMOUNT_NAME);
+        FinalPropValue amount = baseProperties.property(AMOUNT_STANDARD_NAME);
         BigDecimal baseValue = computeDamagePerSecond(damage.getBaseValue(),
                 barrelAmount.getBaseValue().multiply(amount.getBaseValue()),
                 shootPerSecond.getBaseValue());
@@ -220,6 +220,37 @@ public class ComputationHelper {
         return new FinalPropValueComputed(DAMAGE_BONUS_SHIELD, baseValue, finalValue);
     }
 
+    public static FinalPropValue computeDamageBase(FinalProperties baseProperties) {
+        FinalPropValue damageHull = baseProperties.property(DAMAGE_HULL_NAME);
+        FinalPropValue damageShield = baseProperties.property(DAMAGE_SHIELD_NAME);
+        BigDecimal baseValue = computeDamageBase(damageHull.getBaseValue(),
+                damageShield.getBaseValue());
+        BigDecimal finalValue = computeDamageBase(damageHull.getFinalValue(),
+                damageShield.getFinalValue());
+        return new FinalPropValueComputed(DAMAGE_BASE, baseValue, finalValue);
+    }
+
+    public static FinalPropValue computeDamageBonusHull(FinalProperties baseProperties) {
+        FinalPropValue damageHull = baseProperties.property(DAMAGE_HULL_NAME);
+        FinalPropValue damageShield = baseProperties.property(DAMAGE_SHIELD_NAME);
+        BigDecimal baseValue = computeDamageBonusHull(damageHull.getBaseValue(),
+                damageShield.getBaseValue());
+        BigDecimal finalValue = computeDamageBonusHull(damageHull.getFinalValue(),
+                damageShield.getFinalValue());
+        return new FinalPropValueComputed(DAMAGE_BONUS_HULL, baseValue, finalValue);
+    }
+
+    public static FinalPropValue computeAreaDamageBase(FinalProperties baseProperties) {
+        FinalPropValue areaDamageHull = baseProperties.property(AREA_DAMAGE_HULL_NAME);
+        FinalPropValue areaDamageShield = baseProperties.property(AREA_DAMAGE_SHIELD_NAME);
+        BigDecimal baseValue = computeDamageBase(areaDamageHull.getBaseValue(),
+                areaDamageShield.getBaseValue());
+        BigDecimal finalValue = computeDamageBase(areaDamageHull.getFinalValue(),
+                areaDamageShield.getFinalValue());
+        return new FinalPropValueComputed(AREA_DAMAGE_BASE,
+                baseValue, finalValue);
+    }
+
     public static FinalPropValue computeAreaDamageBonusShield(FinalProperties baseProperties) {
         FinalPropValue areaDamageHull = baseProperties.property(AREA_DAMAGE_HULL_NAME);
         FinalPropValue areaDamageShield = baseProperties.property(AREA_DAMAGE_SHIELD_NAME);
@@ -231,8 +262,27 @@ public class ComputationHelper {
                 baseValue, finalValue);
     }
 
+    public static FinalPropValue computeAreaDamageBonusHull(FinalProperties baseProperties) {
+        FinalPropValue areaDamageHull = baseProperties.property(AREA_DAMAGE_HULL_NAME);
+        FinalPropValue areaDamageShield = baseProperties.property(AREA_DAMAGE_SHIELD_NAME);
+        BigDecimal baseValue = computeDamageBonusHull(areaDamageHull.getBaseValue(),
+                areaDamageShield.getBaseValue());
+        BigDecimal finalValue = computeDamageBonusHull(areaDamageHull.getFinalValue(),
+                areaDamageShield.getFinalValue());
+        return new FinalPropValueComputed(AREA_DAMAGE_BONUS_HULL,
+                baseValue, finalValue);
+    }
+
     private static BigDecimal computeDamageBonusShield(BigDecimal damageHull, BigDecimal damageShield) {
         return damageShield.subtract(damageHull);
+    }
+
+    private static BigDecimal computeDamageBonusHull(BigDecimal damageHull, BigDecimal damageShield) {
+        return damageHull.subtract(damageShield);
+    }
+
+    private static BigDecimal computeDamageBase(BigDecimal damageHull, BigDecimal damageShield) {
+        return damageHull.min(damageShield);
     }
 
     public static List<FinalPropValue> computeCLCost(FinalProperties baseProperties) {

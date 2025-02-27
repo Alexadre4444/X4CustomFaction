@@ -24,7 +24,7 @@ public class ChassisPropsStandard implements IChassisProps {
                 new Property(ROTATION_SPEED_NAME, rotationSpeed),
                 new Property(HULL_NAME, hull),
                 new Property(BARREL_AMOUNT_NAME, barrelAmount),
-                new Property(AMOUNT_NAME, amount),
+                new Property(AMOUNT_STANDARD_NAME, amount),
                 new Property(RELOAD_TIME_NAME, reloadTime),
                 new Property(SPEED_NAME, speed),
                 new Property(LIFE_TIME_NAME, lifeTime),

@@ -22,7 +22,7 @@ public class ChassisPropsRaffle implements IChassisProps {
                 new Property(ROTATION_SPEED_NAME, rotationSpeed),
                 new Property(HULL_NAME, hull),
                 new Property(BARREL_AMOUNT_NAME, barrelAmount),
-                new Property(AMOUNT_NAME, amount),
+                new Property(AMOUNT_RAFFLE_NAME, amount),
                 new Property(RELOAD_TIME_NAME, reloadTime),
                 new Property(FIRE_RATE_NAME, fireRate),
                 new Property(SPEED_NAME, speed),
