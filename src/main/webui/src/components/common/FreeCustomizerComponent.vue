@@ -1,12 +1,10 @@
 <script lang="ts" setup>
 import FreeCustomizerValue from '@/model/common/FreeCustomizerValue';
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 
 const props = defineProps<{
     configuration: FreeCustomizerValue
 }>();
-
-const model = ref<number>(props.configuration.realModifierValue);
 
 const valueToTest = computed<number>(() => {
     let value = props.configuration.realModifierValue;
@@ -43,8 +41,7 @@ const displayedLabel = computed<string>(() => {
 });
 
 const onChange = () => {
-    props.configuration.desiredModifierValue = model.value;
-    emit('change', model.value);
+    emit('change', props.configuration.desiredModifierValue);
 }
 
 </script>
@@ -52,7 +49,8 @@ const onChange = () => {
 <template>
     <label> {{ displayedLabel }}</label>
     <Tag :severity="computeSeverity()" :value="displayedValue"/>
-    <FreeCustomizersSlider v-if="props.configuration.propertyDefinition.isFree && props.configuration.realModifierValue != undefined" v-model="model"
+    <FreeCustomizersSlider v-if="props.configuration.propertyDefinition.isFree && props.configuration.realModifierValue != undefined" 
+    v-model="props.configuration.desiredModifierValue"
      :reversed="props.configuration.propertyDefinition.reverse"
      :real-modifier="props.configuration.realModifierValue"
      @change="onChange" />

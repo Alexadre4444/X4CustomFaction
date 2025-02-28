@@ -12,11 +12,13 @@ class ExceptionMappers {
 
     @ServerExceptionMapper
     public RestResponse<String> mapBadArgumentException(BadArgumentException exception) {
+        Log.info(exception);
         return RestResponse.status(Response.Status.BAD_REQUEST, exception.getMessage());
     }
 
     @ServerExceptionMapper
-    public RestResponse<String> mapInternalException(NotFoundException exception) {
+    public RestResponse<String> mapNotFoundException(NotFoundException exception) {
+        Log.info(exception);
         return RestResponse.status(Response.Status.NOT_FOUND, exception.getMessage());
     }
 

@@ -195,8 +195,12 @@ const resetForm = () => {
     computePropertiesAsync().then(() => {
         loadedTurret.value.propertyCustomizers.forEach(propertyCustomizer => {
             let freeCustomizerValue = freeCustomizerValues.value.find(freeCustomizerValue => freeCustomizerValue.propertyDefinition.name == propertyCustomizer.propertyName);
-            freeCustomizerValue.desiredModifierValue = propertyCustomizer.propertyModifier;
-            freeCustomizerValue.realModifierValue = propertyCustomizer.propertyModifier;
+                if(freeCustomizerValue) {
+                    freeCustomizerValue.desiredModifierValue = propertyCustomizer.propertyModifier;
+                    freeCustomizerValue.realModifierValue = propertyCustomizer.propertyModifier;
+                } else {
+                    console.log("Property not applicable: " + propertyCustomizer.propertyName);
+                }
         });
         computeProperties();
     });

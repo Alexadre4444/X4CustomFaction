@@ -6,11 +6,31 @@ import io.tbbc.cf.production.ProductionMethodInstances;
 import io.tbbc.cf.production.ProductionMethodName;
 import jakarta.enterprise.context.ApplicationScoped;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @ApplicationScoped
 public class TurretRepository implements ITurretRepository, PanacheRepository<Turret> {
+    private void updateCustomizers(Turret turret, Turret existingTurret) {
+        // Add new customizers
+        turret.getCustomizers().stream()
+                .filter(customizer -> existingTurret.getCustomizers().stream()
+                        .noneMatch(existingCustomizer -> existingCustomizer.getCategoryName()
+                                .equals(customizer.getCategoryName())))
+                .forEach(customizerValue -> existingTurret.getCustomizers().add(customizerValue));
+        // Update existing
+        existingTurret.getCustomizers().forEach(existingCustomizer -> turret.getCustomizers().stream()
+                .filter(customizer -> customizer.getCategoryName().equals(existingCustomizer.getCategoryName()))
+                .findFirst()
+                .ifPresent(customizerValue -> {
+                    existingCustomizer.setCustomizerName(customizerValue.getCustomizerName());
+                }));
+        // Remove deleted
+        existingTurret.getCustomizers().removeIf(existingCustomizer -> turret.getCustomizers().stream()
+                .noneMatch(customizer -> customizer.getCategoryName().equals(existingCustomizer.getCategoryName())));
+    }
+
     private void updatePropertyCustomizerValue(Turret turret, Turret existingTurret) {
         // Add new values
         turret.getPropertyCustomizers().stream()
@@ -32,8 +52,9 @@ public class TurretRepository implements ITurretRepository, PanacheRepository<Tu
 
     @Override
     public List<Turret> getAll() {
-        return listAll(Sort.ascending("label"))
-                .stream().map(this::addDefaultMethods)
+        return listAll(Sort.ascending("label")).stream()
+                .map(this::addDefaultMethods)
+                .map(this::copyTurret)
                 .toList();
     }
 
@@ -44,7 +65,7 @@ public class TurretRepository implements ITurretRepository, PanacheRepository<Tu
 
     @Override
     public void update(Turret turret) {
-        getById(turret.getId()).ifPresent(existingTurret -> {
+        getInfraById(turret.getId()).ifPresent(existingTurret -> {
             existingTurret.setLabel(turret.getLabel());
             existingTurret.setDescription(turret.getDescription());
             existingTurret.setChassisName(turret.getChassisName());
@@ -55,6 +76,7 @@ public class TurretRepository implements ITurretRepository, PanacheRepository<Tu
             updateMethods(turret, existingTurret);
             updatePropertyCustomizerValue(turret, existingTurret);
             existingTurret.setSize(turret.getSize());
+            updateCustomizers(turret, existingTurret);
         });
     }
 
@@ -75,6 +97,13 @@ public class TurretRepository implements ITurretRepository, PanacheRepository<Tu
     public Optional<Turret> getById(long id) {
         return find("id", id).stream()
                 .map(this::addDefaultMethods)
+                .map(this::copyTurret)
+                .findFirst();
+    }
+
+    public Optional<Turret> getInfraById(long id) {
+        return find("id", id).stream()
+                .map(this::addDefaultMethods)
                 .findFirst();
     }
 
@@ -90,5 +119,22 @@ public class TurretRepository implements ITurretRepository, PanacheRepository<Tu
             turret.getMethods().add(defaultMethod);
         }
         return turret;
+    }
+
+    private Turret copyTurret(Turret turret) {
+        Turret copy = new Turret();
+        copy.setId(turret.getId());
+        copy.setLabel(turret.getLabel());
+        copy.setDescription(turret.getDescription());
+        copy.setChassisName(turret.getChassisName());
+        copy.setChassisSkinName(turret.getChassisSkinName());
+        copy.setBulletName(turret.getBulletName());
+        copy.setBulletSkinName(turret.getBulletSkinName());
+        copy.setState(turret.getState());
+        copy.setSize(turret.getSize());
+        copy.setMethods(new ArrayList<>(turret.getMethods()));
+        copy.setCustomizers(new ArrayList<>(turret.getCustomizers()));
+        copy.setPropertyCustomizers(new ArrayList<>(turret.getPropertyCustomizers()));
+        return copy;
     }
 }

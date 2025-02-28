@@ -1,10 +1,13 @@
 package io.tbbc.cf.turret;
 
+import io.quarkus.logging.Log;
+import io.quarkus.runtime.Startup;
 import io.tbbc.cf.bullet.Bullet;
 import io.tbbc.cf.bullet.IBulletService;
 import io.tbbc.cf.bullet.skin.BulletSkin;
 import io.tbbc.cf.common.*;
 import io.tbbc.cf.customizer.Customizer;
+import io.tbbc.cf.customizer.CustomizerComponent;
 import io.tbbc.cf.mod.IModInfosService;
 import io.tbbc.cf.modifier.Modifier;
 import io.tbbc.cf.modifier.Modifiers;
@@ -379,7 +382,7 @@ public class TurretService implements ITurretService {
 
     private List<FinalPropValue> getBasePropertiesFree(List<FinalPropValue> baseProperties, Map<String, Integer> customizers) {
         return baseProperties.stream().map(finalPropValue -> {
-                    long modifier = 0;
+                    int modifier = 0;
                     if (customizers.containsKey(finalPropValue.getName().name())) {
                         modifier = customizers.get(finalPropValue.getName().name());
                     }
@@ -501,5 +504,53 @@ public class TurretService implements ITurretService {
                 .filter(skin -> skin.name().equals(turret.getBulletSkinName()))
                 .findFirst()
                 .orElseThrow(() -> new InternalException("Skin %s not found".formatted(turret.getBulletSkinName())));
+    }
+
+    @Startup
+    @Transactional
+    void init() {
+        Log.infof("Converting customizers for all turrets (version 0.1.2 to 0.1.3)");
+        convertCustomizers();
+    }
+
+    private void convertCustomizers() {
+        getAll().stream()
+                .filter(turret -> !turret.getCustomizers().isEmpty())
+                .forEach(this::convertCustomizers);
+    }
+
+    private void convertCustomizers(Turret turret) {
+        Log.infof("Converting customizers for turret %s named %s", turret.getId(), turret.getLabel());
+        List<CustomizerValue> customizers = turret.getCustomizers();
+        List<PropertyCustomizerValue> allPropertyCustomizerValues = customizers.stream()
+                .flatMap(customizer -> computePropertyCustomizerValue(customizer).stream())
+                .toList();
+        turret.setCustomizers(List.of());
+        turret.setPropertyCustomizers(reducePropertyCustomizerValues(allPropertyCustomizerValues));
+        turretRepository.update(turret);
+    }
+
+    private List<PropertyCustomizerValue> reducePropertyCustomizerValues(List<PropertyCustomizerValue> allPropertyCustomizerValues) {
+        return allPropertyCustomizerValues.stream()
+                .collect(Collectors.groupingBy(PropertyCustomizerValue::getPropertyName,
+                        Collectors.summingInt(PropertyCustomizerValue::getPropertyModifier)))
+                .entrySet().stream()
+                .map(entry -> new PropertyCustomizerValue(entry.getKey(), entry.getValue()))
+                .toList();
+    }
+
+    private List<PropertyCustomizerValue> computePropertyCustomizerValue(CustomizerValue customizerValue) {
+        CustomizerComponent customizerComponent = turretCustomizerService.getByName(customizerValue.getCategoryName());
+        if (customizerComponent == null) {
+            throw new BadArgumentException("Customizer %s not found".formatted(customizerValue.getCategoryName()));
+        }
+        Customizer customizer = customizerComponent.customizers().stream()
+                .filter(customizer1 -> customizer1.name().equals(customizerValue.getCustomizerName()))
+                .findFirst()
+                .orElseThrow(() -> new BadArgumentException("Customizer %s not found".formatted(customizerValue.getCustomizerName())));
+        return customizer.modifiers().modifiers().stream()
+                .filter(modifier -> modifier.name() instanceof PropertyName)
+                .map(modifier -> new PropertyCustomizerValue(modifier.name().name(), modifier.value()))
+                .toList();
     }
 }

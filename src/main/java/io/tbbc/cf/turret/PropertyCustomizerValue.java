@@ -8,6 +8,12 @@ public class PropertyCustomizerValue extends PanacheEntity {
     private String propertyName;
     private Integer propertyModifier;
 
+
+    public PropertyCustomizerValue(String propertyName, Integer propertyModifier) {
+        this.propertyName = propertyName;
+        this.propertyModifier = propertyModifier;
+    }
+
     public PropertyCustomizerValue() {
     }
 
