@@ -1,21 +1,23 @@
 package io.tbbc.cf.property;
 
-public record FinalPropValueComputed(PropertyDefinition definition, double baseDoubleValue,
-                                     double finalDoubleValue)
+import java.math.BigDecimal;
+
+public record FinalPropValueComputed(PropertyDefinition definition, BigDecimal baseValue,
+                                     BigDecimal finalValue)
         implements FinalPropValue {
 
     @Override
-    public double getFinalDoubleValue() {
-        return finalDoubleValue;
-    }
-
-    @Override
-    public double getBaseDoubleValue() {
-        return baseDoubleValue;
+    public BigDecimal getBaseValue() {
+        return baseValue;
     }
 
     @Override
     public PropertyName getName() {
         return definition.name();
+    }
+
+    @Override
+    public BigDecimal getFinalValueWithoutLimit() {
+        return finalValue;
     }
 }

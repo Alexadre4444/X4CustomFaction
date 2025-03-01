@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import Category from '@/model/common/Category';
 import Customizer from '@/model/common/Customizer';
 import CustomizerComponent from '@/model/common/CustomizerComponent';
-import CustomizerValue from '@/model/common/CustomizerValue';
-import ModifiedValue from '@/model/common/ModifiedValue';
+import FreeCustomizerValue from '@/model/common/FreeCustomizerValue';
 import ProductionMethodName from '@/model/common/ProductionMethodName';
+import PropertyCustomizerValue from '@/model/common/PropertyCustomizerValue';
+import PropertyDefinition from '@/model/common/PropertyDefinition';
 import Research from '@/model/common/Research';
 import Bullet from '@/model/turret/Bullet';
 import BulletSkin from '@/model/turret/BulletSkin';
@@ -13,13 +13,12 @@ import Turret from '@/model/turret/Turret.ts';
 import ChassisTurret from '@/model/turret/TurretChassis';
 import { BulletService } from '@/services/BulletService.ts';
 import { CacheService } from '@/services/CacheService';
-import { CategoryService } from '@/services/CategoryService';
 import { ComputationService } from '@/services/ComputationService';
 import { NotificationService } from '@/services/NotificationService.ts';
 import { TurretChassisService } from '@/services/TurretChassisService.ts';
 import { TurretService } from '@/services/TurretServiceMain';
 import { computed, Ref, ref } from 'vue';
-import CustomizersComponents from '../common/CustomizersComponents.vue';
+import CostDisplay from '../common/CostDisplay.vue';
 
 CacheService.clear();
 
@@ -42,7 +41,12 @@ const formAccessibility = ref<string>('BASIC');
 
 const customizerComponents = ref<CustomizerComponent[]>();
 
-const computedProperties = ref<ModifiedValue[]>([]);
+const freeCustomizerValues =  ref<FreeCustomizerValue[]>([]);
+
+const customisationBasePoint = ref<number>(0);
+const customizationPoint = ref<number>(0);
+
+const computeUuid = ref<number>(0);
 
 const chassisOnChange = () => {
     fixChassisSkinOnChange();
@@ -75,33 +79,7 @@ const fixBulletSkinOnChange = () => {
 
 const requiredResearch = ref<Research[]>([]);
 
-const computedPropertiesByCategoryMap = computed(() => {
-    let map = new Map<Category, ModifiedValue[]>();
-    computedProperties.value?.sort((val1, val2) => val1.definition.category.label.localeCompare(val2.definition.category.label))
-        .forEach(property => {
-        let category = property.definition.category;
-        if(category != null) {
-            let list = map.entries().find(entry => entry[0].name == category.name)?.[1];
-            if(list == null) {
-                list = [];
-                map.set(category, list);
-            }
-            list.push(property);
-        } else {
-            let list = map.get(CategoryService.default());
-            if(list == null) {
-                list = [];
-                map.set(CategoryService.default(), list);
-            }
-            list.push(property);
-        }
-    });
-    return map;
-});
-
-const applicableProperties = computed(() => {
-    return computedProperties.value.map(modifiedValue => modifiedValue.definition);
-});
+const applicableProperties = ref<PropertyDefinition[]>([]);
 
 const availableBullets = computed<Bullet[]>(() => {
     if(formChassis.value == null) {
@@ -114,7 +92,6 @@ const availableBullets = computed<Bullet[]>(() => {
 });
 
 const iconUrl = computed(() => {
-    console.log(formChassisSkin.value);
     if(formChassisSkin.value == null) {
         return `/assets/turret/notfound.png`;
     }
@@ -128,18 +105,10 @@ const menu = ref([{
     }
 ])
 
-const computedCustomizers = computed(() => {
-    return customizerComponents.value?.filter(category => {
-        return formCustomizers.value.get(category).value != null;
-    }).map(category => {
-        return new CustomizerValue(category.name, formCustomizers.value.get(category).value?.name);
-    });
-});
-
 const update = () => {
     TurretService.update(new Turret(loadedTurret.value.id, formLabel.value, loadedTurret.value._size, formDescription.value, 
         formChassis.value?.name, formChassisSkin.value?.name,  formBullet.value?.name, formBulletSkin.value?.name,
-        computedCustomizers.value, loadedTurret.value.state, formProductionMethodsName.value))
+        loadedTurret.value.state, formProductionMethodsName.value, propertyCustomizerValues.value))
     .then(() => {
         NotificationService.success('Turret updated.');
     }).catch(error => {
@@ -148,26 +117,72 @@ const update = () => {
 }
 
 function computeProperties() {
-    if(formChassis.value != null && formBullet.value != null && formChassisSkin.value != null && formBulletSkin.value != null) {
-        let customizers: Record<string, string> = {};
-        formCustomizers.value.forEach((customizer, category) => {
-            if(customizer != null) {
-                customizers[category.name] = customizer.value?.name;
-            }
-        });
-        ComputationService.computeTurretProperties(formChassis.value.name, formChassisSkin.value.name,
-             formBullet.value.name, formBulletSkin.value.name, customizers, formProductionMethodsName.value)
-        .then(computationResult => {
-            computedProperties.value = computationResult.finalProperties;
-            requiredResearch.value = computationResult.requiredResearch;
-        }).catch(error => {
-            NotificationService.error(error);
-        });
-    } else {
-        computedProperties.value = [];
-        requiredResearch.value = [];
-    }
+    computePropertiesAsync().then(() => {});
 }
+
+function computePropertiesAsync(): Promise<void> {
+    return new Promise((resolve, reject) => {
+        const newUuid = computeUuid.value + 1;
+        computeUuid.value = newUuid;
+        if(formChassis.value != null && formBullet.value != null && formChassisSkin.value != null && formBulletSkin.value != null) {
+            return ComputationService.computeTurretPropertiesFree(formChassis.value.name, formChassisSkin.value.name,
+                formBullet.value.name, formBulletSkin.value.name, freeCustomizerValuesModifableRecord.value, formProductionMethodsName.value)
+                .then(computationResult => {
+                    if(computeUuid.value == newUuid) {
+                        requiredResearch.value = computationResult.requiredResearch;
+                        customisationBasePoint.value = computationResult.customisationBasePoint;
+                        customizationPoint.value = computationResult.customizationPoint;
+                        computationResult.finalProperties.forEach(property => {
+                            let freeCustomizerValue = freeCustomizerValues.value.find(freeCustomizerValue => freeCustomizerValue.propertyDefinition.name == property.definition.name);
+                            if(freeCustomizerValue == null) {
+                                freeCustomizerValue = new FreeCustomizerValue(property.baseValueString, property.finalValueString, property.definition, property.modfier, property.modfier);
+                                freeCustomizerValues.value.push(freeCustomizerValue);
+                                applicableProperties.value.push(property.definition);
+                            } else {
+                                freeCustomizerValue.propertyBaseValue = property.baseValueString;
+                                freeCustomizerValue.propertyFinalValue = property.finalValueString;
+                                freeCustomizerValue.realModifierValue = property.modfier;
+                            }
+                        });
+                    }
+                    resolve();
+                }).catch(error => {
+                    NotificationService.error(error);
+                    reject(error);
+                });
+        } else {
+            if(computeUuid.value == newUuid) {
+                freeCustomizerValues.value = [];
+                applicableProperties.value = [];
+                requiredResearch.value = [];
+                customizationPoint.value = 0;
+            }
+            resolve();
+        }
+    });
+}
+
+const freeCustomizerValuesModifable = computed(() => {
+    return freeCustomizerValues.value.filter(freeCustomizerValue => freeCustomizerValue.propertyDefinition.isFree);
+});
+
+const freeCustomizerValuesModifableRecord = computed<Record<string, number>>(() => {
+    let record: Record<string,number> = {};
+    freeCustomizerValuesModifable.value.forEach(freeCustomizerValue => {
+        record[freeCustomizerValue.propertyDefinition.name] = freeCustomizerValue.desiredModifierValue;
+    });
+    return record;
+});
+
+const propertyCustomizerValues = computed<PropertyCustomizerValue[]>(() => {
+    return freeCustomizerValuesModifable.value.map(freeCustomizerValue => {
+        return new PropertyCustomizerValue(freeCustomizerValue.propertyDefinition.name, freeCustomizerValue.desiredModifierValue);
+    });
+});
+
+const freeCustomizerValuesNotModifable = computed(() => {
+    return freeCustomizerValues.value.filter(freeCustomizerValue => !freeCustomizerValue.propertyDefinition.isFree);
+});
 
 const resetForm = () => {
     formLabel.value = loadedTurret.value.label;
@@ -176,15 +191,19 @@ const resetForm = () => {
     formChassisSkin.value = formChassis.value?.availableSkins.find(skin => skin.name == loadedTurret.value.chassisSkinName);
     formBullet.value = finalBulletList.value.find(bullet => bullet.name == loadedTurret.value.bulletName);
     formBulletSkin.value = formBullet.value?.availableSkins.find(skin => skin.name == loadedTurret.value.bulletSkinName);
-    customizerComponents.value.forEach(category => {
-        let loadedValue = loadedTurret.value.customizers.find(customizer => customizer.categoryName == category.name);
-        if(loadedValue != null) {
-            formCustomizers.value.set(category, ref(category.customizers.find(c => c.name == loadedValue.customizerName)));
-        } else {
-            formCustomizers.value.set(category, ref());
-        }
-    });
     formProductionMethodsName.value = loadedTurret.value.methods;
+    computePropertiesAsync().then(() => {
+        loadedTurret.value.propertyCustomizers.forEach(propertyCustomizer => {
+            let freeCustomizerValue = freeCustomizerValues.value.find(freeCustomizerValue => freeCustomizerValue.propertyDefinition.name == propertyCustomizer.propertyName);
+                if(freeCustomizerValue) {
+                    freeCustomizerValue.desiredModifierValue = propertyCustomizer.propertyModifier;
+                    freeCustomizerValue.realModifierValue = propertyCustomizer.propertyModifier;
+                } else {
+                    console.log("Property not applicable: " + propertyCustomizer.propertyName);
+                }
+        });
+        computeProperties();
+    });
 }
 
 const allChassis = ref<ChassisTurret[]>([]);
@@ -326,21 +345,20 @@ await refreshChassis()
                     @change="computeProperties"
                     optionLabel="label" :filter="true" :showClear="true" />   
                 </div>
-                <CustomizersComponents v-model="formCustomizers" @change="computeProperties" 
-                :applicable-properties="applicableProperties" /> 
+                <CostDisplay v-if="customisationBasePoint != 0" :customization-point="customizationPoint" :customisation-base-point="customisationBasePoint"/>
             </div>
         </div>
-        <CategoryProperties v-if="formAccessibility == 'ADVANCED'" v-for="categoryPropertiesEntry in computedPropertiesByCategoryMap" 
-        :category="categoryPropertiesEntry[0]" :modifiedValues="categoryPropertiesEntry[1]"
-        :key="categoryPropertiesEntry[0].name"/>
-        <div v-if="formAccessibility == 'BASIC'" class="col-span-6 xl:col-span-6">
-            <div class="font-semibold text-xl">Basic properties</div>
-            <div v-for="categoryPropertiesEntry in computedPropertiesByCategoryMap">
-                <div class="font-semibold text-xl">{{ categoryPropertiesEntry[0].label }}</div>
-                <div v-for="modifiedValue in categoryPropertiesEntry[1]" :key="modifiedValue.definition.name">
-                <ModifiedValueDisplay v-if="modifiedValue.definition.accessibility == 'BASIC'" :modifiedValue="modifiedValue" />
+            <div class="col-span-3 xl:col-span-3">
+                <div class="font-semibold text-xl mb-6">Updatable properties</div>
+                <FreeCustomizersComponents accessibility='ADVANCED' @change="computeProperties()" v-model="freeCustomizerValuesModifable"/>
+            </div>
+            <div class="col-span-3 xl:col-span-3 ml-4">
+                <div class="font-semibold text-xl mb-6">Other properties</div>
+                <div v-if="formBullet && formBullet.influence" class="flex flex-col gap-2 pb-2">
+                    <label>Impact influence</label>
+                    <InfluenceDisplay :influence="formBullet.influence"/>
                 </div>
+                <FreeCustomizersComponents :accessibility="formAccessibility" v-model="freeCustomizerValuesNotModifable"/>
             </div>
-        </div>
     </div>
 </template>

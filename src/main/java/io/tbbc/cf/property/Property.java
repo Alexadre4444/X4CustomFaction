@@ -1,5 +1,7 @@
 package io.tbbc.cf.property;
 
 
-public record Property(PropertyName name, Number value) {
+import java.math.BigDecimal;
+
+public record Property(PropertyName name, BigDecimal value) {
 }

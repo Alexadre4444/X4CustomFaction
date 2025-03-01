@@ -15,7 +15,7 @@ public class ResearchInstances {
                     new CostEntry(CLAYTRONICS, 1000),
                     new CostEntry(HULL_PARTS, 4000)),
             List.of());
-    public static final Research RESEARCH_TERRAN_PRODUCTION = new Research("terran", "Terran production",
+    public static final Research RESEARCH_TERRAN_PRODUCTION = new Research("terran_production", "Terran production",
             "Unlock terran production method.",
             300,
             List.of(
@@ -24,7 +24,7 @@ public class ResearchInstances {
                     new CostEntry(METALLIC_MICRO_LATTICE, 10000),
                     new CostEntry(SILICON_CARBIDE, 2000)),
             List.of());
-    public static final Research RESEARCH_TERRAN_TECH = new Research("terran", "Terran technology",
+    public static final Research RESEARCH_TERRAN_TECH = new Research("terran_tech", "Terran technology",
             "Unlock terran technology.",
             300,
             List.of(
@@ -32,7 +32,7 @@ public class ResearchInstances {
                     new CostEntry(COMPUTRONIC_SUBSTRATE, 2000),
                     new CostEntry(METALLIC_MICRO_LATTICE, 10000),
                     new CostEntry(SILICON_CARBIDE, 2000)),
-            List.of(RESEARCH_TERRAN_PRODUCTION));
+            List.of());
     public static final Research RESEARCH_FRONTIER = new Research("frontier", "Frontier technology",
             "Unlock Frontier technology (Old terran tech).",
             300,
@@ -62,6 +62,15 @@ public class ResearchInstances {
             List.of());
     public static final Research RESEARCH_TELADI = new Research("teladi", "Teladi technology",
             "Unlock Teladi technology.",
+            300,
+            List.of(
+                    new CostEntry(ENERGY_CELLS, 10000),
+                    new CostEntry(ADVANCED_ELECTRONICS, 200),
+                    new CostEntry(ANTIMATTER_CONVERTERS, 400),
+                    new CostEntry(NIVIDIUM, 40)),
+            List.of());
+    public static final Research RESEARCH_BORON = new Research("boron", "Boron technology",
+            "Unlock Boron technology.",
             300,
             List.of(
                     new CostEntry(ENERGY_CELLS, 10000),

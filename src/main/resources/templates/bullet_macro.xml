@@ -4,7 +4,7 @@
         <component ref="{turret.bulletEgoSkinProps.componentName}"/>
         <properties>
             {#if turret.chassisType == ChassisType:RAFFLE}
-            <ammunition value="{turret.properties.property('amount').getFinalValueString}"
+            <ammunition value="{turret.properties.property('amountRaffle').getFinalValueString}"
                         reload="{turret.properties.property('reloadTime').getFinalValueString}"/>
             {/if}
             {#if turret.chassisType == ChassisType:STANDARD || turret.chassisType == ChassisType:RAFFLE}
@@ -13,7 +13,7 @@
                     {#if turret.chassisType == ChassisType:RAFFLE}
                     amount="1"
                     {#else}
-                    amount="{turret.properties.property('amount').getFinalValueString}"
+                    amount="{turret.properties.property('amountStandard').getFinalValueString}"
                     {/if}
                     barrelamount="{turret.properties.property('barrelAmount').getFinalValueString}"
                     icon="weapon_laser_mk1"
@@ -36,6 +36,9 @@
                     {#if turret.properties.hasProperty('selfdestructmintime')}
                     selfdestructmintime="{turret.properties.property('selfdestructmintime').getFinalValueString}"
                     {/if}
+                    {#if turret.influence != null}
+                    influencelist="{turret.influence.name}"
+                    {/if}
                     />
             {#else}
             <bullet speed="2.997925e+08"
@@ -48,11 +51,15 @@
                     ricochet="0"
                     scale="1"
                     attach="1"
+                    {#if turret.influence != null}
+                    influencelist="{turret.influence.name}"
+                    {/if}
                     />
             {/if}
             {#if turret.properties.hasProperty('areaDamageHull')}
-            <areadamage value="{turret.properties.property('areaDamageHull').getFinalValueString}"
+            <areadamage value="{turret.properties.property('areaDamageBase').getFinalValueString}"
                         shield="{turret.properties.property('areaDamageBonusShield').getFinalValueString}"
+                        noshield="{turret.properties.property('areaDamageBonusHull').getFinalValueString}"
                         {#if turret.properties.hasProperty('areaTime')}
                         time="{turret.properties.property('areaTime').getFinalValueString}"
                         {/if}
@@ -66,8 +73,10 @@
             {#else}
             <reload time="{turret.properties.property('reloadTime').getFinalValueString}"/>
             {/if}
-            <damage value="{turret.properties.property('damageHull').getFinalValueString}"
-                    shield="{turret.properties.property('damageBonusShield').getFinalValueString}" repair="0"/>
+            <damage value="{turret.properties.property('damageBase').getFinalValueString}"
+                    shield="{turret.properties.property('damageBonusShield').getFinalValueString}"
+                    noshield="{turret.properties.property('damageBonusHull').getFinalValueString}"
+                    repair="0"/>
             <effects>
                 {#if turret.bulletEgoSkinProps.impact != null}
                 <impact ref="{turret.bulletEgoSkinProps.impact.ref}"

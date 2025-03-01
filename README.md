@@ -1,6 +1,7 @@
-# X4 Foundation - Custom Faction - 0.1.2
+# X4 Foundation - Custom Faction - 0.1.3
 
-> **_NOTE:_**  The version 0.1.2 is compatible with the prvious 0.1.X versions. See update section for more information.
+> **_NOTE:_**  The version 0.1.3 is compatible with the previous 0.1.X versions. See update sections for more
+> information.
 
 ## Presentation
 
@@ -11,15 +12,14 @@ Currently, this project is limited to creating turrets using Egosoft assets.
 Adding a turret is done as follows:
 
 - Creation of the turret
-- Customization of the turret (choosing the type, projectile, and component customizations to modify
-  the statistics)
+- Customization of the turret (choosing the type, projectile, and customize statistics)
 - Generation of the mod containing the created turrets
 
 Then, simply install the mod like any other mod.
 
 For some picture, go to the [preview folder](https://github.com/Alexadre4444/X4CustomFaction/tree/main/preview).
 
-> **_NOTE:_**  This tools is tested only with the 7.50 beta version of X4.
+> **_NOTE:_**  This tools is tested only with 7.50 version of X4.
 
 ## Motivations
 
@@ -50,6 +50,9 @@ __The tool requires Java 21 or above to run.__
 * Download the latest .jar version in [release page](https://github.com/Alexadre4444/X4CustomFaction/releases)
 * Replace the old .jar and .ps1 files
 * Launch the tool with the .ps1 file
+
+> **_NOTE:_** The version 0.1.3 change the customization of turrets. The old turrets will be converted to the new
+> system. Some turrets may have different statistics.
 
 ### Once started
 
@@ -96,6 +99,11 @@ the [issue page](https://github.com/Alexadre4444/X4CustomFaction/issues).
 * Change some chassis and bullet names
 * Add Xenon needler and seismic turret
 
+### 0.1.3
+
+* Change the customization of turrets
+* Add Boron bullet (not turret)
+
 ## Roadmap
 
 Currently, this tool is a proof of concept. Depending on my availability, desires, and feedback, the project is expected
@@ -105,11 +113,11 @@ Currently, it is certain that future versions will not be backward compatible.
 The "short-term" planned features are as follows:
 
 * Addition of turrets and projectiles from DLCs
-* Improvement of existing "customizers"
-* Addition of area damage and other special effects (notably Boron)
+* Addition of non-standard mounting points
 
 The "medium-term" planned features are as follows:
 
+* Addition of ships
 * Addition of weapons
 * Addition of shields
 * Addition of engines

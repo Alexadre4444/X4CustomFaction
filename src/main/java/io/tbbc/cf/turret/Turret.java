@@ -25,6 +25,16 @@ public class Turret extends TurretCreate {
     private List<CustomizerValue> customizers = List.of();
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
     private List<ProductionMethodName> methods = List.of();
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<PropertyCustomizerValue> propertyCustomizers = List.of();
+
+    public List<PropertyCustomizerValue> getPropertyCustomizers() {
+        return propertyCustomizers;
+    }
+
+    public void setPropertyCustomizers(List<PropertyCustomizerValue> propertyCustomizers) {
+        this.propertyCustomizers = propertyCustomizers;
+    }
 
     public List<ProductionMethodName> getMethods() {
         return methods;

@@ -1,44 +1,70 @@
 package io.tbbc.cf.property;
 
-import io.tbbc.cf.modifier.Modifier;
-
-import java.util.List;
-import java.util.Locale;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public interface FinalPropValue {
 
     default String getBaseValueString() {
-        return format(limitValue(getBaseDoubleValue()));
+        return getBaseValue().toString();
     }
 
     default String getFinalValueString() {
-        return format(limitValue(getFinalDoubleValue()));
+        return getFinalValue().toString();
     }
 
-    default List<Modifier> getModifiers() {
-        return List.of();
+    private BigDecimal limitValue(BigDecimal value) {
+        return rangeLimit(limitScale(value));
     }
 
-    private double limitValue(double value) {
-        if (definition().minValue() != null && value < definition().minValue()) {
+    private BigDecimal rangeLimit(BigDecimal value) {
+        if (definition().minValue() != null && value.compareTo(definition().minValue()) < 0) {
             return definition().minValue();
         }
-        if (definition().maxValue() != null && value > definition().maxValue()) {
+        if (definition().maxValue() != null && value.compareTo(definition().maxValue()) > 0) {
             return definition().maxValue();
         }
         return value;
     }
 
-    private String format(double value) {
-        String format = "%." + definition().decimal() + "f";
-        return String.format(Locale.US, format, value);
+    private BigDecimal limitScale(BigDecimal value) {
+        return value.setScale(definition().decimal(), RoundingMode.HALF_UP);
     }
 
-    double getFinalDoubleValue();
+    default BigDecimal getFinalValue() {
+        return limitValue(getFinalValueWithoutLimit());
+    }
 
-    double getBaseDoubleValue();
+    BigDecimal getBaseValue();
 
     PropertyName getName();
 
     PropertyDefinition definition();
+
+    BigDecimal getFinalValueWithoutLimit();
+
+    default Integer getModifier() {
+        BigDecimal baseValue = getBaseValue();
+        if (baseValue.compareTo(BigDecimal.ZERO) == 0) {
+            return null;
+        }
+        BigDecimal limitedFinalValue = getFinalValue();
+        BigDecimal diff = limitedFinalValue.subtract(baseValue);
+        BigDecimal diffPercent = diff.divide(baseValue, 2, RoundingMode.HALF_UP);
+        return diffPercent.multiply(new BigDecimal("100")).intValue();
+    }
+
+    default int computeCost() {
+        int cost = 0;
+        Integer modifier = getModifier();
+        if (modifier != null) {
+            modifier = definition().costFactor().multiply(new BigDecimal(modifier)).intValue();
+            if (definition().reverse()) {
+                cost = modifier < 0 ? -modifier * 2 : -modifier;
+            } else {
+                cost = modifier;
+            }
+        }
+        return cost;
+    }
 }

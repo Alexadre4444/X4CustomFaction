@@ -10,6 +10,10 @@ public class ProductionMethodName extends PanacheEntity {
     public ProductionMethodName() {
     }
 
+    public ProductionMethodName(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

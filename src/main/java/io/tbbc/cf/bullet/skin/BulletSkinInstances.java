@@ -13,6 +13,8 @@ public class BulletSkinInstances {
             BLUE_M_PULSE_ION, List.of(RESEARCH_ARGON));
     public static final BulletSkin M_PULSE_RED = new BulletSkin("pulse_m_red", "Xenon (red)",
             RED_M_PULSE, List.of(RESEARCH_XENON));
+    public static final BulletSkin M_PULSE_BORON = new BulletSkin("pulse_m_boron", "Boron (blue)",
+            BORON_M_PULSE_ION, List.of(RESEARCH_BORON));
 
     // Pulse - L
     public static final BulletSkin L_PULSE_BLUE = new BulletSkin("pulse_l_blue", "Argon (blue)",
@@ -90,9 +92,29 @@ public class BulletSkinInstances {
     public static final BulletSkin M_FLAK_CW = new BulletSkin("flak_m_cw", "Common wealth (orange)",
             CW_M_FLAK, List.of());
 
+    // Arc - M
+    public static final BulletSkin M_ARC_BOR = new BulletSkin("arc_m_bor", "Boron (blue)",
+            BOR_M_ARC, List.of(RESEARCH_BORON));
+
+    // Phase - M
+    public static final BulletSkin M_PHASE_BOR = new BulletSkin("phase_m_bor", "Boron (blue)",
+            BOR_M_PHASE, List.of(RESEARCH_BORON));
+
+    // Phase - L
+    public static final BulletSkin L_PHASE_BOR = new BulletSkin("phase_l_bor", "Boron (blue)",
+            BOR_L_PHASE, List.of(RESEARCH_BORON));
+
     // Seismic - L
     public static final BulletSkin L_SEISMIC_XEN = new BulletSkin("seismic_l_xen", "Xenon (red)",
             XEN_L_SEISMIC, List.of(RESEARCH_XENON));
+
+    // Flak - L
+    public static final BulletSkin L_FLAK_BOR = new BulletSkin("flak_l_bor", "Boron (blue)",
+            BOR_L_FLAK, List.of(RESEARCH_BORON));
+
+    // Disruptor - L
+    public static final BulletSkin L_DISRUPTOR_BOR = new BulletSkin("disruptor_l_bor", "Boron (blue)",
+            BOR_L_DISRUPTOR, List.of(RESEARCH_BORON));
 
 
     private BulletSkinInstances() {

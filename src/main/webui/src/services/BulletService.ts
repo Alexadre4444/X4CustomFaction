@@ -1,4 +1,5 @@
 import Category from '@/model/common/Category';
+import Influence from '@/model/common/Influence';
 import Modifier from '@/model/common/Modifier';
 import Modifiers from '@/model/common/Modifiers';
 import PropertyDefinition from '@/model/common/PropertyDefinition';
@@ -14,7 +15,8 @@ function dataToObject(data : any): Promise<Bullet> {
     return dataToModifiers(data.modifiers.modifiers).then((modifiers) => {
         return Promise.all<BulletSkin>(data.availableSkins.map((data: any) => dataToBulletSkin(data)))
         .then((skins) => {
-            return new Bullet(data.name, data.label, data.description, data.size, modifiers, skins, data.compatibleChassis);
+            return new Bullet(data.name, data.label, data.description, data.size, modifiers, skins, 
+                data.compatibleChassis, data.influence ? dataToInfluence(data.influence) : undefined);
         });
     });
 }
@@ -59,6 +61,9 @@ function dataToResearch(data : any) : Promise<Research> {
     });
 }
 
+function dataToInfluence(data: any) : Influence {
+    return new Influence(data.name, data.label, data.description);
+}
 
 function dataToBulletSkin(data: any) : Promise<BulletSkin> {
     return Promise.all<Research>(data.requiredResearch.map((data: any) => dataToResearch(data)))
@@ -70,7 +75,6 @@ export const BulletService = {
     getAll(): Promise<Bullet[]> {
         return axios.get('/api/v1/bullets')
         .then((response) => {
-            console.log(response.data);
             return Promise.all(response.data.map((data: any) => dataToObject(data)));
         });
     }

@@ -1,6 +1,5 @@
 package io.tbbc.cf.rest;
 
-import io.tbbc.cf.common.NotFoundException;
 import io.tbbc.cf.turret.ITurretService;
 import io.tbbc.cf.turret.Turret;
 import jakarta.inject.Inject;
@@ -21,8 +20,7 @@ public class TurretResource {
     @GET
     @Path("/{id}")
     public Turret get(long id) {
-        return turretService.getById(id)
-                .orElseThrow(() -> new NotFoundException("Turret with id '%s' not found.".formatted(id)));
+        return turretService.getById(id).orElseThrow();
     }
 
     @PUT
