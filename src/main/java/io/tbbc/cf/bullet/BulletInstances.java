@@ -190,7 +190,7 @@ public class BulletInstances {
                     new Modifier(SPEED_NAME, 50),
                     new Modifier(DAMAGE_HULL_NAME, -30),
                     new Modifier(DAMAGE_SHIELD_NAME, 50),
-                    new Modifier(ACCURACY_NAME, -50)
+                    new Modifier(ACCURACY_NAME, 50)
             )),
             List.of(L_DISRUPTOR_BOR),
             List.of(new BoronDisruptorEffect()), HEAVY_MAM_THRUSTER_DISRUPT);
