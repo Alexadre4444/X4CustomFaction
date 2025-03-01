@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import Research from '@/model/common/Research';
 
-
-
 const props = defineProps({
     research: Research
 });

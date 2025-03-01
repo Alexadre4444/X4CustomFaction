@@ -352,8 +352,12 @@ await refreshChassis()
                 <div class="font-semibold text-xl mb-6">Updatable properties</div>
                 <FreeCustomizersComponents accessibility='ADVANCED' @change="computeProperties()" v-model="freeCustomizerValuesModifable"/>
             </div>
-            <div class="col-span-3 xl:col-span-3">
+            <div class="col-span-3 xl:col-span-3 ml-4">
                 <div class="font-semibold text-xl mb-6">Other properties</div>
+                <div v-if="formBullet && formBullet.influence" class="flex flex-col gap-2 pb-2">
+                    <label>Impact influence</label>
+                    <InfluenceDisplay :influence="formBullet.influence"/>
+                </div>
                 <FreeCustomizersComponents :accessibility="formAccessibility" v-model="freeCustomizerValuesNotModifable"/>
             </div>
     </div>

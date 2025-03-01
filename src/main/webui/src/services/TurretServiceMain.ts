@@ -21,7 +21,8 @@ const CUSTOMIZER = 'turrets_categories';
 function dataToTurret(data : any) : Turret {
     return new Turret(data.id, data.label, Size.fromKey(data.size), data.description, data.chassisName,
         data.chassisSkinName, data.bulletName, data.bulletSkinName, data.state,
-    data.methods?.map((data: any) => new ProductionMethodName(data.name)), data.propertyCustomizers.map((data: any) => dataToPropertyCustomizers(data)));
+    data.methods?.map((data: any) => new ProductionMethodName(data.name)), 
+    data.propertyCustomizers.map((data: any) => dataToPropertyCustomizers(data)));
 }
 
 function dataToPropertyCustomizers(data: any) : PropertyCustomizerValue {

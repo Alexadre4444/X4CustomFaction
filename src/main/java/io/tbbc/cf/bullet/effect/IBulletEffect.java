@@ -1,4 +1,4 @@
-package io.tbbc.cf.bullet;
+package io.tbbc.cf.bullet.effect;
 
 import io.tbbc.cf.property.FinalProperties;
 

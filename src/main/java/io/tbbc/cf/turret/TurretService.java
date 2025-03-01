@@ -201,7 +201,7 @@ public class TurretService implements ITurretService {
                 getBulletSkin(turret, bullet).skinProps(),
                 chassis.type(), TurretEgoType.MAIN, getTurretNameEntry(turret, chassis, i, factionTrigram),
                 getTurretBaseNameEntry(turret, i), getTurretShortNameEntry(turret, i),
-                computationResultFree.requiredResearch());
+                computationResultFree.requiredResearch(), bullet.influence());
     }
 
     private TurretEgoProps getTurretEgoPropsAlias(Turret turret, TurretChassis chassis, ChassisSkin chassisSkin, int i,
@@ -220,7 +220,7 @@ public class TurretService implements ITurretService {
                 getBulletSkin(turret, bullet).skinProps(),
                 chassis.type(), TurretEgoType.ALIAS, getTurretNameEntry(turret, chassis, i, factionTrigram),
                 getTurretBaseNameEntry(turret, i), getTurretShortNameEntry(turret, i),
-                computationResultFree.requiredResearch());
+                computationResultFree.requiredResearch(), bullet.influence());
     }
 
     private FinalProperties computeAllFinalValues(TurretChassis chassis, Bullet bullet,

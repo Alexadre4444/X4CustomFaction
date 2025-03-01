@@ -1,5 +1,6 @@
 package io.tbbc.cf.turret;
 
+import io.tbbc.cf.bullet.influence.Influence;
 import io.tbbc.cf.bullet.skin.BulletEgoSkinProps;
 import io.tbbc.cf.common.LangEntry;
 import io.tbbc.cf.property.FinalPropValue;
@@ -16,7 +17,7 @@ public record TurretEgoProps(String name, int labelSection, int descriptionSecti
                              FinalProperties properties, BulletEgoSkinProps bulletEgoSkinProps,
                              ChassisType chassisType, TurretEgoType turretEgoType, LangEntry langEntryName,
                              LangEntry langEntryBaseName, LangEntry langEntryShortName,
-                             List<Research> requiredResearch) {
+                             List<Research> requiredResearch, Influence influence) {
 
     public TurretRange turretRange() {
         FinalPropValue range;

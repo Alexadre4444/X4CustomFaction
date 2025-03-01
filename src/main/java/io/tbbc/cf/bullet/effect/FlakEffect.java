@@ -1,4 +1,4 @@
-package io.tbbc.cf.bullet;
+package io.tbbc.cf.bullet.effect;
 
 import io.tbbc.cf.property.FinalPropValue;
 import io.tbbc.cf.property.FinalPropValueComputed;
@@ -11,7 +11,6 @@ import static io.tbbc.cf.turret.chassis.TurretChassisInstances.Properties.*;
 
 
 public class FlakEffect implements IBulletEffect {
-    private String name = "FlakEffect";
 
     @Override
     public FinalProperties getNewProperties(FinalProperties properties) {
@@ -29,6 +28,6 @@ public class FlakEffect implements IBulletEffect {
     }
 
     public String getName() {
-        return name;
+        return "FlakEffect";
     }
 }

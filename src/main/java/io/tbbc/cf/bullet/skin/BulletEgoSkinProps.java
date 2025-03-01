@@ -10,6 +10,10 @@ public enum BulletEgoSkinProps {
             new BulletEffect("impact_arg_s_ion_01_mk1", "impact_arg_s_ion_01_mk1_inside"),
             new BulletEffect("impact_arg_s_ion_01_mk1_bigobject", "impact_arg_s_ion_01_mk1_bigobject_inside"),
             new BulletEffect("muzzle_arg_s_ion_01_mk1", null)),
+    BORON_M_PULSE_ION("bullet_bor_s_railgun_01_mk1", null,
+            new BulletEffect("impact_bor_m_railgun_01_mk1", "impact_bor_m_railgun_01_mk1_inside"),
+            new BulletEffect("impact_bor_m_railgun_01_mk1_bigobject", "impact_bor_m_railgun_01_mk1_bigobject_inside"),
+            new BulletEffect("muzzle_bor_m_railgun_01_mk1", null)),
     RED_M_PULSE("bullet_xen_s_laser_01_mk1", null,
             new BulletEffect("impact_xen_s_laser_01_mk1", "impact_xen_s_laser_01_mk1_inside"),
             new BulletEffect("impact_xen_s_laser_01_mk1_bigobject", "impact_xen_s_laser_01_mk1_bigobject_inside"),
@@ -143,11 +147,41 @@ public enum BulletEgoSkinProps {
             null,
             new BulletEffect("muzzle_turret_gen_m_flak_01_mk1", null)),
 
+    // Arc - M
+    BOR_M_ARC("bullet_bor_s_arc_01_mk1", null,
+            new BulletEffect("impact_bor_s_arc_01_mk1", "impact_bor_s_arc_01_mk1_inside"),
+            new BulletEffect("impact_bor_s_arc_01_mk1_bigobject", "impact_bor_s_arc_01_mk1_bigobject_inside"),
+            new BulletEffect("muzzle_bor_s_arc_01_mk1", null)),
+
+    // Phase - M
+    BOR_M_PHASE("bullet_bor_s_laser_01_mk1", null,
+            new BulletEffect("impact_gen_s_laser_01_mk1", "impact_gen_s_laser_01_mk1_inside"),
+            new BulletEffect("impact_gen_s_laser_01_mk1_bigobject", "impact_gen_s_laser_01_mk1_bigobject_inside"),
+            new BulletEffect("muzzle_bor_s_laser_mk1", null)),
+
+    // Phase - L
+    BOR_L_PHASE("bullet_bor_m_laser_01_mk1", null,
+            new BulletEffect("impact_bor_m_laser_01_mk1", "impact_bor_m_laser_01_mk1_inside"),
+            new BulletEffect("impact_bor_m_laser_01_mk1_bigobject", "impact_bor_m_laser_01_mk1_bigobject_inside"),
+            new BulletEffect("muzzle_bor_m_laser_mk1", null)),
+
     // Seismic - L
     XEN_L_SEISMIC("bullet_xen_l_plasma_01_mk1", "turret_xen_l_plasma_01_mk1_flyby",
             new BulletEffect("impact_xen_l_plasma_01_mk1", "impact_xen_l_plasma_01_mk1_inside"),
             new BulletEffect("impact_xen_l_plasma_01_mk1_bigobject", "impact_xen_l_plasma_01_mk1_bigobject_inside"),
-            new BulletEffect("muzzle_xen_l_plasma_01_mk1", null));
+            new BulletEffect("muzzle_xen_l_plasma_01_mk1", null)),
+
+    // Flak - L
+    BOR_L_FLAK("bullet_bor_l_flak_01_mk1", null,
+            new BulletEffect("impact_bor_l_flak_01_mk1", "impact_bor_l_flak_01_mk1_inside"),
+            new BulletEffect("impact_bor_l_flak_01_mk1_bigobject", "impact_bor_l_flak_01_mk1_bigobject_inside"),
+            new BulletEffect("muzzle_bor_l_flak_01_mk1", null)),
+
+    // Disruptor - L
+    BOR_L_DISRUPTOR("bullet_bor_l_disruptor_01_mk1", null,
+            new BulletEffect("impact_bor_l_disruptor_01_mk1", "impact_bor_l_disruptor_01_mk1_inside"),
+            new BulletEffect("impact_bor_l_disruptor_01_mk1_bigobject", "impact_bor_l_disruptor_01_mk1_bigobject_inside"),
+            new BulletEffect("muzzle_bor_l_disruptor_01_mk1", null));
 
     private final String componentName;
     private final String soundName;

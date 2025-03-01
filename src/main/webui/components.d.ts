@@ -18,6 +18,8 @@ declare module 'vue' {
     FreeCustomizersSlider: typeof import('./src/components/common/FreeCustomizersSlider.vue')['default']
     IconField: typeof import('primevue/iconfield')['default']
     Image: typeof import('primevue/image')['default']
+    Influence: typeof import('./src/components/common/Influence.vue')['default']
+    InfluenceDisplay: typeof import('./src/components/common/InfluenceDisplay.vue')['default']
     InputIcon: typeof import('primevue/inputicon')['default']
     InputText: typeof import('primevue/inputtext')['default']
     Knob: typeof import('primevue/knob')['default']

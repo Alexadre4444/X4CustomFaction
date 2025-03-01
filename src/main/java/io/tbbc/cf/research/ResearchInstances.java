@@ -69,6 +69,15 @@ public class ResearchInstances {
                     new CostEntry(ANTIMATTER_CONVERTERS, 400),
                     new CostEntry(NIVIDIUM, 40)),
             List.of());
+    public static final Research RESEARCH_BORON = new Research("boron", "Boron technology",
+            "Unlock Boron technology.",
+            300,
+            List.of(
+                    new CostEntry(ENERGY_CELLS, 10000),
+                    new CostEntry(ADVANCED_ELECTRONICS, 200),
+                    new CostEntry(ANTIMATTER_CONVERTERS, 400),
+                    new CostEntry(NIVIDIUM, 40)),
+            List.of());
     public static final Research RESEARCH_SPLIT = new Research("split", "Split technology",
             "Unlock Split technology.",
             300,

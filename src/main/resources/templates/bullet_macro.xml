@@ -36,6 +36,9 @@
                     {#if turret.properties.hasProperty('selfdestructmintime')}
                     selfdestructmintime="{turret.properties.property('selfdestructmintime').getFinalValueString}"
                     {/if}
+                    {#if turret.influence != null}
+                    influencelist="{turret.influence.name}"
+                    {/if}
                     />
             {#else}
             <bullet speed="2.997925e+08"
@@ -48,6 +51,9 @@
                     ricochet="0"
                     scale="1"
                     attach="1"
+                    {#if turret.influence != null}
+                    influencelist="{turret.influence.name}"
+                    {/if}
                     />
             {/if}
             {#if turret.properties.hasProperty('areaDamageHull')}
