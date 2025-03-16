@@ -108,6 +108,7 @@ the [issue page](https://github.com/Alexadre4444/X4CustomFaction/issues).
 
 * Add maximum customization points setting
 * Settings were not properly saved between mod generation
+* Fix timeDiff property
 
 ## Roadmap
 
