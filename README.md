@@ -107,6 +107,7 @@ the [issue page](https://github.com/Alexadre4444/X4CustomFaction/issues).
 ### 0.1.4
 
 * Add maximum customization points setting
+* Settings were not properly saved between mod generation
 
 ## Roadmap
 
