@@ -1,6 +1,6 @@
-# X4 Foundation - Custom Faction - 0.1.3
+# X4 Foundation - Custom Faction - 0.1.4
 
-> **_NOTE:_**  The version 0.1.3 is compatible with the previous 0.1.X versions. See update sections for more
+> **_NOTE:_**  The version 0.1.4 is compatible with the previous 0.1.X versions. See update sections for more
 > information.
 
 ## Presentation
@@ -103,6 +103,12 @@ the [issue page](https://github.com/Alexadre4444/X4CustomFaction/issues).
 
 * Change the customization of turrets
 * Add Boron bullet (not turret)
+
+### 0.1.4
+
+* Add maximum customization points setting
+* Settings were not properly saved between mod generation
+* Fix timeDiff property
 
 ## Roadmap
 

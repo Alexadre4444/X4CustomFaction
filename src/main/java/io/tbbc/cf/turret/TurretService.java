@@ -45,9 +45,6 @@ import static io.tbbc.cf.turret.chassis.TurretChassisInstances.PropertyNames.ARE
 public class TurretService implements ITurretService {
     public static final int EGO_TURRET_LABEL_SECTION = 142000;
     public static final int EGO_TURRET_DESCRIPTION_SECTION = 142001;
-    public static final int CUSTOMIZATION_BASE_POINT = 150;
-    public static final int CUSTOMIZATION_ADVANCED_LIMIT_POINT = 50;
-    public static final int CUSTOMIZATION_EXPERT_LIMIT_POINT = 100;
 
     @Inject
     ITurretRepository turretRepository;
@@ -144,7 +141,7 @@ public class TurretService implements ITurretService {
 
         turretValidator.validateUpdate(turret, this::getById, turretChassisService::getByName,
                 bulletService::getByName, productionMethodService::getByName, turretChassisService::getProperties,
-                this::computeTurretPoint, () -> CUSTOMIZATION_BASE_POINT);
+                this::computeTurretPoint, () -> modInfosService.getActualModInfos().getCustomizePoints());
         turret.setState(State.VALID);
         turretRepository.update(turret);
     }
@@ -190,7 +187,8 @@ public class TurretService implements ITurretService {
         ComputationResultFree computationResultFree = computeFinalPropertiesFree(chassis, chassisSkin, bullet, bulletSkin,
                 turret.getPropertyCustomizers().stream()
                         .collect(Collectors.toMap(PropertyCustomizerValue::getPropertyName, PropertyCustomizerValue::getPropertyModifier)),
-                productionMethods.stream().map(ProductionMethod::name).map(ProductionMethodName::new).toList());
+                productionMethods.stream().map(ProductionMethod::name).map(ProductionMethodName::new).toList(),
+                modInfosService.getActualModInfos().getCustomizePoints());
         return new TurretEgoProps(getEgoTurretName(turret, chassis),
                 EGO_TURRET_LABEL_SECTION, EGO_TURRET_DESCRIPTION_SECTION, i,
                 chassis.size().egoInitial(), getEgoTurretMacroName(turret, chassis), getEgoTurretAliasMacroName(turret, chassis),
@@ -210,7 +208,8 @@ public class TurretService implements ITurretService {
         ComputationResultFree computationResultFree = computeFinalPropertiesFree(chassis, chassisSkin, bullet, bulletSkin,
                 turret.getPropertyCustomizers().stream()
                         .collect(Collectors.toMap(PropertyCustomizerValue::getPropertyName, PropertyCustomizerValue::getPropertyModifier)),
-                productionMethods.stream().map(ProductionMethod::name).map(ProductionMethodName::new).toList());
+                productionMethods.stream().map(ProductionMethod::name).map(ProductionMethodName::new).toList(),
+                modInfosService.getActualModInfos().getCustomizePoints());
         return new TurretEgoProps(getEgoTurretAliasName(turret, chassis),
                 EGO_TURRET_LABEL_SECTION, EGO_TURRET_DESCRIPTION_SECTION, i,
                 chassis.size().egoInitial(), getEgoTurretAliasMacroName(turret, chassis), null,
@@ -325,13 +324,15 @@ public class TurretService implements ITurretService {
         ChassisSkin chassisSkin = getChassisSkinOrThrow(chassisName, chassisSkinName, chassis);
         Bullet bullet = getBulletOrThrow(bulletName);
         BulletSkin bulletSkin = getBulletSkinOrThrow(bulletName, bulletSkinName, bullet);
-        return computeFinalPropertiesFree(chassis, chassisSkin, bullet, bulletSkin, customizers, productionMethodNames);
+        return computeFinalPropertiesFree(chassis, chassisSkin, bullet, bulletSkin, customizers, productionMethodNames,
+                modInfosService.getActualModInfos().getCustomizePoints());
     }
 
     private ComputationResultFree computeFinalPropertiesFree(TurretChassis chassis, ChassisSkin chassisSkin,
                                                              Bullet bullet, BulletSkin bulletSkin,
                                                              Map<String, Integer> customizers,
-                                                             List<ProductionMethodName> productionMethodsNames) {
+                                                             List<ProductionMethodName> productionMethodsNames,
+                                                             int maxCustomizationPoint) {
         List<ProductionMethod> productionMethods = getProductionMethodOrThrow(productionMethodsNames);
         FinalProperties baseProperties = computeBaseProperties(chassis, bullet, turretChassisService.getProperties(), customizers);
         int usedPoint = ComputationHelper.computeUsedPoint(baseProperties);
@@ -339,18 +340,18 @@ public class TurretService implements ITurretService {
                 usedPoint);
         List<Research> requiredResearches =
                 Stream.concat(ComputationHelper.computeRequiredResearch(chassisSkin, bulletSkin, productionMethods, List.of()).stream(),
-                                computeCustomizationPointResearch(usedPoint).stream())
+                                computeCustomizationPointResearch(usedPoint, maxCustomizationPoint).stream())
                         .toList();
         return new ComputationResultFree(finalProperties, requiredResearches,
-                usedPoint, CUSTOMIZATION_BASE_POINT);
+                usedPoint, maxCustomizationPoint);
     }
 
 
-    private List<Research> computeCustomizationPointResearch(int usedPoint) {
+    private List<Research> computeCustomizationPointResearch(int usedPoint, int maxCustomizationPoint) {
         List<Research> research = new ArrayList<>();
-        if (usedPoint > CUSTOMIZATION_EXPERT_LIMIT_POINT) {
+        if (usedPoint > maxCustomizationPoint / 3 * 2) {
             research.add(ResearchInstances.RESEARCH_MOD_EXPERT);
-        } else if (usedPoint > CUSTOMIZATION_ADVANCED_LIMIT_POINT) {
+        } else if (usedPoint > maxCustomizationPoint / 3) {
             research.add(ResearchInstances.RESEARCH_MOD_ADVANCED);
         } else if (usedPoint > 0) {
             research.add(ResearchInstances.RESEARCH_MOD_BASIC);
@@ -377,7 +378,7 @@ public class TurretService implements ITurretService {
                                                        List<ProductionMethodName> productionMethodsNames, int usedPoint) {
         FinalProperties basePropsWithEffect = baseProperties.concat(ComputationHelper.computeBulletEffectProperties(baseProperties, bullet));
         return computeFinalValuesWithComputed(chassis, productionMethodsNames,
-                basePropsWithEffect, usedPoint, TurretService.CUSTOMIZATION_BASE_POINT);
+                basePropsWithEffect, usedPoint, modInfosService.getActualModInfos().getCustomizePoints());
     }
 
     private List<FinalPropValue> getBasePropertiesFree(List<FinalPropValue> baseProperties, Map<String, Integer> customizers) {

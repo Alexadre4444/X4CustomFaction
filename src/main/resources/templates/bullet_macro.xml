@@ -20,7 +20,7 @@
                     angle="{turret.properties.property('accuracy').getFinalValueString}"
                     maxhits="{turret.properties.property('maxHits').getFinalValueString}"
                     ricochet="{turret.properties.property('ricochet').getFinalValueString}"
-                    timeDiff="{turret.properties.property('timeDiff').getFinalValueString}"
+                    timediff="{turret.properties.property('timeDiff').getFinalValueString}"
                     scale="0"
                     attach="0"
                     restitution="0.3"
