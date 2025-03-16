@@ -12,6 +12,7 @@ public class ModInfosRepository implements IModInfosRepository, PanacheRepositor
     public List<ModInfos> getAll() {
         List<ModInfos> allModInfos = listAll();
         allModInfos.forEach(this::setDefaultResearchMode);
+        allModInfos.forEach(this::setDefaultCustomizePoints);
         return allModInfos;
     }
 
@@ -21,9 +22,16 @@ public class ModInfosRepository implements IModInfosRepository, PanacheRepositor
         }
     }
 
+    private void setDefaultCustomizePoints(ModInfos modInfos) {
+        if (modInfos.getCustomizePoints() == null) {
+            modInfos.setCustomizePoints(150);
+        }
+    }
+
     private Optional<ModInfos> get(long version) {
         return find("version", version).firstResultOptional().map(modInfos -> {
             setDefaultResearchMode(modInfos);
+            setDefaultCustomizePoints(modInfos);
             return modInfos;
         });
     }
@@ -35,6 +43,7 @@ public class ModInfosRepository implements IModInfosRepository, PanacheRepositor
         modInfos.setFactionTrigram(infoToUpdate.getFactionTrigram());
         modInfos.setDeploymentTime(infoToUpdate.getDeploymentTime());
         modInfos.setResearchMode(infoToUpdate.getResearchMode());
+        modInfos.setCustomizePoints(infoToUpdate.getCustomizePoints());
     }
 
     @Override

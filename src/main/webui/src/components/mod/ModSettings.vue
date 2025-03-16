@@ -11,7 +11,7 @@ const props = defineProps({
 const formError = ref();
 
 const callOnSave = async () => {
-    ModService.updateInfos(formFactionTrigram.value, formResearchActivated.value)
+    ModService.updateInfos(formFactionTrigram.value, formResearchActivated.value, formCustomizePoints.value)
     .then(() => {
         props.onSave();
     }).catch(error => {
@@ -26,6 +26,7 @@ const options = ref([{label:"Off", name:"NO_RESEARCH"}, {label:"On", name: "RESE
 const formVersion = ref(modInfos.version);
 const formFactionTrigram = ref(modInfos.factionTrigram);
 const formResearchActivated = ref(modInfos.researchMode);
+const formCustomizePoints = ref(modInfos.customizePoints);
 
 </script>
 <template>
@@ -43,9 +44,13 @@ const formResearchActivated = ref(modInfos.researchMode);
         <label for="research">Research needed for blueprints</label>
         <SelectButton v-model="formResearchActivated" :options="options" optionLabel="label" optionValue="name" />
     </div>
+    <div class="flex flex-col gap-2">
+        <label for="customizePoints">Maximum customization points</label>
+        <InputNumber id="customizePoints" v-model="formCustomizePoints" :min="50" :max="1000"/>
+    </div>
 </div>
 <div class="flex flex-wrap items-start gap-4 justify-end">
-    <Button label="Cancel" severity="secondary" @click="props.onCancel" />
+    <Button label="Cancel" severity="secondary" @click="event => props.onCancel()" />
     <Button label="Save" @click="callOnSave"  />
 </div>
 </template>

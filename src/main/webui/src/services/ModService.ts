@@ -2,7 +2,7 @@ import ModInfos from "@/model/mod/ModInfos";
 import axios from "axios";
 
 function dataToObject(data: any) {
-    return new ModInfos(data.version, data.factionTrigram, data.researchMode);
+    return new ModInfos(data.version, data.factionTrigram, data.researchMode, data.customizePoints);
 }
 
 export const ModService = {
@@ -12,11 +12,12 @@ export const ModService = {
             return dataToObject(response.data);
         });
     },
-    updateInfos(trigram: string, research: string) : Promise<void> {
+    updateInfos(trigram: string, research: string, customizePoints: number) : Promise<void> {
         return axios.post('/api/v1/mod', 
             {
                 factionTrigram: trigram, 
-                researchMode: research
+                researchMode: research,
+                customizePoints: customizePoints
             });
     },
     generateNewVersion() : Promise<void> {

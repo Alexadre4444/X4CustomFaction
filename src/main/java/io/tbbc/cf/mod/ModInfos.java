@@ -16,7 +16,17 @@ public class ModInfos {
 
     private ResearchMode researchMode;
 
+    private Integer customizePoints;
+
     public ModInfos() {
+    }
+
+    public Integer getCustomizePoints() {
+        return customizePoints;
+    }
+
+    public void setCustomizePoints(int customizePoints) {
+        this.customizePoints = customizePoints;
     }
 
     public ResearchMode getResearchMode() {

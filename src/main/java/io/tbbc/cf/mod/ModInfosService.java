@@ -1,7 +1,6 @@
 package io.tbbc.cf.mod;
 
 import io.quarkus.runtime.Startup;
-import io.tbbc.cf.common.BadArgumentException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
@@ -13,6 +12,9 @@ import java.util.Comparator;
 public class ModInfosService implements IModInfosService {
     @Inject
     private IModInfosRepository modInfosRepository;
+
+    @Inject
+    private ModInfosValidator modInfosValidator;
 
     @Startup
     @Transactional
@@ -44,6 +46,8 @@ public class ModInfosService implements IModInfosService {
         ModInfos newModInfos = new ModInfos();
         newModInfos.setVersion(actualModInfos.getVersion() + 1);
         newModInfos.setFactionTrigram(actualModInfos.getFactionTrigram());
+        newModInfos.setCustomizePoints(actualModInfos.getCustomizePoints());
+        newModInfos.setResearchMode(actualModInfos.getResearchMode());
         modInfosRepository.insert(newModInfos);
 
         return newModInfos;
@@ -53,16 +57,11 @@ public class ModInfosService implements IModInfosService {
     @Transactional
     public void updateInfos(ModInfosUpdate modInfosUpdate) {
         String factionTrigram = modInfosUpdate.factionTrigram().toUpperCase().trim();
-        validateFactionTrigram(factionTrigram);
+        modInfosValidator.validateUpdate(modInfosUpdate);
         ModInfos actualModInfos = getActualModInfos();
         actualModInfos.setFactionTrigram(factionTrigram);
         actualModInfos.setResearchMode(modInfosUpdate.researchMode());
+        actualModInfos.setCustomizePoints(modInfosUpdate.customizePoints());
         modInfosRepository.update(actualModInfos);
-    }
-
-    private void validateFactionTrigram(String factionTrigram) {
-        if (factionTrigram.length() != 3) {
-            throw new BadArgumentException("Faction trigram must be 3 characters long");
-        }
     }
 }
